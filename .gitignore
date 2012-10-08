@@ -1,6 +1,31 @@
-*.class
+#Compiled source
 
-# Package Files #
+*.com
+*.class
+*.exe
+*.o
+*.dll
+
+#Packages
+*.7z
+*.dmg
+*.gz
+*.tar
+*.zip
+*.rar
 *.jar
-*.war
-*.ear
+
+#Sysfiles
+Thumbs.db
+Icon?
+ehthumbs.db
+.DS_Store*
+.project
+.classpath
+
+#TeX files
+*.aux
+*.dvi
+*.log
+*.pdf
+*.toc
