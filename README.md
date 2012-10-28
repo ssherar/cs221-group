@@ -8,7 +8,7 @@ Setting up Github on central
 
 If you're using the IS terminals in the Delph/B23 or the solarium, sadly they don't have GUI for git. However they have the commandline toolkit installed on Central
 
-First load up PuTTY (search in the start bar, or it's somwhere in All Programs->Course->Computing) and double click on 'Central'. From there login as you would normally. Also when it asks for a terminal just hit enter. In the end you should have something like `central:~ $'
+First load up PuTTY (search in the start bar, or it's somwhere in All Programs->Course->Computing) and double click on 'Central'. From there login as you would normally. Also when it asks for a terminal just hit enter. In the end you should have something like `central:~ $`
 
 First thing we need to do is assign a name and email to your git account on the local machine. Enter:
 
@@ -26,9 +26,9 @@ Next thing we need to do is create a key for the pushing code to github.
 
 It will ask you for a password. For the sake of easyness, just enter the password you created for the github account. This will create a hash to verify your login to github.
 
-Next go onto windows and open up notepad. goto M:\.ssh\id_rsa.pub and copy everything there. *Make sure there are no trailing whitespaces!*
+Next go onto windows and open up notepad. goto `M:\.ssh\id_rsa.pub` and copy everything there. *Make sure there are no trailing whitespaces!*
 
-Login to github web interface and go to admin and then SSH keys, create a new key with the name 'central' while pasting everything in your clipboard in the big box. Then press save.
+Login to github web interface and go to admin and then SSH keys, create a new key with the name 'central' while pasting everything in your clipboard in the big box. Then press save. (N.B. don't try and open in publisher - it wont work and fail miserably)
 
 To test if this works type into central:
 	ssh -T git@github.com
