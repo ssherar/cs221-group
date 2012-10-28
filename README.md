@@ -38,15 +38,15 @@ type "yes" and enter your password.
 If it comes up with `Hi username! You've successfully authenticated, but GitHub does not provide shell access.` you're good to go.
 
 To pull the repositry down, go whereever you want to put it in your filestore, and type
-	git pull git@github.com:ssherar/cs221-group.git
+	`git pull git@github.com:ssherar/cs221-group.git`
 
 To add files type
-	git add path/to/file.txt
+	`git add path/to/file.txt`
 
 To commit those files to the local repo
-	git commit -m "Meaningful message"
+	`git commit -m "Meaningful message"`
 
 To push to the server
-	git push origin master
+	`git push origin master`
 
 and its _that_ easy!
