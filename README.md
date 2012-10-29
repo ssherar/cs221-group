@@ -47,6 +47,6 @@ To commit those files to the local repo
 	`git commit -m "Meaningful message"`
 
 To push to the server
-	`git push origin master`
+	`git push origin develop`
 
 and its _that_ easy!
