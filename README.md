@@ -19,7 +19,7 @@ First thing we need to do is assign a name and email to your git account on the 
 
 Next thing we need to do is create a key for the pushing code to github.
 
-	#change the directord
+	#change the directory
 	cd ~/.ssh
 	#Generate the key
 	ssh-keygen -t rsa -C "email@address.here"
@@ -31,7 +31,7 @@ Next go onto windows and open up notepad. goto `M:\.ssh\id_rsa.pub` and copy eve
 Login to github web interface and go to admin and then SSH keys, create a new key with the name 'central' while pasting everything in your clipboard in the big box. Then press save. (N.B. don't try and open in publisher - it wont work and fail miserably)
 
 To test if this works type into central:
-	ssh -T git@github.com
+	`ssh -T git@github.com`
 
 type "yes" and enter your password.
 
