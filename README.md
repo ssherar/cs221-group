@@ -3,6 +3,9 @@ cs221-group
 
 Monster Mash group project
 
+Design documents
+----------------
+
 Setting up Github on central
 ----------------------------
 
