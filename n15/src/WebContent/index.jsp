@@ -1,13 +1,45 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-    	               "http://www.w3.org/TR/html4/loose.dtd">
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Monster Mash - Login</title>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<link href='http://fonts.googleapis.com/css?family=Eater|Skranji|Sanchez|Piedra|Carter+One|Slackey' rel='stylesheet' type='text/css' />
+</head>
+<body>
+<br></br>
+<div id="login_page_content">
 
-<html>
-  <head>
-    	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    	<title>GlassFish JSP Page</title>
-  </head>
-  <body>
-    <h1>Hello World!</h1>
-  </body>
-</html> 
+
+<img src="img/mmlogo.png" />
+
+<center>
+<form action="">
+<br/><br/>
+	<table>
+		<tr>
+		<td>login: </td>
+		<td><input type="text"></input></td>
+		</tr>
+	
+		<tr>
+		<td>password: </td>
+		<td><input type="password"></input></td>
+		</tr>
+	</table>
+	<br/> 
+	<a class="title" href="index2.jsp">LOGIN</a>
+	<p class="slackey">CREATE NEW ACCOUNT</p>
+<!-- 	<input type="button" name="dupa" value="LOGIN"/><br/> -->
+<!-- 	<input type="button" name="dupa" value="CREATE NEW ACCOUNT"/> -->
+</form>
+</center>
+
+
+</div>	
+
+
+</body>
+</html>
