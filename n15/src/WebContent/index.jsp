@@ -16,24 +16,24 @@
 <img src="img/mmlogo.png" />
 
 <center>
-<form action="">
+<form action="LoginServlet" method="post">
 <br/><br/>
-	<table>
-		<tr>
-		<td>login: </td>
-		<td><input type="text"></input></td>
-		</tr>
-	
-		<tr>
-		<td>password: </td>
-		<td><input type="password"></input></td>
-		</tr>
-	</table>
-	<br/> 
-	<a class="title" href="index2.jsp">LOGIN</a>
-	<p class="slackey">CREATE NEW ACCOUNT</p>
-<!-- 	<input type="button" name="dupa" value="LOGIN"/><br/> -->
-<!-- 	<input type="button" name="dupa" value="CREATE NEW ACCOUNT"/> -->
+		<table>
+			<tr>
+			<td>login: </td>
+			<td><input type="text" name="username"></input></td>
+			</tr>
+		
+			<tr>
+			<td>password: </td>
+			<td><input type="password" name="password"></input></td>
+			</tr>
+		</table>
+		<br/> 
+		<a class="title" href="javascript:loginForm.submit()" >LOGIN</a>
+		<p class="slackey">CREATE NEW ACCOUNT</p>
+		<input type="submit" name="dupa" value="LOGIN"/><br/>
+	<!-- 	<input type="button" name="dupa" value="CREATE NEW ACCOUNT"/> -->
 </form>
 </center>
 
