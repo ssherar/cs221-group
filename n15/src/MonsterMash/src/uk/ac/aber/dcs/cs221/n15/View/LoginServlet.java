@@ -64,6 +64,17 @@ public class LoginServlet extends HttpServlet {
 			response.sendRedirect("index.jsp");
 		}
 	}
-
+	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		if(request.getParameter("logout") != null) {
+			HttpSession session = request.getSession();
+			if(session.getAttribute("currentUser") != null) {
+				session.setAttribute("currentUser", null);
+				response.sendRedirect("index.jsp");
+			}
+		} else {
+			response.sendRedirect("index.jsp");
+		}
+	}
 
 }

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"
     import="uk.ac.aber.dcs.cs221.n15.Model.User" %>
+<%// if(session == null) {response.sendRedirect("index.jsp"); } %>
 <% User user = (User)(session.getAttribute("currentUser")); %>
 <% if(user == null) {response.sendRedirect("index.jsp"); } %>
 <?xml version="1.0" encoding="UTF-8" ?>
@@ -56,7 +57,7 @@
 					
 					<div id="login_info">
 					Logged as: <%= user.getUsername() %>
-					<img id="logout_icon" src="img/logout.png"  height="15px" />
+					<a href="LoginServlet?logout"><img id="logout_icon" src="img/logout.png"  height="15px" /></a>
 					</div>
 					
 					

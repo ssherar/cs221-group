@@ -16,7 +16,7 @@
 <img src="img/mmlogo.png" />
 
 <center>
-<form action="LoginServlet" method="post">
+<form action="LoginServlet" method="post" name="loginForm">
 <br/><br/>
 		<table>
 			<tr>
@@ -29,9 +29,8 @@
 			</tr>
 		</table>
 		<br/> 
-		<a class="title" href="javascript:loginForm.submit()" >LOGIN</a>
+		<a class="title" href="JAVASCRIPT:loginForm.submit()" >LOGIN</a>
 		<p class="slackey">CREATE NEW ACCOUNT</p>
-		<input type="submit" name="dupa" value="LOGIN"/><br/>
 	<!-- 	<input type="button" name="dupa" value="CREATE NEW ACCOUNT"/> -->
 </form>
 </center>
