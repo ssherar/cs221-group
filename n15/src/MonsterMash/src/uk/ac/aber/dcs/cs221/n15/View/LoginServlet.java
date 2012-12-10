@@ -69,7 +69,8 @@ public class LoginServlet extends HttpServlet {
 		if(request.getParameter("logout") != null) {
 			HttpSession session = request.getSession();
 			if(session.getAttribute("currentUser") != null) {
-				session.setAttribute("currentUser", null);
+				session.removeAttribute("currentUser");
+				session.invalidate();
 				response.sendRedirect("index.jsp");
 			}
 		} else {

@@ -1,9 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"
     import="uk.ac.aber.dcs.cs221.n15.Model.User" %>
-<%// if(session == null) {response.sendRedirect("index.jsp"); } %>
-<% User user = (User)(session.getAttribute("currentUser")); %>
-<% if(user == null) {response.sendRedirect("index.jsp"); } %>
+ 
+<% HttpSession s = request.getSession(false);
+User user = (User)(s.getAttribute("currentUser"));
+if(user == null) {
+	response.sendRedirect("index.jsp"); 
+} 
+%>
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">

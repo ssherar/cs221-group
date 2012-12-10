@@ -29,8 +29,8 @@
 			</tr>
 		</table>
 		<br/> 
-		<a class="title" href="JAVASCRIPT:loginForm.submit()" >LOGIN</a>
-		<p class="slackey">CREATE NEW ACCOUNT</p>
+		<a class="title" href="JAVASCRIPT:loginForm.submit()" >LOGIN</a><br />
+		<a class="slackey" href="register.jsp">CREATE NEW ACCOUNT</a>
 	<!-- 	<input type="button" name="dupa" value="CREATE NEW ACCOUNT"/> -->
 </form>
 </center>
