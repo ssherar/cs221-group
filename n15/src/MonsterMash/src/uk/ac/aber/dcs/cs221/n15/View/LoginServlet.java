@@ -57,12 +57,17 @@ public class LoginServlet extends HttpServlet {
 		u.setPassword(hashedPassword);
 		u.setUsername(request.getParameter("email"));
 		if(dao.userExists(u)) {
+			List<Monster>  monsters = dao.loadMonsters(u.getUsername());
 			HttpSession session = request.getSession();
 			session.setAttribute("currentUser", u);
+			session.setAttribute("monsters", monsters);
 			response.sendRedirect("myfarm.jsp");
 		} else {
+			HttpSession session = request.getSession();
+			session.setAttribute("message", "The username/password is not correct. Please try again!");
 			response.sendRedirect("index.jsp");
 		}
+		
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
