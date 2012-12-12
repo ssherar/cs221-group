@@ -33,7 +33,7 @@
 			</tr>
 		</table>
 		<br/> 
-		<a class="title" href="JAVASCRIPT:registerForm.submit()" >REGISTER</a><br />
+		<a class="title" href="JAVASCRIPT:registerForm.submit()" >REGISTER</a><br  />
 	<!-- 	<input type="button" name="dupa" value="CREATE NEW ACCOUNT"/> -->
 </form>
 </center>
