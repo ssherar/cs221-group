@@ -3,5 +3,6 @@
 	<persistence-unit name="MonsterMash">
 		<jta-data-source>jdbc/mysql</jta-data-source>
 		<class>uk.ac.aber.dcs.cs221.n15.Model.User</class>
+		<class>uk.ac.aber.dcs.cs221.n15.Model.Monster</class>
 	</persistence-unit>
 </persistence>
