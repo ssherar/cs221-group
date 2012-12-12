@@ -1,9 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"
-    import="uk.ac.aber.dcs.cs221.n15.Model.User" %>
+    import="uk.ac.aber.dcs.cs221.n15.Model.*"
+    import="java.util.*"
+    import="java.text.DateFormat" %>
  
 <% HttpSession s = request.getSession(false);
 User user = (User)(s.getAttribute("currentUser"));
+List<Monster> monsters = (List<Monster>)(s.getAttribute("monsters"));
 if(user == null) {
 	response.sendRedirect("index.jsp"); 
 } 
@@ -60,7 +63,7 @@ if(user == null) {
 					</div>
 					
 					<div id="login_info">
-					Logged as: <%= user.getUsername() %>
+					Logged as: <%= user.getUsername() %> : <%= monsters.size() %>
 					<a href="LoginServlet?logout"><img id="logout_icon" src="img/logout.png"  height="15px" /></a>
 					</div>
 					
@@ -73,18 +76,20 @@ if(user == null) {
 			
 			<p class="title">My Monster Farm</p>
 			
-			
+			<% for(Monster m : monsters) {%>
 			<div class="monster_window">
 				<div class="monster_description">
-					<p class="monster_name">Lovelymonster1
-					<img src="img/female.png" width="20px" />
+					<p class="monster_name"><%= m.getMonsterName() %>
+					<%if(m.getGender().equals("F")) { %>
+						<img src="img/female.png" width="20px" />
+					<%} %>
 					</p>
-					3 days old<br/>
+					Born: <%= DateFormat.getInstance().format(m.getDob()) %><br/>
 					<table class="monster_stats">
-						<tr><td>health:</td><td>0.9</td></tr>
-						<tr><td>strength:</td><td>0.7</td></tr>
-						<tr><td>aggression:</td><td>0.5</td></tr>
-						<tr><td>fertility:</td><td>0.8</td></tr>
+						<tr><td>health:</td><td><%= m.getHealth() %></td></tr>
+						<tr><td>strength:</td><td><%= m.getStrength() %></td></tr>
+						<tr><td>aggression:</td><td><%= m.getAgression() %></td></tr>
+						<tr><td>fertility:</td><td><%= m.getFertility() %></td></tr>
 					</table>
 					
 				</div>
@@ -99,58 +104,8 @@ if(user == null) {
 			
 			
 			</div>
-			
-			<div class="monster_window">
-				<div class="monster_description">
-					<p class="monster_name">Lovelymonster1
-					<img src="img/female.png" width="20px" />
-					</p>
-					3 days old<br/>
-					<table class="monster_stats">
-						<tr><td>health:</td><td>0.9</td></tr>
-						<tr><td>strength:</td><td>0.7</td></tr>
-						<tr><td>aggression:</td><td>0.5</td></tr>
-						<tr><td>fertility:</td><td>0.8</td></tr>
-					</table>
-					
-				</div>
-				
-				<div class="monster_actions_menu">
-					<a>rename</a><br/>
-					<a>offer for sale</a><br/>
-					<a>offer for breeding</a><br/>
-					<br/>
-					fight prize: $200
-				</div>
-			
-			
-			</div>
-			<div class="monster_window">
-				<div class="monster_description">
-					<p class="monster_name">Lovelymonster1
-					<img src="img/female.png" width="20px" />
-					</p>
-					3 days old<br/>
-					<table class="monster_stats">
-						<tr><td>health:</td><td>0.9</td></tr>
-						<tr><td>strength:</td><td>0.7</td></tr>
-						<tr><td>aggression:</td><td>0.5</td></tr>
-						<tr><td>fertility:</td><td>0.8</td></tr>
-					</table>
-					
-				</div>
-				
-				<div class="monster_actions_menu">
-					<a>rename</a><br/>
-					<a>offer for sale</a><br/>
-					<a>offer for breeding</a><br/>
-					<br/>
-					fight prize: $200
-				</div>
-			
-			
-			</div>
-			<div class="monster_window">
+			<% } %>
+			<!--  div class="monster_window">
 				<div class="monster_description">
 					<p class="monster_name">Lovelymonster1
 					<img src="img/female.png" width="20px" />
@@ -300,6 +255,56 @@ if(user == null) {
 			
 			
 			</div>
+			<div class="monster_window">
+				<div class="monster_description">
+					<p class="monster_name">Lovelymonster1
+					<img src="img/female.png" width="20px" />
+					</p>
+					3 days old<br/>
+					<table class="monster_stats">
+						<tr><td>health:</td><td>0.9</td></tr>
+						<tr><td>strength:</td><td>0.7</td></tr>
+						<tr><td>aggression:</td><td>0.5</td></tr>
+						<tr><td>fertility:</td><td>0.8</td></tr>
+					</table>
+					
+				</div>
+				
+				<div class="monster_actions_menu">
+					<a>rename</a><br/>
+					<a>offer for sale</a><br/>
+					<a>offer for breeding</a><br/>
+					<br/>
+					fight prize: $200
+				</div>
+			
+			
+			</div>
+			<div class="monster_window">
+				<div class="monster_description">
+					<p class="monster_name">Lovelymonster1
+					<img src="img/female.png" width="20px" />
+					</p>
+					3 days old<br/>
+					<table class="monster_stats">
+						<tr><td>health:</td><td>0.9</td></tr>
+						<tr><td>strength:</td><td>0.7</td></tr>
+						<tr><td>aggression:</td><td>0.5</td></tr>
+						<tr><td>fertility:</td><td>0.8</td></tr>
+					</table>
+					
+				</div>
+				
+				<div class="monster_actions_menu">
+					<a>rename</a><br/>
+					<a>offer for sale</a><br/>
+					<a>offer for breeding</a><br/>
+					<br/>
+					fight prize: $200
+				</div>
+			
+			
+			</div>-->
 			
 		</div>
 	</center>
