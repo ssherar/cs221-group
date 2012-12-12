@@ -16,6 +16,17 @@
 <img src="img/mmlogo.png" />
 
 <center>
+<% HttpSession s = request.getSession();
+String message = "";
+if(s != null) {
+	if(s.getAttribute("message") != null) {
+		%>
+		<%= s.getAttribute("message") %>
+		<%
+		s.removeAttribute("message");
+	}
+}
+%>
 <form action="LoginServlet" method="post" name="loginForm">
 <br/><br/>
 		<table>
