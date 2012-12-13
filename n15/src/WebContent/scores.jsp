@@ -202,6 +202,66 @@
 					<a>SomePlayer</a>
 				</div>
 			</div>
+			<div class="monster_window">
+				<div class="monster_description">
+					<p class="monster_name">SomeMonster
+					<img src="img/male.png" width="20px" />
+					</p>
+					4 days old<br/>
+					<table class="monster_stats">
+						<tr><td>health:</td><td>0.9</td></tr>
+						<tr><td>strength:</td><td>0.7</td></tr>
+						<tr><td>aggression:</td><td>0.5</td></tr>
+						<tr><td>fertility:</td><td>0.8</td></tr>
+					</table>
+					
+				</div>
+				
+				<div class="monster_actions_menu">
+					<p style="margin-top: 0px;">owner:<br/>
+					<a>SomePlayer</a>
+				</div>
+			</div>
+			<div class="monster_window">
+				<div class="monster_description">
+					<p class="monster_name">SomeMonster
+					<img src="img/male.png" width="20px" />
+					</p>
+					4 days old<br/>
+					<table class="monster_stats">
+						<tr><td>health:</td><td>0.9</td></tr>
+						<tr><td>strength:</td><td>0.7</td></tr>
+						<tr><td>aggression:</td><td>0.5</td></tr>
+						<tr><td>fertility:</td><td>0.8</td></tr>
+					</table>
+					
+				</div>
+				
+				<div class="monster_actions_menu">
+					<p style="margin-top: 0px;">owner:<br/>
+					<a>SomePlayer</a>
+				</div>
+			</div>
+			<div class="monster_window">
+				<div class="monster_description">
+					<p class="monster_name">SomeMonster
+					<img src="img/male.png" width="20px" />
+					</p>
+					4 days old<br/>
+					<table class="monster_stats">
+						<tr><td>health:</td><td>0.9</td></tr>
+						<tr><td>strength:</td><td>0.7</td></tr>
+						<tr><td>aggression:</td><td>0.5</td></tr>
+						<tr><td>fertility:</td><td>0.8</td></tr>
+					</table>
+					
+				</div>
+				
+				<div class="monster_actions_menu">
+					<p style="margin-top: 0px;">owner:<br/>
+					<a>SomePlayer</a>
+				</div>
+			</div>
 		</div>
 	</center>
 </body>

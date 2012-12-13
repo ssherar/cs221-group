@@ -61,7 +61,7 @@
 			<hr class="horizontal_spacer" />
 			
 			<p class="title_half">Error</p>
-			<p>Well something went wrong. <a href="index.jsp">Go back</a> to the home page</p>
+			<p>Well something went wrong. <a style="text-decoration:underline;" href="index.jsp">Go back</a> to the home page</p>
 		</div>
 	</center>
 </body>
