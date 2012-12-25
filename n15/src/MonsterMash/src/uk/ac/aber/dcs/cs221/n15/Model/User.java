@@ -16,19 +16,19 @@ import java.util.List;
 	@NamedQuery(name="checkExists", query="SELECT u FROM User u WHERE u.username=:username AND u.password=:password"),
 	@NamedQuery(name="usernameExists", query="SELECT u FROM User u WHERE u.username=:username")
 })
-public class User implements Serializable {
-	private static final long serialVersionUID = 1L;
-
+public class User {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="id")
-	private int id;
+	private String id;
 
-	@Column(name="email")
+	@Column(name="username")
 	private String username;
 	
 	@Column(name="password")
 	private String password;
+	
+	@Column(name="money")
+	private int money;
 
 	//bi-directional many-to-one association to Monster
 	//@OneToMany(mappedBy="user")
@@ -36,12 +36,19 @@ public class User implements Serializable {
 
     public User() {
     }
+    
+    public User(String username, String password){
+    	this.username = username;
+    	this.password = password;
+    	this.id = "loc."+username;
+    	this.money = 150;
+    }
 
-	public int getId() {
+	public String getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -61,6 +68,14 @@ public class User implements Serializable {
 		this.password = password;
 	}
 
+	public int getMoney() {
+		return money;
+	}
+
+	public void setMoney(int money) {
+		this.money = money;
+	}
+
 	/*public List<Monster> getMonsters() {
 		return this.monsters;
 	}
@@ -68,5 +83,7 @@ public class User implements Serializable {
 	public void setMonsters(List<Monster> monsters) {
 		this.monsters = monsters;
 	}*/
+	
+	
 	
 }

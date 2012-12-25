@@ -1,31 +1,16 @@
 package uk.ac.aber.dcs.cs221.n15.View;
 
 import java.io.IOException;
-import uk.ac.aber.dcs.cs221.n15.Controller.*;
-import uk.ac.aber.dcs.cs221.n15.Model.*;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.annotation.WebServlet;
-import javax.sql.*;
-import javax.transaction.HeuristicMixedException;
-import javax.transaction.HeuristicRollbackException;
-import javax.transaction.NotSupportedException;
-import javax.transaction.RollbackException;
-import javax.transaction.SystemException;
-import javax.transaction.UserTransaction;
+import javax.servlet.http.HttpSession;
 
-import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
+import uk.ac.aber.dcs.cs221.n15.Controller.UserDAO;
+import uk.ac.aber.dcs.cs221.n15.Controller.Validator;
 
 /**
  * Servlet implementation class RegisterServlet
@@ -34,6 +19,7 @@ import java.sql.Statement;
 public class RegisterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	UserDAO dao;
+	HttpSession session;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -51,36 +37,24 @@ public class RegisterServlet extends HttpServlet {
 		username = request.getParameter("email");
 		password = request.getParameter("password");
 		confirmPassword = request.getParameter("confirmpassword");
+		session = request.getSession();
 		
 		if(dao.usernameExists(username)) {
+			String message = "Such username already exists.";
+			session.setAttribute("message", message);
 			response.sendRedirect("register.jsp");
-		}
-		
-		if(!password.equals(confirmPassword)) {
+		}else if(!password.equals(confirmPassword)) {
+			String message = "Passwords are not equal. Try again.";
+			session.setAttribute("message", message);
 			response.sendRedirect("register.jsp");
-		}
+		}else{
 		
 		hashedPassword = Validator.toMD5(password);
+		dao.createUser(username, hashedPassword);
 		
-		String sql = "INSERT INTO users VALUES (NULL, '"+username+"', '"+hashedPassword+"')";
-		System.out.println(sql);
-	
-			InitialContext ctx;
-			try {
-				ctx = new InitialContext();
-				DataSource ds = (DataSource) ctx.lookup("jdbc/mysql");
-				Connection conn = ds.getConnection();
-				Statement stmt = conn.createStatement();
-				stmt.execute(sql);
-			} catch (NamingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 		request.getSession().setAttribute("message", "Congratulations! You have sucessfully signed up! Please login to continue to the dashboard!");
 		response.sendRedirect("index.jsp");
+		}
 	}
 
 }

@@ -53,13 +53,14 @@ public class LoginServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		User u = new User();
-		u.setPassword(hashedPassword);
-		u.setUsername(request.getParameter("email"));
-		if(dao.userExists(u)) {
-			List<Monster>  monsters = dao.loadMonsters(u.getUsername());
+		
+		String uname = request.getParameter("email");
+		User user = dao.findUser(uname, hashedPassword);
+		
+		if(user!=null) {
+			List<Monster>  monsters = dao.loadMonsters(uname);
 			HttpSession session = request.getSession();
-			session.setAttribute("currentUser", u);
+			session.setAttribute("currentUser", user);
 			session.setAttribute("monsters", monsters);
 			response.sendRedirect("myfarm.jsp");
 		} else {

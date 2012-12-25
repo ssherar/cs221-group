@@ -10,6 +10,9 @@ List<Monster> monsters = (List<Monster>)(s.getAttribute("monsters"));
 if(user == null) {
 	response.sendRedirect("index.jsp"); 
 } 
+
+ if(monsters==null) monsters = new ArrayList<Monster>();
+
 %>
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -55,15 +58,15 @@ if(user == null) {
 			
 					<div class="notice_stats">
 					<img src="img/monster_icon.png"  height="15px" />
-					3 
+					<%= monsters.size() %>
 					</div>
 					<div class="notice_stats">
 					<img src="img/pouch_icon.png"  height="15px" />
-					345$
+					<%= user.getMoney() %>
 					</div>
 					
 					<div id="login_info">
-					Logged as: <%= user.getUsername() %> : <%= monsters.size() %>
+					Logged as: <%= user.getUsername() %> 
 					<a href="LoginServlet?logout"><img id="logout_icon" src="img/logout.png"  height="15px" /></a>
 					</div>
 					
@@ -76,7 +79,8 @@ if(user == null) {
 			
 			<p class="title">My Monster Farm</p>
 			
-			<% for(Monster m : monsters) {%>
+			<% if(monsters!=null) for(Monster m : monsters) {%>
+			
 			<div class="monster_window">
 				<div class="monster_description">
 					<p class="monster_name"><%= m.getMonsterName() %>

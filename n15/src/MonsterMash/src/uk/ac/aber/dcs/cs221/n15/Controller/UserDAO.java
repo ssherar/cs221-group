@@ -1,5 +1,6 @@
 package uk.ac.aber.dcs.cs221.n15.Controller;
 
+import java.util.logging.Logger; 
 import java.util.List;
 
 import javax.annotation.ManagedBean;
@@ -88,8 +89,47 @@ public class UserDAO {
 	@SuppressWarnings("unchecked")
 	public List<Monster> loadMonsters(String username) {
 		System.out.println(username);
-		TypedQuery<Monster> q = (TypedQuery<Monster>) emf.createEntityManager().createNativeQuery("SELECT * FROM monsters WHERE owner_id = (SELECT id FROM users WHERE email='"+username+"')", Monster.class);
-		List<Monster> ret = q.getResultList();
-		return ret;
+		//TypedQuery<Monster> q = (TypedQuery<Monster>) emf.createEntityManager().createNativeQuery("SELECT * FROM monsters WHERE owner_id = (SELECT id FROM users WHERE email='"+username+"')", Monster.class);
+		//List<Monster> ret = q.getResultList();
+		return null;
+	}
+	
+	public void test(){
+		try{
+			EntityManager em = emf.createEntityManager();
+			User testUser = new User("kamil", "test");
+			UserTransaction transaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
+			transaction.begin();
+			em.persist(testUser);
+			transaction.commit();
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		
+	}
+	
+	public void createUser(String uname, String pass){
+		try{
+			EntityManager em = emf.createEntityManager();
+			User user = new User(uname, pass);
+			UserTransaction transaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
+			transaction.begin();
+			em.persist(user);
+			transaction.commit();
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}	
+	}
+	
+	public User findUser(String username, String password){
+		try{
+			EntityManager em = emf.createEntityManager();
+			User u = em.find(User.class, "loc."+username);
+			if(u==null || !u.getPassword().equals(password)) return null;
+			return u;
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}	
+		return null;
 	}
 }

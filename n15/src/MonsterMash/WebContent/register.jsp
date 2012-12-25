@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Monster Mash - Login</title>
+<title>Monster Mash - Registration</title>
 <link rel="stylesheet" type="text/css" href="style.css" />
 <link href='http://fonts.googleapis.com/css?family=Eater|Skranji|Sanchez|Piedra|Carter+One|Slackey' rel='stylesheet' type='text/css' />
 </head>
@@ -16,6 +16,19 @@
 <img src="img/mmlogo.png" />
 
 <center>
+
+<% HttpSession s = request.getSession();
+String message = "";
+if(s != null) {
+	if(s.getAttribute("message") != null) {
+		%>
+		<%= s.getAttribute("message") %>
+		<%
+		s.removeAttribute("message");
+	}
+}
+%>
+
 <form action="RegisterServlet" method="post" name="registerForm">
 <br/><br/>
 		<table>
