@@ -1,5 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+    pageEncoding="ISO-8859-1"
+    import="uk.ac.aber.dcs.cs221.n15.Model.*"
+    import="java.util.*"
+    import="java.text.DateFormat" %>
+ 
+<% HttpSession s = request.getSession(false);
+User user = (User)(s.getAttribute("currentUser"));
+List<Monster> monsters = (List<Monster>)(s.getAttribute("monsters"));
+ArrayList<Friend> friends = (ArrayList<Friend>)(s.getAttribute("friends"));
+if(user == null) {
+	response.sendRedirect("index.jsp"); 
+} 
+if(friends==null) System.out.println("JSP: friends is null");
+else System.out.println("JSP: friends is NOT null");
+ if(monsters==null) monsters = new ArrayList<Monster>();
+
+ for(Friend f : friends){
+		System.out.println("Name: "+f.getName()+" Money: "+f.getMoney());
+	}
+%>
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -44,16 +63,16 @@
 			
 					<div class="notice_stats">
 					<img src="img/monster_icon.png"  height="15px" />
-					3 
+					<%= monsters.size() %>
 					</div>
 					<div class="notice_stats">
 					<img src="img/pouch_icon.png"  height="15px" />
-					345$
+					<%= user.getMoney() %>
 					</div>
 					
 					<div id="login_info">
-					Logged as: Kamil 
-					<img id="logout_icon" src="img/logout.png"  height="15px" />
+					Logged as: <%= user.getUsername() %> 
+					<a href="LoginServlet?logout"><img id="logout_icon" src="img/logout.png"  height="15px" /></a>
 					</div>
 					
 					
@@ -66,73 +85,15 @@
 			<div id="friends_div" class="vertical_half" >
 			<p class="title_half">Friends</p>
 						
+			<% for(Friend friend : friends) {%>			
 			<div class="friend_window">
-				<h5><a>Friend1</a></h5>
+				<h5><a><%= friend.getName() %></a></h5>
 				<p>
-				<img src="img/monster_icon.png"  height="15px" />15
-				<img src="img/pouch_icon.png"  height="15px" /> $345
+				<img src="img/monster_icon.png"  height="15px" /><%= friend.getNumberOfMonsters() %>
+				<img src="img/pouch_icon.png"  height="15px" /> $<%= friend.getMoney() %>
 				</p>
 			</div>
-			
-			<div class="friend_window">
-				<h5><a>Friend1</a></h5>
-				<p>
-				<img src="img/monster_icon.png"  height="15px" />15
-				<img src="img/pouch_icon.png"  height="15px" /> $345
-				</p>
-			</div>
-			
-			<div class="friend_window">
-				<h5><a>Friend1</a></h5>
-				<p>
-				<img src="img/monster_icon.png"  height="15px" />15
-				<img src="img/pouch_icon.png"  height="15px" /> $345
-				</p>
-			</div>
-			
-			<div class="friend_window">
-				<h5><a>Friend1</a></h5>
-				<p>
-				<img src="img/monster_icon.png"  height="15px" />15
-				<img src="img/pouch_icon.png"  height="15px" /> $345
-				</p>
-			</div>
-			<div class="friend_window">
-				<h5><a>Friend1</a></h5>
-				<p>
-				<img src="img/monster_icon.png"  height="15px" />15
-				<img src="img/pouch_icon.png"  height="15px" /> $345
-				</p>
-			</div>
-			<div class="friend_window">
-				<h5><a>Friend1</a></h5>
-				<p>
-				<img src="img/monster_icon.png"  height="15px" />15
-				<img src="img/pouch_icon.png"  height="15px" /> $345
-				</p>
-			</div>
-			<div class="friend_window">
-				<h5><a>Friend1</a></h5>
-				<p>
-				<img src="img/monster_icon.png"  height="15px" />15
-				<img src="img/pouch_icon.png"  height="15px" /> $345
-				</p>
-			</div>
-			<div class="friend_window">
-				<h5><a>Friend1</a></h5>
-				<p>
-				<img src="img/monster_icon.png"  height="15px" />15
-				<img src="img/pouch_icon.png"  height="15px" /> $345
-				</p>
-			</div>
-			<div class="friend_window">
-				<h5><a>Friend1</a></h5>
-				<p>
-				<img src="img/monster_icon.png"  height="15px" />15
-				<img src="img/pouch_icon.png"  height="15px" /> $345
-				</p>
-			</div>
-			
+			<% } %>
 			
 			</div>
 			

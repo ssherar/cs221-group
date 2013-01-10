@@ -14,16 +14,15 @@ import java.util.Date;
 @NamedQueries({
 	@NamedQuery(name="loadMonsters", query="SELECT m FROM Monster m WHERE m.ownerId=:uid")
 })
-public class Monster implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class Monster{
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="id")
-	private int id;
+	private String id;
 
-	@Column(name="agression")
-	private int agression;
+	@Column(name="aggression")
+	private int aggression;
 
 	@Column(name="color")
 	private String color;
@@ -36,13 +35,13 @@ public class Monster implements Serializable {
 	private int fertility;
 
     @Column(name="gender")
-	private String gender;
+	private char gender;
 
     @Column(name="health")
 	private int health;
 
-	@Column(name="monster_name")
-	private String monsterName;
+	@Column(name="name")
+	private String name;
 	
 	@Column(name="strength")
 	private int strength;
@@ -52,34 +51,33 @@ public class Monster implements Serializable {
 	@JoinColumn(name="owner_id")
 	private User user;*/
 	
-	@Column(name="owner_id")
-	private int ownerId;
+	@Column(name="owner")
+	private String ownerId;
 	
-    public int getOwnerId() {
-		return ownerId;
-	}
-
-	public void setOwnerId(int ownerId) {
-		this.ownerId = ownerId;
-	}
 
 	public Monster() {
     }
+	
+	public Monster(String name, String ownerId) {
+		this.name = name;
+		this.ownerId = ownerId;
+		this.id = ownerId + "." + name;
+	}
 
-	public int getId() {
+	public String getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
-	public int getAgression() {
-		return this.agression;
+	public int getAggression() {
+		return this.aggression;
 	}
 
-	public void setAgression(int agression) {
-		this.agression = agression;
+	public void setAggression(int aggression) {
+		this.aggression = aggression;
 	}
 
 	public String getColor() {
@@ -106,11 +104,11 @@ public class Monster implements Serializable {
 		this.fertility = fertility;
 	}
 
-	public String getGender() {
+	public char getGender() {
 		return this.gender;
 	}
 
-	public void setGender(String gender) {
+	public void setGender(char gender) {
 		this.gender = gender;
 	}
 
@@ -122,12 +120,12 @@ public class Monster implements Serializable {
 		this.health = health;
 	}
 
-	public String getMonsterName() {
-		return this.monsterName;
+	public String getName() {
+		return this.name;
 	}
 
-	public void setMonsterName(String monsterName) {
-		this.monsterName = monsterName;
+	public void setName(String monsterName) {
+		this.name = monsterName;
 	}
 
 	public int getStrength() {
@@ -145,4 +143,12 @@ public class Monster implements Serializable {
 	public void setUser(User user) {
 		this.user = user;
 	}*/
+	
+	 public String getOwnerId() {
+			return ownerId;
+	}
+
+	public void setOwnerId(String ownerId) {
+		this.ownerId = ownerId;
+	}
 }

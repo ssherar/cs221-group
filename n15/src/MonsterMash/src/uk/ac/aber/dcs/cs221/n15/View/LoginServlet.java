@@ -3,23 +3,24 @@ package uk.ac.aber.dcs.cs221.n15.View;
 
 
 import java.io.IOException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.persistence.*;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.servlet.annotation.WebServlet;
 
-import uk.ac.aber.dcs.cs221.n15.Model.*;
-import uk.ac.aber.dcs.cs221.n15.Controller.*;
-
-import java.io.PrintWriter;
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.List;
+import uk.ac.aber.dcs.cs221.n15.Controller.MonsterDAO;
+import uk.ac.aber.dcs.cs221.n15.Controller.UserDAO;
+import uk.ac.aber.dcs.cs221.n15.Model.Friend;
+import uk.ac.aber.dcs.cs221.n15.Model.Monster;
+import uk.ac.aber.dcs.cs221.n15.Model.User;
 
 /**
  * Servlet implementation class LoginServlet
@@ -59,9 +60,11 @@ public class LoginServlet extends HttpServlet {
 		
 		if(user!=null) {
 			List<Monster>  monsters = dao.loadMonsters(uname);
+			ArrayList<Friend> friends = dao.getFriends(user);
 			HttpSession session = request.getSession();
 			session.setAttribute("currentUser", user);
 			session.setAttribute("monsters", monsters);
+			session.setAttribute("friends", friends);
 			response.sendRedirect("myfarm.jsp");
 		} else {
 			HttpSession session = request.getSession();
@@ -80,6 +83,11 @@ public class LoginServlet extends HttpServlet {
 				response.sendRedirect("index.jsp");
 			}
 		} else {
+			if(request.getParameter("test") != null) {
+				dao.test();
+				MonsterDAO mdao = new MonsterDAO();
+				mdao.createMonster("CookieMonster", "kamil");
+			}
 			response.sendRedirect("index.jsp");
 		}
 	}

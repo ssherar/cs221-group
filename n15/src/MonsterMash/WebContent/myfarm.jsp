@@ -83,16 +83,18 @@ if(user == null) {
 			
 			<div class="monster_window">
 				<div class="monster_description">
-					<p class="monster_name"><%= m.getMonsterName() %>
-					<%if(m.getGender().equals("F")) { %>
+					<p class="monster_name"><%= m.getName() %>
+					<%if(m.getGender()=='F') { %>
 						<img src="img/female.png" width="20px" />
-					<%} %>
+					<%} else{%>
+						<img src="img/male.png" width="20px" />
+					<%}%>
 					</p>
 					Born: <%= DateFormat.getInstance().format(m.getDob()) %><br/>
 					<table class="monster_stats">
 						<tr><td>health:</td><td><%= m.getHealth() %></td></tr>
 						<tr><td>strength:</td><td><%= m.getStrength() %></td></tr>
-						<tr><td>aggression:</td><td><%= m.getAgression() %></td></tr>
+						<tr><td>aggression:</td><td><%= m.getAggression() %></td></tr>
 						<tr><td>fertility:</td><td><%= m.getFertility() %></td></tr>
 					</table>
 					

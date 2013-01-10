@@ -1,9 +1,11 @@
 package uk.ac.aber.dcs.cs221.n15.Model;
 
-import java.io.Serializable;
-import javax.persistence.*;
-
-import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 
 /**
@@ -29,6 +31,10 @@ public class User {
 	
 	@Column(name="money")
 	private int money;
+	
+	@Column(name="friends")
+	private String friends;
+	
 
 	//bi-directional many-to-one association to Monster
 	//@OneToMany(mappedBy="user")
@@ -42,6 +48,7 @@ public class User {
     	this.password = password;
     	this.id = "loc."+username;
     	this.money = 150;
+    	friends = "";
     }
 
 	public String getId() {
@@ -74,6 +81,14 @@ public class User {
 
 	public void setMoney(int money) {
 		this.money = money;
+	}
+
+	public String getFriends() {
+		return friends;
+	}
+
+	public void setFriends(String friends) {
+		this.friends = friends;
 	}
 
 	/*public List<Monster> getMonsters() {
