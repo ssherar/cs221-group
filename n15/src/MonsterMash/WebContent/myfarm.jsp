@@ -22,6 +22,18 @@ if(user == null) {
 <title>Monster mash</title>
 <link rel="stylesheet" type="text/css" href="style.css" />
 <link href='http://fonts.googleapis.com/css?family=Eater|Skranji|Sanchez|Piedra|Carter+One|Slackey' rel='stylesheet' type='text/css' />
+<script>
+function rename(id) {
+	var newname = prompt("What would you like to rename your monster to?", "");
+	if (newname != null && newname != "") {
+		alert("Renaming " + id + " to " + newname);
+		document.location = "RenameServlet?monsterid="+id+"&newname="+newname;
+		//CallRename
+	} else {
+		//DoNothing
+	}	
+}
+</script>
 </head>
 <body>
 	<center>
@@ -101,7 +113,7 @@ if(user == null) {
 				</div>
 				
 				<div class="monster_actions_menu">
-					<a>rename</a><br/>
+					<a href="JAVASCRIPT:rename('<%= m.getId() %>')">rename</a><br/>
 					<a>offer for sale</a><br/>
 					<a>offer for breeding</a><br/>
 					<br/>
