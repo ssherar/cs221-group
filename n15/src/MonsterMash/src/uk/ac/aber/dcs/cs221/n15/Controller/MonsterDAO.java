@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.transaction.UserTransaction;
 
 import uk.ac.aber.dcs.cs221.n15.Model.Monster;
@@ -44,5 +45,13 @@ public class MonsterDAO {
 			
 		}
 		
+	}
+	
+	public void age(String monsterID) {
+		Date now = new Date();
+		long age;
+		TypedQuery<Monster> q = (TypedQuery<Monster>) emf.createEntityManager().createNativeQuery("SELECT * FROM monsters WHERE id = '"+monsterID+"' LIMIT 1", Monster.class);
+		Monster monster = q.getSingleResult();
+		age = now.getTime() - monster.getDob().getTime();
 	}
 }
