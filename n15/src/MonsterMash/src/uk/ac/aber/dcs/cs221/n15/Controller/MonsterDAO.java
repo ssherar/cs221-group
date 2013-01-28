@@ -77,6 +77,16 @@ public class MonsterDAO {
 			edited = true;
 			
 		} else if(ageMilliseconds > 1036800000) {
+			scalar = -4;
+			strength = r.nextInt() * scalar;
+			aggression = r.nextInt() * scalar;
+			fertility = r.nextInt() * scalar;
+			health = r.nextInt() * scalar;
+			
+			monster.setStrength(monster.getStrength() + strength);
+			monster.setAggression(monster.getAggression() + aggression);
+			monster.setFertility(monster.getFertility() + fertility);
+			monster.setHealth(monster.getHealth() + health);
 			edited = true;
 		}
 		
