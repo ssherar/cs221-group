@@ -52,9 +52,7 @@ else System.out.println("JSP: friends is NOT null");
 			
 			
 			</tr>
-			</table>
-
-				
+			</table>	
 
 			
 			</div>
@@ -87,7 +85,7 @@ else System.out.println("JSP: friends is NOT null");
 						
 			<% for(Friend friend : friends) {%>			
 			<div class="friend_window">
-				<h5><a><%= friend.getName() %></a></h5>
+				<h5><a href="profile.jsp?id=<%=friend.getId() %>"><%= friend.getName() %></a></h5>
 				<p>
 				<img src="img/monster_icon.png"  height="15px" /><%= friend.getNumberOfMonsters() %>
 				<img src="img/pouch_icon.png"  height="15px" /> $<%= friend.getMoney() %>
@@ -100,6 +98,11 @@ else System.out.println("JSP: friends is NOT null");
 			
 			
 			<div id="request_div" class="vertical_half">
+			<p class="title_half">Find a friend</p>
+			<form action="profile.jsp">
+				<input name="id" type="text" size="30" value="Type friend's username"/>
+				<input type="submit" value="find"/>
+			</form>
 			<p class="title_half">Requests</p>
 			
 			<div class="request_window">

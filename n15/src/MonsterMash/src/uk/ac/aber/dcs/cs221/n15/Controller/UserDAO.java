@@ -49,11 +49,17 @@ public class UserDAO {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Monster> loadMonsters(String username) {
-		System.out.println(username);
-		TypedQuery<Monster> q = (TypedQuery<Monster>) emf.createEntityManager().createNativeQuery("SELECT * FROM monsters WHERE owner = '"+username+"'", Monster.class);
+	public List<Monster> loadMonsters(String ownerId) {
+		if(ownerId.charAt(3)!='.') ownerId = "loc." + ownerId;
+		TypedQuery<Monster> q = (TypedQuery<Monster>) emf.createEntityManager().createNativeQuery("SELECT * FROM monsters WHERE owner = '"+ownerId+"'", Monster.class);
 		List<Monster> ret = q.getResultList();
 		return ret;
+	}
+	
+	public int countMonsters(User user){
+		Query query= emf.createEntityManager().createNativeQuery("SELECT COUNT(*) FROM monsters WHERE owner = '"+user.getId()+"'");
+		Long count = (Long)(query.getSingleResult());
+		return count.intValue();
 	}
 	
 	public void test(){
@@ -123,13 +129,14 @@ public class UserDAO {
 		EntityManager em = emf.createEntityManager();
 		ArrayList<Friend> friends = new ArrayList<Friend>();
 		String flist = u.getFriends();
-		if(flist.length()==0) return friends;
+		if(flist.length()==0){
+			System.out.println("NO FRIENDS!");
+			return friends;
+		}
 		String[] ids = u.getFriends().split(";");
-		
 		for(String id : ids){
-			System.out.println(id);
 			User f = em.find(User.class, id);
-			friends.add(new Friend(f.getId(), f.getMoney()));
+			friends.add(new Friend(f.getId(), f.getMoney(), countMonsters(f)));
 		}
 		
 		for(Friend f : friends){

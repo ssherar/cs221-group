@@ -28,9 +28,23 @@ a:active, a:link, a:visited{
 	font-size: xx-large;
 }
 
+.profile_title{
+	font-family: 'Slackey', cursive;
+	font-size: xx-large;
+	text-align: left;
+}
+
 .title_half{
 	font-family: 'Slackey', cursive;
 	font-size: x-large;
+	text-align: left;
+}
+
+.align_right{
+	text-align: right;
+}
+
+.align_left{
 	text-align: left;
 }
 

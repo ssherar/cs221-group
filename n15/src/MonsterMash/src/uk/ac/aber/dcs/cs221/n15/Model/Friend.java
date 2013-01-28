@@ -7,10 +7,10 @@ public class Friend {
 	private int numberOfMonsters;
 	private int money;
 	
-	public Friend(String id, int money){
+	public Friend(String id, int money, int nOfMonsters){
 		this.id = id;
 		this.name = id.substring(4);
-		numberOfMonsters = 0;
+		numberOfMonsters = nOfMonsters;
 		this.money = money;
 	}
 

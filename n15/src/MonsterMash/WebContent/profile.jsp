@@ -21,7 +21,9 @@ else System.out.println("JSP: friends is NOT null");
 	}
  
  UserDAO udao = new UserDAO();
- User friend = udao.findUser(request.getParameter("id"));
+ String f_id = request.getParameter("id");
+ if(f_id.charAt(3)!='.') f_id = "loc." + f_id;
+ User friend = udao.findUser(f_id);
  List<Monster> friendsMonsters = udao.loadMonsters(friend.getUsername());
 %>
 <?xml version="1.0" encoding="UTF-8" ?>
@@ -29,7 +31,7 @@ else System.out.println("JSP: friends is NOT null");
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Monster mash</title>
+<title><%= friend.getUsername() %> - Monster mash</title>
 <link rel="stylesheet" type="text/css" href="style.css" />
 <link href='http://fonts.googleapis.com/css?family=Eater|Skranji|Sanchez|Piedra|Carter+One|Slackey' rel='stylesheet' type='text/css' />
 </head>
@@ -88,7 +90,9 @@ else System.out.println("JSP: friends is NOT null");
 				
 			
 			
-			<p class="title_half"><%= friend.getUsername() %></p>
+			<p class="profile_title"><%= friend.getUsername() %></p>
+			<p class="align_left">Wealth: <%= friend.getMoney() %></p>
+			<p class="align_right"><a>Send friendship request</a></p>
 						
 			<% if(friendsMonsters!=null) for(Monster m : friendsMonsters) {%>
 			
@@ -111,13 +115,13 @@ else System.out.println("JSP: friends is NOT null");
 					
 				</div>
 				
-				<div class="monster_actions_menu">
-					<a>rename</a><br/>
-					<a>offer for sale</a><br/>
-					<a>offer for breeding</a><br/>
-					<br/>
-					fight prize: $200
-				</div>
+<!-- 				<div class="monster_actions_menu"> -->
+<!-- 					<a>rename</a><br/> -->
+<!-- 					<a>offer for sale</a><br/> -->
+<!-- 					<a>offer for breeding</a><br/> -->
+<!-- 					<br/> -->
+<!-- 					fight prize: $200 -->
+<!-- 				</div> -->
 			
 			
 			</div>
