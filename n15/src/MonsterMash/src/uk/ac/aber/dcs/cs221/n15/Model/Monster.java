@@ -77,6 +77,11 @@ public class Monster{
 	}
 
 	public void setAggression(int aggression) {
+		if(aggression > 100) {
+			aggression = 100;
+		} else if(aggression < 0) {
+			aggression = 0;
+		}
 		this.aggression = aggression;
 	}
 
@@ -101,6 +106,11 @@ public class Monster{
 	}
 
 	public void setFertility(int fertility) {
+		if(fertility > 100) {
+			fertility = 100;
+		} else if(fertility < 0) {
+			fertility = 0;
+		}
 		this.fertility = fertility;
 	}
 
@@ -117,6 +127,11 @@ public class Monster{
 	}
 
 	public void setHealth(int health) {
+		if(health > 100) {
+			health = 100;
+		} else if(health < 0) {
+			health = 0;
+		}
 		this.health = health;
 	}
 
@@ -133,6 +148,11 @@ public class Monster{
 	}
 
 	public void setStrength(int strength) {
+		if(strength > 100) {
+			strength = 100;
+		} else if(strength < 0) {
+			strength = 0;
+		}
 		this.strength = strength;
 	}
 
