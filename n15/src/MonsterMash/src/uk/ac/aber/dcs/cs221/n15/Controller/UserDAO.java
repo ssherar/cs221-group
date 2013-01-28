@@ -121,8 +121,11 @@ public class UserDAO {
 	
 	public ArrayList<Friend> getFriends(User u){
 		EntityManager em = emf.createEntityManager();
-		String[] ids = u.getFriends().split(";");
 		ArrayList<Friend> friends = new ArrayList<Friend>();
+		String flist = u.getFriends();
+		if(flist.length()==0) return friends;
+		String[] ids = u.getFriends().split(";");
+		
 		for(String id : ids){
 			System.out.println(id);
 			User f = em.find(User.class, id);
