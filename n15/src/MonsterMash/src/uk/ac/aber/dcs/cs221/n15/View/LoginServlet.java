@@ -56,7 +56,7 @@ public class LoginServlet extends HttpServlet {
 		}
 		
 		String uname = request.getParameter("email");
-		User user = dao.findUser(uname, hashedPassword);
+		User user = dao.authenticateUser(uname, hashedPassword);
 		
 		if(user!=null) {
 			List<Monster>  monsters = dao.loadMonsters(uname);

@@ -84,11 +84,24 @@ public class UserDAO {
 		}	
 	}
 	
-	public User findUser(String username, String password){
+	public User authenticateUser(String username, String password){
 		try{
 			EntityManager em = emf.createEntityManager();
 			User u = em.find(User.class, "loc."+username);
 			if(u==null || !u.getPassword().equals(password)) return null;
+			return u;
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}	
+		return null;
+	}
+	
+	public User findUser(String id){
+		try{
+			EntityManager em = emf.createEntityManager();
+			User u = em.find(User.class, id);
+			if(u==null) return null;
+			u.setPassword(""); //obscuring the password
 			return u;
 		}catch(Exception ex){
 			ex.printStackTrace();

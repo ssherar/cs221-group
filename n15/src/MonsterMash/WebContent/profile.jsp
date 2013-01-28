@@ -1,18 +1,28 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"
     import="uk.ac.aber.dcs.cs221.n15.Model.*"
+    import="uk.ac.aber.dcs.cs221.n15.Controller.*"
     import="java.util.*"
     import="java.text.DateFormat" %>
  
 <% HttpSession s = request.getSession(false);
 User user = (User)(s.getAttribute("currentUser"));
 List<Monster> monsters = (List<Monster>)(s.getAttribute("monsters"));
+ArrayList<Friend> friends = (ArrayList<Friend>)(s.getAttribute("friends"));
 if(user == null) {
 	response.sendRedirect("index.jsp"); 
 } 
-
+if(friends==null) System.out.println("JSP: friends is null");
+else System.out.println("JSP: friends is NOT null");
  if(monsters==null) monsters = new ArrayList<Monster>();
 
+ for(Friend f : friends){
+		System.out.println("Name: "+f.getName()+" Money: "+f.getMoney());
+	}
+ 
+ UserDAO udao = new UserDAO();
+ User friend = udao.findUser(request.getParameter("id"));
+ List<Monster> friendsMonsters = udao.loadMonsters(friend.getUsername());
 %>
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -75,11 +85,12 @@ if(user == null) {
 				<br/>
 				<hr class="horizontal_spacer" />
 				
+				
 			
 			
-			<p class="title">My Monster Farm</p>
-			
-			<% if(monsters!=null) for(Monster m : monsters) {%>
+			<p class="title_half"><%= friend.getUsername() %></p>
+						
+			<% if(friendsMonsters!=null) for(Monster m : friendsMonsters) {%>
 			
 			<div class="monster_window">
 				<div class="monster_description">
@@ -111,6 +122,10 @@ if(user == null) {
 			
 			</div>
 			<% } %>
+			
+			
+			
+			<br/><br/>
 			
 			
 		</div>
