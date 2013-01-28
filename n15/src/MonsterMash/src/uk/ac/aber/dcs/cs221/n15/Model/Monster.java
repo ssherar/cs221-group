@@ -17,7 +17,6 @@ import java.util.Date;
 public class Monster{
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="id")
 	private String id;
 

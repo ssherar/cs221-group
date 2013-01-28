@@ -77,9 +77,7 @@ else System.out.println("JSP: friends is NOT null");
 				</div>
 				<br/>
 				<hr class="horizontal_spacer" />
-				
-				
-			
+							
 			<div id="friends_div" class="vertical_half" >
 			<p class="title_half">Friends</p>
 						
@@ -100,7 +98,7 @@ else System.out.println("JSP: friends is NOT null");
 			<div id="request_div" class="vertical_half">
 			<p class="title_half">Find a friend</p>
 			<form action="profile.jsp">
-				<input name="id" type="text" size="30" value="Type friend's username"/>
+				<input name="id" type="text" size="30" value="Type friend's username" onClick="this.value=''"/>
 				<input type="submit" value="find"/>
 			</form>
 			<p class="title_half">Requests</p>
