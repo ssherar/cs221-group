@@ -27,7 +27,7 @@ function rename(id) {
 	var newname = prompt("What would you like to rename your monster to?", "");
 	if (newname != null && newname != "") {
 		alert("Renaming " + id + " to " + newname);
-		document.location = "RenameServlet?monsterid="+id+"&newname="+newname;
+		document.location = "RenameServlet?monsterId="+id+"&newName="+newname;
 		//CallRename
 	} else {
 		//DoNothing
