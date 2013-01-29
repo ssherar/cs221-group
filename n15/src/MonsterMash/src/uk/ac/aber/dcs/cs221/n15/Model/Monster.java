@@ -170,4 +170,10 @@ public class Monster{
 	public void setOwnerId(String ownerId) {
 		this.ownerId = ownerId;
 	}
+	
+	@Override
+	public String toString() {
+		return "Monster " + this.name + ": Str " + this.strength + " Agg " + this.aggression
+				 + "Fert " + this.fertility + " Health " + this.health;
+	}
 }
