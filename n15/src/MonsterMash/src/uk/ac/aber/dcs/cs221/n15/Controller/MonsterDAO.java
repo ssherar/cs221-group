@@ -156,26 +156,35 @@ public class MonsterDAO {
 		baseFert = monster.getFertility();
 		baseHealth = monster.getHealth();
 		
-		ciStr = monster.getStrength();
-		ciAgg = monster.getAggression();
-		ciFert = monster.getFertility();
-		ciHealth = monster.getHealth();
+		ciStr = baseHealth;
+		ciAgg = baseAgg;
+		ciFert = baseFert;
+		ciHealth = baseHealth;
 		
-		if(daysOld <= 5) {
-			ciStr = baseStr * Math.pow(this.CHILD_PERCENT, daysOld);
-			ciAgg = baseAgg * Math.pow(this.CHILD_PERCENT, daysOld);
-			ciFert = baseFert * Math.pow(this.CHILD_PERCENT, daysOld);
-		}
+		int youngAge = (daysOld > 5) ? 5 : daysOld;
 		
-		if(daysOld <= 12 && daysOld > 5) {
-			int matureAge = daysOld - 5;
-			ciStr += baseStr * Math.pow(this.MATURE_PERCENT, matureAge);
-			ciAgg += baseAgg * Math.pow(this.MATURE_PERCENT, matureAge);
+		ciStr = baseStr * Math.pow(this.CHILD_PERCENT, youngAge);
+		ciAgg = baseAgg * Math.pow(this.CHILD_PERCENT, youngAge);
+		ciFert = baseFert * Math.pow(this.CHILD_PERCENT, youngAge);
+		
+		if(daysOld > 5) {
+			int matureAge = ((daysOld > 12) ? 12 : daysOld) - 5;
+			ciStr = ciStr * Math.pow(this.MATURE_PERCENT, matureAge);
+			ciAgg = ciAgg * Math.pow(this.MATURE_PERCENT, matureAge);
 		}
 		
 		if(daysOld > 12) {
-			
+			int elderlyAge = daysOld - 12;
+			for(int i = 0; i < elderlyAge; i++) {
+				double avg = (baseStr + baseAgg + baseFert) / 3;
+				ciHealth -= 15.00 - (avg / 7.00);
+			}
 		}
+		
+		monster.setAggression((int) ciAgg);
+		monster.setFertility((int) ciFert);
+		monster.setHealth((int) ciHealth);
+		monster.setStrength((int) ciStr);
 	}
 	
 	public int calculateDaysDifference(Date start, Date end) {
