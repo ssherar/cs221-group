@@ -1,7 +1,28 @@
 package uk.ac.aber.dcs.cs221.n15.Controller;
 
-public class RequestDispatcher {
+import java.io.IOException;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class RequestDispatcher extends HttpServlet{
+
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		super.doGet(req, resp);
+	}
+
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		super.doPost(req, resp);
+	}
+	
 	public void requestDispatcher(String userID) {
 		
 	}
@@ -10,11 +31,11 @@ public class RequestDispatcher {
 		
 	}
 	
-	public void acceptFriendRequest(FriendRequest request) {
+	public void acceptFriendRequest(int requestId) {
 		
 	}
 	
-	public void declineFriendRequest(FriendRequest request) {
+	public void declineFriendRequest(int requestId) {
 		
 	}
 	
@@ -22,11 +43,11 @@ public class RequestDispatcher {
 		
 	}
 	
-	public void acceptFightRequest(FightRequest request) {
+	public void acceptFightRequest(int requestId) {
 		
 	}
 	
-	public void declineFightRequests(FightRequest request) {
+	public void declineFightRequests(int requestId) {
 		
 	}
 	
@@ -34,11 +55,11 @@ public class RequestDispatcher {
 		
 	}
 	
-	public void acceptBreedRequest(BreedRequest request) {
+	public void acceptBreedRequest(int requestId) {
 		
 	}
 	
-	public void rejectBreedRequest(BreedRequest request) {
+	public void rejectBreedRequest(int requestId) {
 		
 	}
 	
@@ -46,11 +67,13 @@ public class RequestDispatcher {
 		
 	}
 	
-	public void acceptBuyRequest(BuyRequest request) {
+	public void acceptBuyRequest(int requestId) {
 		
 	}
 	
-	public void declineBuyRequest(BuyRequest request) {
+	public void declineBuyRequest(int requestId) {
 		
 	}
+
+	
 }
