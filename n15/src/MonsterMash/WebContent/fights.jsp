@@ -13,7 +13,7 @@ if(user == null) {
 } 
 
  if(monsters==null) monsters = new ArrayList<Monster>();
- if(fights==null) fights = new ArrayList<Fight>();
+ if(fights==null)  fights = new ArrayList<Fight>();
 
 %>
 <?xml version="1.0" encoding="UTF-8" ?>
@@ -79,13 +79,18 @@ if(user == null) {
 				<div id="fights_div" class="vertical_half">
 				<p class="title_half">Fights</p>
 				<% for(Fight fight : fights) { %>
-				<div class="fights_window">
+				<div class="fight_window">
 				<p>Fight between <%= fight.getMonster1() %> and <%= fight.getMonster2() %></p>
 				</div>
 				<% } %></div>
 				
 				<div id="requests_div" class="vertical_half">
-				<p class="title_half">Requests</p></div>
+				<p class="title_half">Requests</p>
+				<div class="request_window">
+				XYZ wants to fight you
+				<a>accept </a>|<a> decline</a>
+				</div>
+				</div>
 			</div>
 		</center>
 </body>
