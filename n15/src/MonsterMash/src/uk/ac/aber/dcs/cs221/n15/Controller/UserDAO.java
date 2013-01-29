@@ -24,13 +24,6 @@ public class UserDAO {
 	private EntityManagerFactory emf = Persistence.createEntityManagerFactory("MonsterMash");
 
 	
-	/**
-	 * Checks if the user exists depending on a users email and password
-	 * combination.
-	 * @param user The user model
-	 * @deprecated since v0.0.1
-	 * @return true if exists, false otherwise.
-	 */
 	public boolean userExists(User user) {
 		
 		String sql = "SELECT * FROM users where users.email='"+user.getUsername()+"'";
@@ -55,13 +48,7 @@ public class UserDAO {
 			return false;
 		}
 	}
-	
-	/**
-	 * Retrieves the monsters listed by a users id. It also checks if it's a
-	 * local username, and if so adds our identifier loc. 
-	 * @param ownerId the primary key of the database
-	 * @return the list of monsters. Can be null if there is no monsters.
-	 */
+
 	@SuppressWarnings("unchecked")
 	public List<Monster> loadMonsters(String ownerId) {
 		if(ownerId.charAt(3)!='.') ownerId = "loc." + ownerId;
@@ -70,11 +57,6 @@ public class UserDAO {
 		return ret;
 	}
 	
-	/**
-	 * Retrieves the amount of monsters a user has.
-	 * @param user the user model
-	 * @return the integer value of the count.
-	 */
 	public int countMonsters(User user){
 		Query query= emf.createEntityManager().createNativeQuery("SELECT COUNT(*) FROM monsters WHERE owner = '"+user.getId()+"'");
 		Long count = (Long)(query.getSingleResult());
@@ -96,11 +78,6 @@ public class UserDAO {
 		
 	}
 	
-	/**
-	 * Creates a new user.
-	 * @param uname the username of the user
-	 * @param pass the password of the user
-	 */
 	public void createUser(String uname, String pass){
 		try{
 			EntityManager em = emf.createEntityManager();
@@ -114,12 +91,6 @@ public class UserDAO {
 		}	
 	}
 	
-	/**
-	 * Checks if a user exists with the username and password given.
-	 * @param username the username
-	 * @param password the password
-	 * @return the model User if it exists in the database, null otherwise.
-	 */
 	public User authenticateUser(String username, String password){
 		try{
 			EntityManager em = emf.createEntityManager();
@@ -132,18 +103,12 @@ public class UserDAO {
 		return null;
 	}
 	
-	/**
-	 * Updates a users record and changes the password.
-	 * @param id the primary key of the record
-	 * @param password the password to be changed to
-	 * @return false if user doesn't exist, true otherwise.
-	 */
-	public boolean updateUser(String id, String password) {
+	public boolean updateUser(String username, String password) {
 		try {
 			EntityManager em = emf.createEntityManager();
 			UserTransaction transaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
 			transaction.begin();
-			User u = em.find(User.class, id);
+			User u = em.find(User.class, username);
 			if(u == null) return false;
 			u.setPassword(password);
 			em.merge(u);
@@ -155,11 +120,6 @@ public class UserDAO {
 		return true;
 	}
 	
-	/**
-	 * Finds a user with the given id. 
-	 * @param id the id of the record
-	 * @return the user object if exists, null otherwise
-	 */
 	public User findUser(String id){
 		try{
 			EntityManager em = emf.createEntityManager();
@@ -173,13 +133,6 @@ public class UserDAO {
 		return null;
 	}
 	
-	/**
-	 * Retrieves the serialized list of friends from the
-	 * users database, and returns the user objects of each
-	 * friend.
-	 * @param user the user model we are using to find friends
-	 * @return an array of Users.
-	 */
 	public User[] retrieveFriends(User user){
 		EntityManager em = emf.createEntityManager();
 		String[] ids = user.getFriends().split(";");
@@ -190,33 +143,29 @@ public class UserDAO {
 		return users;
 	}
 	
-	/**
-	 * Retrieves the list of friends from the database, and
-	 * populates the data into an array list.
-	 * @param u
-	 * @return
-	 */
 	public ArrayList<Friend> getFriends(User u){
 		EntityManager em = emf.createEntityManager();
 		ArrayList<Friend> friends = new ArrayList<Friend>();
 		String flist = u.getFriends();
 		if(flist.length()==0){
+			System.out.println("NO FRIENDS!");
 			return friends;
 		}
 		String[] ids = u.getFriends().split(";");
 		for(String id : ids){
 			User f = em.find(User.class, id);
-			friends.add(new Friend(f.getId(), f.getMoney(), this.countMonsters(f)));
+			friends.add(new Friend(f.getId(), f.getMoney(), countMonsters(f)));
 		}
-
+		
+		for(Friend f : friends){
+			System.out.println("Name: "+f.getName()+" Money: "+f.getMoney());
+		}
 		return friends;
 	}
 	
-	/**
-	 * Checks if two users are friends.
-	 * @param userIdOne the id of the first user
-	 * @param userIdTwo the id of the second user
-	 * @return true if they are, false otherwise
+	/*
+	 * Returns true if two users are friends, i. e. when one has the other one 
+	 * in his friends list. If not, returns false.
 	 */
 	public boolean checkFriendship(String userIdOne, String userIdTwo){
 		EntityManager em = emf.createEntityManager();
