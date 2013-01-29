@@ -22,6 +22,7 @@ public class UserDAO {
 	
 	@PersistenceContext(unitName="MonsterMash")
 	private EntityManagerFactory emf = Persistence.createEntityManagerFactory("MonsterMash");
+
 	
 	public boolean userExists(User user) {
 		
@@ -144,4 +145,17 @@ public class UserDAO {
 		}
 		return friends;
 	}
+	
+	/*
+	 * Returns true if two users are friends, i. e. when one has the other one 
+	 * in his friends list. If not, returns false.
+	 */
+	public boolean checkFriendship(String userIdOne, String userIdTwo){
+		EntityManager em = emf.createEntityManager();
+		User friend1 = em.find(User.class, userIdOne);
+		if(friend1==null) return false;
+		if(friend1.getFriends().contains(userIdTwo)) return true;
+		return false;
+	}
+
 }

@@ -88,11 +88,14 @@ else System.out.println("JSP: friends is NOT null");
 				<hr class="horizontal_spacer" />
 				
 				
-			
-			
 			<p class="profile_title"><%= friend.getUsername() %></p>
 			<p class="align_left">Wealth: <%= friend.getMoney() %></p>
-			<p class="align_right"><a>Send friendship request</a></p>
+			
+			<% if(udao.checkFriendship(user.getId(), f_id)){ %>
+			<p class="align_right"><a>Remove from friends</a></p>	
+			<%}else{ %>		
+			<p class="align_right"><a>Send friendship request</a></p>	
+			<%} %>			
 						
 			<% if(friendsMonsters!=null) for(Monster m : friendsMonsters) {%>
 			
