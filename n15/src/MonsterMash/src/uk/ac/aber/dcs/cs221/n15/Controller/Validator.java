@@ -17,4 +17,12 @@ public class Validator {
 		}
 		return hashedPassword;
 	}
+	
+	public static boolean checkLength(String message, int length) {
+		return (message.length() >= length);
+	}
+	
+	public static boolean checkPassword(String password, String confirmPassword) {
+		return (password.equals(confirmPassword));
+	}
 }
