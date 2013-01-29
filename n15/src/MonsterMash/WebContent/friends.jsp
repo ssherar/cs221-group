@@ -108,25 +108,8 @@ else System.out.println("JSP: friends is NOT null");
 				NotificationManager nm = new NotificationManager(user);
 			%>
 			<%=nm.getNotifications(RequestType.FRIEND_REQUEST) %>
-			
-<!-- 			<div class="request_window"> -->
-<!-- 			ForeverAlone wants to be friends with you!<br/> -->
-<!-- 			<a>accept </a>|<a> decline</a> -->
-<!-- 			</div> -->
-			
-<!-- 			<div class="request_window"> -->
-<!-- 			FriendSomeone accepted your invitation. -->
-<!-- 			<img src="img/close.png" width="10px" /> -->
-<!-- 			</div> -->
-			
-<!-- 			<div class="request_window"> -->
-<!-- 			DontLikeU declined your invitation. -->
-<!-- 			<img src="img/close.png" width="10px" /> -->
-<!-- 			</div> -->
-			
-<!-- 			<div class="request_window"> -->
-<!-- 			Sent invitation to AwesomeFriend,<br/> waiting for response. -->
-<!-- 			</div> -->
+			<%=nm.getNotifications(RequestType.ACCEPTED_FRIENDSHIP) %>
+			<%=nm.getNotifications(RequestType.DECLINED_FRIENDSHIP) %>
 			
 			
 			

@@ -7,6 +7,9 @@ public class Friend {
 	private int numberOfMonsters;
 	private int money;
 	
+	public Friend(){
+		
+	}
 	public Friend(String id, int money, int nOfMonsters){
 		this.id = id;
 		this.name = id.substring(4);

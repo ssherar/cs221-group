@@ -48,4 +48,41 @@ public class RequestDAO {
 		return q.getResultList();
 	}
 	
+	public void updateRequestType(int requestId, RequestType type){
+		try{
+			em = emf.createEntityManager();
+			UserTransaction transaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
+			transaction.begin();
+			Request r = em.find(Request.class, requestId);
+			System.out.println("Found request " + r.getId());
+			r.setType(type);
+			transaction.commit();
+		}catch(Exception ex){ 
+			
+		}
+	}
+	
+	public void deleteRequest(int requestId){
+		try{
+			em = emf.createEntityManager();
+			UserTransaction transaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
+			transaction.begin();
+			Request r = em.find(Request.class, requestId);
+			em.remove(r);
+			transaction.commit();
+		}catch(Exception ex){ 
+			
+		}
+	}
+	
+	public Request getRequest(int requestId){
+		try{
+			em = emf.createEntityManager();
+			Request r = em.find(Request.class, requestId);
+			return r;
+		}catch(Exception ex){ 
+			System.out.print(ex);
+			return null;
+		}
+	}
 }

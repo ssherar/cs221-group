@@ -121,6 +121,7 @@ public class UserDAO {
 		String[] ids = user.getFriends().split(";");
 		User[] users = new User[ids.length];
 		for(int i = 0; i < ids.length; i++){
+			if(ids[i].length()>1) 
 			users[i] = em.find(User.class, ids[i]);
 		}
 		return users;
@@ -158,6 +159,26 @@ public class UserDAO {
 		return false;
 	}
 	
+	public boolean addFriendship(String userIdOne,String userIdTwo){
+		try {
+			EntityManager em = emf.createEntityManager();
+			UserTransaction transaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
+			transaction.begin();
+			User one = em.find(User.class, userIdOne);
+			User two = em.find(User.class, userIdTwo);
+			if(one==null || two==null) return false;
+			
+			one.setFriends(one.getFriends()+two.getId()+";");
+			two.setFriends(two.getFriends()+one.getId()+";");
+			transaction.commit();
+
+		} catch(Exception ex) {
+			System.out.print(ex);
+			return false;
+		}
+		return true;
+	}
+	
 	public boolean updateUser(String username, String password) {
 		try {
 			EntityManager em = emf.createEntityManager();
@@ -170,6 +191,7 @@ public class UserDAO {
 			transaction.commit();
 
 		} catch(Exception ex) {
+			System.out.print(ex);
 			return false;
 		}
 		return true;

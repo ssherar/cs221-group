@@ -1,6 +1,7 @@
 package uk.ac.aber.dcs.cs221.n15.Controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import uk.ac.aber.dcs.cs221.n15.Model.Friend;
 import uk.ac.aber.dcs.cs221.n15.Model.User;
 
 
@@ -16,6 +18,7 @@ import uk.ac.aber.dcs.cs221.n15.Model.User;
 public class RequestDispatcherServlet extends HttpServlet{
 
 	User user;
+	RequestDAO rdao = new RequestDAO();
 	/*
 	 * To send a request :
 	 * action=send
@@ -23,12 +26,15 @@ public class RequestDispatcherServlet extends HttpServlet{
 	 * type (int)
 	 * 
 	 * To respond to a request :
-	 * action=response
+	 * action=respond
 	 * requestid (int)
 	 * type (int)
 	 * 
-	 * Optional:
+	 * To dismiss a notification/request
+	 * action=dismiss
+	 * requestid (int)
 	 * 
+	 * Optional:
 	 * content = string
 	 * 
 	 * (non-Javadoc)
@@ -43,6 +49,8 @@ public class RequestDispatcherServlet extends HttpServlet{
 		if(user==null) resp.sendRedirect("index.jsp");
 		
 		String action = req.getParameter("action");
+		
+		
 		if(action.equals("send")){
 			String targetId = req.getParameter("targetid");
 			int type = Integer.parseInt(req.getParameter("type"));
@@ -52,6 +60,34 @@ public class RequestDispatcherServlet extends HttpServlet{
 				sendFriendRequest(targetId);
 				resp.sendRedirect("friends.jsp");
 			}
+		}else if(action.equals("accept")){
+			int requestId = Integer.parseInt(req.getParameter("requestid"));
+			int type = Integer.parseInt(req.getParameter("type"));
+			switch(type){
+			case 1:
+				//Accept Friend request
+				rdao.updateRequestType(requestId, RequestType.ACCEPTED_FRIENDSHIP);
+				UserDAO udao = new UserDAO();
+				Request r = rdao.getRequest(requestId);
+				udao.addFriendship(user.getId(), r.getSourceID());
+				ArrayList<Friend> friends = udao.getFriends(user);
+				s.removeAttribute("friends");
+				s.setAttribute("friends", friends);
+				resp.sendRedirect("friends.jsp");
+			}
+		}else if(action.equals("decline")){
+			int requestId = Integer.parseInt(req.getParameter("requestid"));
+			int type = Integer.parseInt(req.getParameter("type"));
+			switch(type){
+			case 2:
+				//Decline Friend request
+				declineFriendRequest(requestId);
+				resp.sendRedirect("friends.jsp");
+			}
+		}else if(action.equals("dismiss")){
+			int requestId = Integer.parseInt(req.getParameter("requestid"));
+			rdao.deleteRequest(requestId);
+			resp.sendRedirect("friends.jsp");
 		}
 		
 	}
@@ -68,7 +104,6 @@ public class RequestDispatcherServlet extends HttpServlet{
 	}
 	
 	public void sendFriendRequest(String friendId) {
-		RequestDAO rdao = new RequestDAO();
 		rdao.createRequest(user.getId(), friendId, RequestType.FRIEND_REQUEST, null);
 	}
 	
@@ -77,7 +112,7 @@ public class RequestDispatcherServlet extends HttpServlet{
 	}
 	
 	public void declineFriendRequest(int requestId) {
-		
+		rdao.updateRequestType(requestId, RequestType.DECLINED_FRIENDSHIP);
 	}
 	
 	public void sendFightRequest(String monsterID, String friendMonsterID) {
