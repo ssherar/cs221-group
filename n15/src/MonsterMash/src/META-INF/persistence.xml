@@ -6,5 +6,6 @@
 		<class>uk.ac.aber.dcs.cs221.n15.Model.Monster</class>
 		<class>uk.ac.aber.dcs.cs221.n15.Model.MonsterFightRequests</class>
 		<class>uk.ac.aber.dcs.cs221.n15.Model.User</class>
+		<class>uk.ac.aber.dcs.cs221.n15.Controller.Request</class>
 	</persistence-unit>
 </persistence>
