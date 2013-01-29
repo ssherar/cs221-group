@@ -81,6 +81,13 @@ MonsterDAO mdao = new MonsterDAO();
 				<br/>
 				<hr class="horizontal_spacer" />
 				<div>
+				<p class="title_half">Finished Battles</p>
+				<% for (Fight fight : fights) {%>
+				<div class="request_window">Your monster lost|won. Your|Their monster took xyz damage.</div>
+				<!-- Needs split to check which monster is whos -->
+				<% } %>
+				</div>
+				<div>
 				<p class="title_half" >Requests</p>
 				<% ArrayList<MonsterFightRequests> reqs = new ArrayList<MonsterFightRequests>();
 				MonsterFightRequests test = new MonsterFightRequests();
@@ -124,40 +131,7 @@ MonsterDAO mdao = new MonsterDAO();
 				</div>
 				<% } %>
 				</div>
-				<div>
-				<p class="title_half">Finished Battles</p>
-				<% for (Fight fight : fights) {%>
-				<% /*TODO:BattleStats*/ %>
-				<% } %>
-				<p>ATT lost!</p>
-				<div class="monster_window">
-					<div class="monster_description">
-					<p class="monster_name"><%= "ATT" %></p>
-					Born: <%= "NEVER"/*DateFormat.getInstance().format(attmob.getDob())*/ %><br/>
-					<table class="monster_stats">
-						<tr><td>health:</td><td><%= 0 %></td></tr>
-						<tr><td>strength:</td><td><%= 1 %></td></tr>
-						<tr><td>aggression:</td><td><%= 1 %></td></tr>
-						<tr><td>fertility:</td><td><%= 1 %></td></tr>
-					</table>
-					</div>
-					<div class="monster_actions_menu">fight prize: $200</div>
-				</div>
-				<div class="vs_text">VS</div>
-				<div class="monster_window">
-					<div class="monster_description">
-					<p class="monster_name"><%= "DEF" %></p>
-					Born: <%= "NEVER"/*DateFormat.getInstance().format(defmob.getDob())*/ %><br/>
-					<table class="monster_stats">
-						<tr><td>health:</td><td><%= 20 %></td></tr>
-						<tr><td>strength:</td><td><%= 1 %></td></tr>
-						<tr><td>aggression:</td><td><%= 1 %></td></tr>
-						<tr><td>fertility:</td><td><%= 1 %></td></tr>
-					</table>
-					</div>
-					<div class="monster_actions_menu">fight prize: $200</div>
-				</div>
-				</div>
+				
 			</div>
 		</center>
 </body>
