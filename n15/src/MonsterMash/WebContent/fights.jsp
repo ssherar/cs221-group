@@ -7,6 +7,7 @@
 <% HttpSession s = request.getSession(false);
 User user = (User)(s.getAttribute("currentUser"));
 List<Monster> monsters = (List<Monster>)(s.getAttribute("monsters"));
+List<Fight> fights = (List<Fight>)(s.getAttribute("fights"));
 if(user == null) {
 	response.sendRedirect("index.jsp"); 
 } 
@@ -74,7 +75,10 @@ if(user == null) {
 				</div>
 				<br/>
 				<hr class="horizontal_spacer" />
-				<p class="title">Fight</p>
+				<div id="fights_div" class="vertical_half">
+				<p class="title_half">Fights</p></div>
+				<div id="requests_div" class="vertical_half">
+				<p class="title_half">Requests</p></div>
 			</div>
 		</center>
 </body>
