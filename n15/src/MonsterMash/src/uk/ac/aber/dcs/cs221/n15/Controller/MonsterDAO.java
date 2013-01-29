@@ -153,4 +153,8 @@ public class MonsterDAO {
 		return endCal.get(Calendar.DAY_OF_YEAR);
 	}
 	
+	public int calculateDaysDifference(Date start) {
+		return calculateDaysDifference(start, new Date());
+	}
+	
 }
