@@ -17,6 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import uk.ac.aber.dcs.cs221.n15.Controller.MonsterDAO;
+import uk.ac.aber.dcs.cs221.n15.Controller.RequestDAO;
+import uk.ac.aber.dcs.cs221.n15.Controller.RequestType;
 import uk.ac.aber.dcs.cs221.n15.Controller.UserDAO;
 import uk.ac.aber.dcs.cs221.n15.Model.Friend;
 import uk.ac.aber.dcs.cs221.n15.Model.Monster;
@@ -37,13 +39,15 @@ public class LoginServlet extends HttpServlet {
     public LoginServlet() {
         super();
         dao = new UserDAO();
-        // TODO Auto-generated constructor stub
+        
     }
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		RequestDAO rdao = new RequestDAO(); 
+		rdao.createRequest("test", "test", RequestType.ACCEPT_BREED_OFFER, null);
 		String hashedPassword = "";
 		try {
 			MessageDigest md = MessageDigest.getInstance("MD5");

@@ -131,7 +131,6 @@ public class UserDAO {
 		ArrayList<Friend> friends = new ArrayList<Friend>();
 		String flist = u.getFriends();
 		if(flist.length()==0){
-			System.out.println("NO FRIENDS!");
 			return friends;
 		}
 		String[] ids = u.getFriends().split(";");
@@ -140,9 +139,6 @@ public class UserDAO {
 			friends.add(new Friend(f.getId(), f.getMoney(), countMonsters(f)));
 		}
 		
-		for(Friend f : friends){
-			System.out.println("Name: "+f.getName()+" Money: "+f.getMoney());
-		}
 		return friends;
 	}
 	

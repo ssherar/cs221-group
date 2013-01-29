@@ -93,8 +93,10 @@ else System.out.println("JSP: friends is NOT null");
 			
 			<% if(udao.checkFriendship(user.getId(), f_id)){ %>
 			<p class="align_right"><a>Remove from friends</a></p>	
-			<%}else{ %>		
-			<p class="align_right"><a>Send friendship request</a></p>	
+			<%}else{ 
+			String url ="RequestDispatcherServlet?action=send&targetid="+f_id+"&type=0";
+			%>		
+			<p class="align_right"><a href="<%=url %>">Send friendship request</a></p>	
 			<%} %>			
 						
 			<% if(friendsMonsters!=null) for(Monster m : friendsMonsters) {%>
