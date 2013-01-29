@@ -75,16 +75,6 @@ if(monsters==null) monsters = new ArrayList<Monster>();%>
 			<hr class="horizontal_spacer" />
 			
 			<p class="title">Edit Account</p>
-			<%
-			if(s != null) {
-				if(s.getAttribute("message") != null) {
-					%>
-					<%= s.getAttribute("message") %>
-					<%
-					s.removeAttribute("message");
-				}
-			}
-			%>
 			<form action="EditUserServlet" method="post" name="editForm">
 			<table>
 			<tr><td>current password: </td><td><input type="password" name="curPass"></input></td></tr>

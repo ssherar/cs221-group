@@ -17,6 +17,7 @@
 
 <center>
 <% HttpSession s = request.getSession();
+String message = "";
 if(s != null) {
 	if(s.getAttribute("message") != null) {
 		%>
