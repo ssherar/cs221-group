@@ -9,4 +9,14 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  <servlet>
+    <description></description>
+    <display-name>EditUserServlet</display-name>
+    <servlet-name>EditUserServlet</servlet-name>
+    <servlet-class>uk.ac.aber.dcs.cs221.n15.View.EditUserServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EditUserServlet</servlet-name>
+    <url-pattern>/EditUserServlet</url-pattern>
+  </servlet-mapping>
 </web-app>
