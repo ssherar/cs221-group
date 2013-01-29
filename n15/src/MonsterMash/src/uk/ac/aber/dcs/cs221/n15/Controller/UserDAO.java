@@ -137,24 +137,12 @@ public class UserDAO {
 		String[] ids = u.getFriends().split(";");
 		for(String id : ids){
 			User f = em.find(User.class, id);
-<<<<<<< HEAD
-<<<<<<< HEAD
-			friends.add(new Friend(f.getId(), f.getMoney(), countMonsters(f)));
-		}
-		
-=======
-			friends.add(new Friend(f.getId(), f.getMoney(), this.countMonsters(f)));
-		}
-
->>>>>>> f547cf4ee7be8f87dcb432447bc6b5348bf7d011
-=======
 			friends.add(new Friend(f.getId(), f.getMoney(), countMonsters(f)));
 		}
 		
 		for(Friend f : friends){
 			System.out.println("Name: "+f.getName()+" Money: "+f.getMoney());
 		}
->>>>>>> a0d2540713da680db872603edb533eb9d1e72b9e
 		return friends;
 	}
 	
@@ -169,5 +157,23 @@ public class UserDAO {
 		if(friend1.getFriends().contains(userIdTwo)) return true;
 		return false;
 	}
+	
+	public boolean updateUser(String username, String password) {
+		try {
+			EntityManager em = emf.createEntityManager();
+			UserTransaction transaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
+			transaction.begin();
+			User u = em.find(User.class, username);
+			if(u == null) return false;
+			u.setPassword(password);
+			em.merge(u);
+			transaction.commit();
+
+		} catch(Exception ex) {
+			return false;
+		}
+		return true;
+	}
+
 
 }
