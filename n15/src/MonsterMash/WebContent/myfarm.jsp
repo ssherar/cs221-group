@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"
     import="uk.ac.aber.dcs.cs221.n15.Model.*"
+    import="uk.ac.aber.dcs.cs221.n15.Controller.MonsterDAO"
     import="java.util.*"
     import="java.text.DateFormat" %>
  
@@ -87,7 +88,7 @@ function rename(id) {
 			
 			
 			<p class="title">My Monster Farm</p>
-			
+			<% MonsterDAO mdao = new MonsterDAO(); %>
 			<% if(monsters!=null) for(Monster m : monsters) {%>
 			
 			<div class="monster_window">
@@ -97,9 +98,13 @@ function rename(id) {
 						<img src="img/female.png" width="20px" />
 					<%} else{%>
 						<img src="img/male.png" width="20px" />
-					<%}%>
+					<%}
+					
+					int age = mdao.calculateDaysDifference(m.getDob());
+					%>
 					</p>
-					Born: <%= DateFormat.getInstance().format(m.getDob()) %><br/>
+					Age: <%=age  %> 
+					<%= age==1 ? "day<br/>" : "days<br/>" %>
 					<table class="monster_stats">
 						<tr><td>health:</td><td><%= m.getHealth() %></td></tr>
 						<tr><td>strength:</td><td><%= m.getStrength() %></td></tr>

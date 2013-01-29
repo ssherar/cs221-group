@@ -103,7 +103,11 @@ else System.out.println("JSP: friends is NOT null");
 				<% } }%>
 					
 						
-			<% if(friendsMonsters!=null) for(Monster m : friendsMonsters) {%>
+			<% if(friendsMonsters!=null){
+				MonsterDAO mdao = new MonsterDAO();
+				mdao.ageMonsters(friendsMonsters);
+				
+				for(Monster m : friendsMonsters){%>
 			
 			<div class="monster_window">
 				<div class="monster_description">
@@ -114,7 +118,7 @@ else System.out.println("JSP: friends is NOT null");
 						<img src="img/male.png" width="20px" />
 					<%}%>
 					</p>
-					Born: <%= DateFormat.getInstance().format(m.getDob()) %><br/>
+					Age: <%= mdao.calculateDaysDifference(m.getDob()) %> day(s)<br/>
 					<table class="monster_stats">
 						<tr><td>health:</td><td><%= m.getHealth() %></td></tr>
 						<tr><td>strength:</td><td><%= m.getStrength() %></td></tr>
@@ -134,7 +138,9 @@ else System.out.println("JSP: friends is NOT null");
 			
 			
 			</div>
-			<% } %>
+			<% } }else{%>
+			<p>User has no monsters.</p>
+			<%} %>
 			
 			
 			

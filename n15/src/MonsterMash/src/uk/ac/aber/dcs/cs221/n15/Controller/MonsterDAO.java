@@ -31,26 +31,24 @@ public class MonsterDAO {
 	public MonsterDAO(){
 	}
 	
-	public void createMonster(String name, String ownerId){
-		em = emf.createEntityManager();
-		Random r = new Random();
-		Monster m = new Monster("" +r.nextInt(), ownerId);
-		m.setDob(new Date());
-		m.setAggression(r.nextInt(100)+1);
-		m.setStrength(r.nextInt(100)+1);
-		m.setFertility(r.nextInt(100)+1);
-		m.setHealth(r.nextInt(100)+1);
-		m.setGender(r.nextBoolean() ? 'M' : 'F');
-
+	public void persistMonster(Monster m){
 		try{
+			em = emf.createEntityManager();
 			UserTransaction transaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
 			transaction.begin();
+			Date dob = m.getDob();
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(dob);
+			cal.set(Calendar.HOUR_OF_DAY, 0);
+			cal.set(Calendar.MINUTE, 0);
+			cal.set(Calendar.MILLISECOND, 0);
+			m.setDob(cal.getTime());
+			
 			em.persist(m);
 			transaction.commit();
 		}catch(Exception ex){ 
 			
 		}
-		
 	}
 	
 	public void renameMonster(String monsterID, String newName){
