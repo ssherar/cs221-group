@@ -7,6 +7,7 @@
 <title>Monster Mash - Registration</title>
 <link rel="stylesheet" type="text/css" href="style.css" />
 <link href='http://fonts.googleapis.com/css?family=Eater|Skranji|Sanchez|Piedra|Carter+One|Slackey' rel='stylesheet' type='text/css' />
+<script type="text/javascript" src="js/validation.js"></script>
 </head>
 <body>
 <br></br>
@@ -29,25 +30,25 @@ if(s != null) {
 }
 %>
 
-<form action="RegisterServlet" method="post" name="registerForm">
+<form action="RegisterServlet" method="post" name="registerForm" onsubmit="return false;">
 <br/><br/>
 		<table>
 			<tr>
 			<td>email address: </td>
-			<td><input type="text" name="email"></input></td>
+			<td><input type="text" name="email" class="required" data-minlength="6"></input></td>
 			</tr>
 			<tr>
 			<td>password: </td>
-			<td><input type="password" name="password"></input></td>
+			<td><input type="password" name="password" class="required password_confirm"  data-minlength="6"></input></td>
 			</tr>
 			<tr>
 			<td>confirm password: </td>
-			<td><input type="password" name="confirmpassword"></input></td>
+			<td><input type="password" name="confirmpassword" class="required password_confirm" data-minlength="6"></input></td>
 			</tr>
 		</table>
 		<br/> 
-		<a class="title" href="JAVASCRIPT:registerForm.submit()" >REGISTER</a><br  />
-	<!-- 	<input type="button" name="dupa" value="CREATE NEW ACCOUNT"/> -->
+		<input class="title" type="submit"/>
+		<a class="title" href="JAVASCRIPT:validate(registerForm);" >REGISTER</a><br  />
 </form>
 </center>
 
