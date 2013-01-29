@@ -92,12 +92,16 @@ else System.out.println("JSP: friends is NOT null");
 			<p class="align_left">Wealth: <%= friend.getMoney() %></p>
 			
 			<% if(udao.checkFriendship(user.getId(), f_id)){ %>
-			<p class="align_right"><a>Remove from friends</a></p>	
+				<p class="align_right"><a>Remove from friends</a></p>	
 			<%}else{ 
-			String url ="RequestDispatcherServlet?action=send&targetid="+f_id+"&type=0";
-			%>		
-			<p class="align_right"><a href="<%=url %>">Send friendship request</a></p>	
-			<%} %>			
+				RequestDAO rdao = new RequestDAO();
+				if(rdao.requestExists(user.getId(), f_id, RequestType.FRIEND_REQUEST)){%>
+					 <p class="align_right">Friendship request sent.</p>
+				<%}else{ 
+					String url ="RequestDispatcherServlet?action=send&targetid="+f_id+"&type=0";%>
+					<p class="align_right"><a href="<%=url %>">Send friendship request</a></p>
+				<% } }%>
+					
 						
 			<% if(friendsMonsters!=null) for(Monster m : friendsMonsters) {%>
 			

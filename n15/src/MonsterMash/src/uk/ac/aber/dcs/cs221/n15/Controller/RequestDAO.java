@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.UserTransaction;
 
@@ -84,5 +85,12 @@ public class RequestDAO {
 			System.out.print(ex);
 			return null;
 		}
+	}
+	
+	public boolean requestExists(String sourceId, String targetId, RequestType type){
+		String q = "SELECT COUNT(*) FROM requests WHERE sourceId = '"+sourceId+"' AND targetId = '"+targetId+"' AND type = "+type.ordinal();
+		Query query= emf.createEntityManager().createNativeQuery(q);
+		Long count = (Long)(query.getSingleResult());
+		return count==0? false :true;
 	}
 }
