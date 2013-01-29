@@ -2,7 +2,8 @@
     pageEncoding="ISO-8859-1"
     import="uk.ac.aber.dcs.cs221.n15.Model.*"
     import="java.util.*"
-    import="java.text.DateFormat" %>
+    import="java.text.DateFormat"
+    import="uk.ac.aber.dcs.cs221.n15.Controller.*" %>
  
 <% HttpSession s = request.getSession(false);
 User user = (User)(s.getAttribute("currentUser"));
@@ -14,6 +15,9 @@ if(user == null) {
 
  if(monsters==null) monsters = new ArrayList<Monster>();
  if(fights==null)  fights = new ArrayList<Fight>();
+ 
+MonsterDAO mdao = new MonsterDAO();
+
 
 %>
 <?xml version="1.0" encoding="UTF-8" ?>
@@ -76,19 +80,82 @@ if(user == null) {
 				</div>
 				<br/>
 				<hr class="horizontal_spacer" />
-				<div id="fights_div" class="vertical_half">
-				<p class="title_half">Fights</p>
-				<% for(Fight fight : fights) { %>
-				<div class="fight_window">
-				<p>Fight between <%= fight.getMonster1() %> and <%= fight.getMonster2() %></p>
+				<div>
+				<p class="title_half" >Requests</p>
+				<% ArrayList<MonsterFightRequests> reqs = new ArrayList<MonsterFightRequests>();
+				MonsterFightRequests test = new MonsterFightRequests();
+				reqs.add(test);
+				for (MonsterFightRequests req : reqs) { //TODO: Replace with getRequests() 
+					//Monster attmob = mdao.getMonster(req.getAttackingMonster());
+					//Monster defmob = mdao.getMonster(req.getDefendingMonster());
+					Monster attmob = new Monster();
+					attmob.setName("Test");
+					Monster defmob = new Monster();
+					defmob.setName("Feck");%>
+				<div class="monster_window">
+					<div class="monster_description">
+					<p class="monster_name"><%= attmob.getName() %></p>
+					Born: <%= "NEVER"/*DateFormat.getInstance().format(attmob.getDob())*/ %><br/>
+					<table class="monster_stats">
+						<tr><td>health:</td><td><%= attmob.getHealth() %></td></tr>
+						<tr><td>strength:</td><td><%= attmob.getStrength() %></td></tr>
+						<tr><td>aggression:</td><td><%= attmob.getAggression() %></td></tr>
+						<tr><td>fertility:</td><td><%= attmob.getFertility() %></td></tr>
+					</table>
+					</div>
+					<div class="monster_actions_menu">fight prize: $200</div>
 				</div>
-				<% } %></div>
-				
-				<div id="requests_div" class="vertical_half">
-				<p class="title_half">Requests</p>
-				<div class="request_window">
-				XYZ wants to fight you
+				<div class="vs_text">VS</div>
+				<div class="monster_window">
+					<div class="monster_description">
+					<p class="monster_name"><%= defmob.getName() %></p>
+					Born: <%= "NEVER"/*DateFormat.getInstance().format(defmob.getDob())*/ %><br/>
+					<table class="monster_stats">
+						<tr><td>health:</td><td><%= defmob.getHealth() %></td></tr>
+						<tr><td>strength:</td><td><%= defmob.getStrength() %></td></tr>
+						<tr><td>aggression:</td><td><%= defmob.getAggression() %></td></tr>
+						<tr><td>fertility:</td><td><%= defmob.getFertility() %></td></tr>
+					</table>
+					</div>
+					<div class="monster_actions_menu">fight prize: $200</div>
+				</div>
+				<div class="accept_decline">
 				<a>accept </a>|<a> decline</a>
+				</div>
+				<% } %>
+				</div>
+				<div>
+				<p class="title_half">Finished Battles</p>
+				<% for (Fight fight : fights) {%>
+				<% /*TODO:BattleStats*/ %>
+				<% } %>
+				<p>ATT lost!</p>
+				<div class="monster_window">
+					<div class="monster_description">
+					<p class="monster_name"><%= "ATT" %></p>
+					Born: <%= "NEVER"/*DateFormat.getInstance().format(attmob.getDob())*/ %><br/>
+					<table class="monster_stats">
+						<tr><td>health:</td><td><%= 0 %></td></tr>
+						<tr><td>strength:</td><td><%= 1 %></td></tr>
+						<tr><td>aggression:</td><td><%= 1 %></td></tr>
+						<tr><td>fertility:</td><td><%= 1 %></td></tr>
+					</table>
+					</div>
+					<div class="monster_actions_menu">fight prize: $200</div>
+				</div>
+				<div class="vs_text">VS</div>
+				<div class="monster_window">
+					<div class="monster_description">
+					<p class="monster_name"><%= "DEF" %></p>
+					Born: <%= "NEVER"/*DateFormat.getInstance().format(defmob.getDob())*/ %><br/>
+					<table class="monster_stats">
+						<tr><td>health:</td><td><%= 20 %></td></tr>
+						<tr><td>strength:</td><td><%= 1 %></td></tr>
+						<tr><td>aggression:</td><td><%= 1 %></td></tr>
+						<tr><td>fertility:</td><td><%= 1 %></td></tr>
+					</table>
+					</div>
+					<div class="monster_actions_menu">fight prize: $200</div>
 				</div>
 				</div>
 			</div>
