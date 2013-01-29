@@ -29,3 +29,7 @@ ehthumbs.db
 *.log
 *.toc
 
+
+n15/src/MonsterMash/.settings/org.eclipse.jpt.entitygen.mysql.csgp15_12_13
+
+n15/src/MonsterMash/src/META-INF/persistence.xml
