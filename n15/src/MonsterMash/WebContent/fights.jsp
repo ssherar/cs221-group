@@ -22,18 +22,9 @@ if(user == null) {
 <title>Monster mash</title>
 <link rel="stylesheet" type="text/css" href="style.css" />
 <link href='http://fonts.googleapis.com/css?family=Eater|Skranji|Sanchez|Piedra|Carter+One|Slackey' rel='stylesheet' type='text/css' />
-<script>
-function rename(id) {
-	var newname = prompt("What would you like to rename your monster to?", "");
-	if (newname != null && newname != "") {
-		//CallRename
-		document.location = "RenameServlet?monsterId="+id+"&newName="+newname;
-	}	
-}
-</script>
 </head>
 <body>
-	<center>
+<center>
 		<div id="main">
 			<div id="upper_div">
 
@@ -83,46 +74,8 @@ function rename(id) {
 				</div>
 				<br/>
 				<hr class="horizontal_spacer" />
-				
-			
-			
-			<p class="title">My Monster Farm</p>
-			
-			<% if(monsters!=null) for(Monster m : monsters) {%>
-			
-			<div class="monster_window">
-				<div class="monster_description">
-					<p class="monster_name"><%= m.getName() %>
-					<%if(m.getGender()=='F') { %>
-						<img src="img/female.png" width="20px" />
-					<%} else{%>
-						<img src="img/male.png" width="20px" />
-					<%}%>
-					</p>
-					Born: <%= DateFormat.getInstance().format(m.getDob()) %><br/>
-					<table class="monster_stats">
-						<tr><td>health:</td><td><%= m.getHealth() %></td></tr>
-						<tr><td>strength:</td><td><%= m.getStrength() %></td></tr>
-						<tr><td>aggression:</td><td><%= m.getAggression() %></td></tr>
-						<tr><td>fertility:</td><td><%= m.getFertility() %></td></tr>
-					</table>
-					
-				</div>
-				
-				<div class="monster_actions_menu">
-					<a href="JAVASCRIPT:rename('<%= m.getId() %>')">rename</a><br/>
-					<a>offer for sale</a><br/>
-					<a>offer for breeding</a><br/>
-					<br/>
-					fight prize: $200
-				</div>
-			
-			
+				<p class="title">Fight</p>
 			</div>
-			<% } %>
-			
-			
-		</div>
-	</center>
+		</center>
 </body>
 </html>
