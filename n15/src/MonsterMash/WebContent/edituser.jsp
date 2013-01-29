@@ -20,6 +20,7 @@ if(monsters==null) monsters = new ArrayList<Monster>();%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="stylesheet" type="text/css" href="style.css" />
 <link href='http://fonts.googleapis.com/css?family=Eater|Skranji|Sanchez|Piedra|Carter+One|Slackey' rel='stylesheet' type='text/css' />
+<script type="text/javascript" src="js/validation.js"></script>
 <title>Monster Mash</title>
 </head>
 <body>
@@ -88,10 +89,10 @@ if(monsters==null) monsters = new ArrayList<Monster>();%>
 			<form action="EditUserServlet" method="post" name="editForm">
 			<table>
 			<tr><td>current password: </td><td><input type="password" name="curPass"></input></td></tr>
-			<tr><td>new password: </td><td><input type="password" name="newPass"></input></td></tr>
-			<tr><td>confirm password: </td><td><input type="password" name="confPass"></input></td></tr>
+			<tr><td>new password: </td><td><input type="password" name="newPass" class="password_confirm" data-minlength="6"></input></td></tr>
+			<tr><td>confirm password: </td><td><input type="password" name="confPass" class="password_confirm" data-minlength="6"></input></td></tr>
 			</table>
-			<a class="title_half" href="JAVASCRIPT:editForm.submit()">CHANGE</a>
+			<a class="title_half" href="JAVASCRIPT:validate(editForm);" >CHANGE</a>
 			</form>
 		</div>
 		</center>
