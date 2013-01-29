@@ -103,23 +103,6 @@ public class UserDAO {
 		return null;
 	}
 	
-	public boolean updateUser(String username, String password) {
-		try {
-			EntityManager em = emf.createEntityManager();
-			UserTransaction transaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
-			transaction.begin();
-			User u = em.find(User.class, username);
-			if(u == null) return false;
-			u.setPassword(password);
-			em.merge(u);
-			transaction.commit();
-			
-		} catch(Exception ex) {
-			return false;
-		}
-		return true;
-	}
-	
 	public User findUser(String id){
 		try{
 			EntityManager em = emf.createEntityManager();
