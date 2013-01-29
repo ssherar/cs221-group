@@ -188,7 +188,7 @@ a:active, a:link, a:visited{
 	margin-bottom: 2px;
 }
 
-#friends_div{
+#friends_div,#fights_div{
 	width: 60%;
 }
 

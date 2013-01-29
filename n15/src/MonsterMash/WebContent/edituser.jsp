@@ -65,7 +65,7 @@ if(monsters==null) monsters = new ArrayList<Monster>();%>
 				</div>
 				
 				<div id="login_info">
-				Logged as: <%= user.getUsername() %> 
+				Logged as:<a href="edituser.jsp"><%= user.getUsername() %></a> 
 				<a href="LoginServlet?logout"><img id="logout_icon" src="img/logout.png"  height="15px" /></a>
 				</div>
 					
@@ -75,11 +75,11 @@ if(monsters==null) monsters = new ArrayList<Monster>();%>
 			<hr class="horizontal_spacer" />
 			
 			<p class="title">Edit Account</p>
-			<form action="EditServlet" method="post" name="editForm">
+			<form action="EditUserServlet" method="post" name="editForm">
 			<table>
+			<tr><td>current password: </td><td><input type="password" name="curPass"></input></td></tr>
 			<tr><td>new password: </td><td><input type="password" name="newPass"></input></td></tr>
 			<tr><td>confirm password: </td><td><input type="password" name="confPass"></input></td></tr>
-			<tr><td>current password: </td><td><input type="password" name="curPass"></input></td></tr>
 			</table>
 			<a class="title_half" href="JAVASCRIPT:editForm.submit()">CHANGE</a>
 			</form>

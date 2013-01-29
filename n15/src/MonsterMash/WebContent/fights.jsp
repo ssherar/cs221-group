@@ -7,11 +7,13 @@
 <% HttpSession s = request.getSession(false);
 User user = (User)(s.getAttribute("currentUser"));
 List<Monster> monsters = (List<Monster>)(s.getAttribute("monsters"));
+List<Fight> fights = (List<Fight>)(s.getAttribute("fights"));
 if(user == null) {
 	response.sendRedirect("index.jsp"); 
 } 
 
  if(monsters==null) monsters = new ArrayList<Monster>();
+ if(fights==null) fights = new ArrayList<Fight>();
 
 %>
 <?xml version="1.0" encoding="UTF-8" ?>
@@ -66,7 +68,7 @@ if(user == null) {
 					</div>
 					
 					<div id="login_info">
-					Logged as: <%= user.getUsername() %> 
+					Logged as: <a href="edituser.jsp"><%= user.getUsername() %></a>
 					<a href="LoginServlet?logout"><img id="logout_icon" src="img/logout.png"  height="15px" /></a>
 					</div>
 					
@@ -74,7 +76,16 @@ if(user == null) {
 				</div>
 				<br/>
 				<hr class="horizontal_spacer" />
-				<p class="title">Fight</p>
+				<div id="fights_div" class="vertical_half">
+				<p class="title_half">Fights</p>
+				<% for(Fight fight : fights) { %>
+				<div class="fights_window">
+				<p>Fight between <%= fight.getMonster1() %> and <%= fight.getMonster2() %></p>
+				</div>
+				<% } %></div>
+				
+				<div id="requests_div" class="vertical_half">
+				<p class="title_half">Requests</p></div>
 			</div>
 		</center>
 </body>

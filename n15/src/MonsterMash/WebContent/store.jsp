@@ -52,7 +52,7 @@
 					</div>
 					
 					<div id="login_info">
-					Logged as: Kamil 
+					Logged as:<a href="edituser.jsp"><% //user.getUsername() %></a> 
 					<img id="logout_icon" src="img/logout.png"  height="15px" />
 					</div>
 					

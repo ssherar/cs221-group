@@ -69,7 +69,7 @@ else System.out.println("JSP: friends is NOT null");
 					</div>
 					
 					<div id="login_info">
-					Logged as: <%= user.getUsername() %> 
+					Logged as: <a href="edituser.jsp"><%= user.getUsername() %></a>
 					<a href="LoginServlet?logout"><img id="logout_icon" src="img/logout.png"  height="15px" /></a>
 					</div>
 					
@@ -98,7 +98,7 @@ else System.out.println("JSP: friends is NOT null");
 			<div id="request_div" class="vertical_half">
 			<p class="title_half">Find a friend</p>
 			<form action="profile.jsp">
-				<input name="id" type="text" size="30" value="Type friend's username" onClick="this.value=''"/>
+				<input name="id" type="text" size="30" value="Type friend's username" onClick="if(this.value == 'Type friend\'s username') {this.value='';}"/>
 				<input type="submit" value="find"/>
 			</form>
 			<p class="title_half">Requests</p>
