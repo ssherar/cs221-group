@@ -21,8 +21,6 @@ public class NotificationManager {
 	
 	public NotificationManager(User u){
 		this.user = u;
-		this.rdao = new RequestDAO();
-		this.builder = new StringBuilder();
 	}
 	
 	/*
@@ -30,27 +28,33 @@ public class NotificationManager {
 	 * Type specifies what type of requests are to be displayed as notifications.
 	 */
 	public String getNotifications(RequestType type){
-		
+		this.builder = new StringBuilder();
+		this.rdao = new RequestDAO();
 		List<Request> requests = rdao.getRequests(user, type);
-		
-		switch(type){
-		case FRIEND_REQUEST:
-			for(Request r : requests)
+		System.out.println("Found: " + requests.size());
+		switch(type.ordinal()){
+		case 0:
+			for(Request r : requests){
+				System.out.println("zero!");
 				builder.append(processFriendRequest(r));
+			}
+			System.out.println("one!");
 			break;
 		
-		case ACCEPTED_FRIENDSHIP:
+		case 1:
 			for(Request r : requests){
 				if(r.getTargetID().equals(user.getId())) continue;
 				else builder.append(processAcceptedFriendship(r));
 			}
+			System.out.println("two!");
 			break;
 		
-		case DECLINED_FRIENDSHIP:
+		case 2:
 			for(Request r : requests){
 				if(r.getTargetID().equals(user.getId())) continue;
-				
+				else builder.append(processDeclinedFriendship(r));
 			}	
+			System.out.println("three!");
 			break;				
 		}
 		

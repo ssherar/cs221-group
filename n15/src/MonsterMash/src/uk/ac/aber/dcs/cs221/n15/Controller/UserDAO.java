@@ -107,8 +107,6 @@ public class UserDAO {
 		try{
 			EntityManager em = emf.createEntityManager();
 			User u = em.find(User.class, id);
-			if(u==null) return null;
-			u.setPassword(""); //obscuring the password
 			return u;
 		}catch(Exception ex){
 			ex.printStackTrace();

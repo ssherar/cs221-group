@@ -46,8 +46,6 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDAO rdao = new RequestDAO(); 
-		rdao.createRequest("test", "test", RequestType.ACCEPT_BREED_OFFER, null);
 		String hashedPassword = "";
 		try {
 			MessageDigest md = MessageDigest.getInstance("MD5");
