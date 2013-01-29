@@ -85,7 +85,12 @@ if(user == null) {
 				<% } %></div>
 				
 				<div id="requests_div" class="vertical_half">
-				<p class="title_half">Requests</p></div>
+				<p class="title_half">Requests</p>
+				<div class="request_window">
+				XYZ wants to fight you
+				<a>accept </a>|<a> decline</a>
+				</div>
+				</div>
 			</div>
 		</center>
 </body>
