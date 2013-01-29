@@ -78,7 +78,7 @@ else System.out.println("JSP: friends is NOT null");
 					</div>
 					
 					<div id="login_info">
-					Logged as: <%= user.getUsername() %> 
+					Logged as: <a href="edituser.jsp"><%= user.getUsername() %></a> 
 					<a href="LoginServlet?logout"><img id="logout_icon" src="img/logout.png"  height="15px" /></a>
 					</div>
 					
