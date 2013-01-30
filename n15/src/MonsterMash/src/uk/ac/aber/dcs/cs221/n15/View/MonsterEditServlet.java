@@ -23,16 +23,25 @@ import uk.ac.aber.dcs.cs221.n15.Model.User;
  * @author kamil
  *
  */
-@WebServlet(name = "RenameServlet", urlPatterns = { "/RenameServlet" })
-public class RenameServlet extends HttpServlet {
+@WebServlet(name = "RenameServlet", urlPatterns = { "/MonsterEditServlet" })
+public class MonsterEditServlet extends HttpServlet {
 
-	
+	MonsterDAO mdao;
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		String type = req.getParameter("type");
+		mdao = new MonsterDAO();
+		if(type.equals("rename")) {
+			this.rename(req,resp);
+		} else if(type.equals("breedPrice")) {
+			this.changeBreedPrice(req, resp);
+		}
+	}
+	
+	private void rename(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		HttpSession s = req.getSession(false);
-		
 		String monsterId = (String) req.getParameter("monsterId");
 		String newName = (String) req.getParameter("newName");
 				
@@ -51,18 +60,40 @@ public class RenameServlet extends HttpServlet {
 		}
 		
 		//Changing name in the database
-		MonsterDAO mdao = new MonsterDAO();
 		mdao.renameMonster(monsterId, newName);
 		System.out.println("Should be renamed!");
 		
 		//Reloading list of monsters
-		User user = (User) s.getAttribute("currentUser");
-		UserDAO dao = new UserDAO();
-		List<Monster> nmonsters = dao.loadMonsters(user.getId());
-		s.setAttribute("monsters", nmonsters);
+		this.reloadMonsters(s);
 		
 		//Redirecting to farm page
 		resp.sendRedirect("myfarm.jsp");
 	}
-
+	
+	private void reloadMonsters(HttpSession s) {
+		User user = (User) s.getAttribute("currentUser");
+		UserDAO dao = new UserDAO();
+		List<Monster> nmonsters = dao.loadMonsters(user.getId());
+		s.setAttribute("monsters", nmonsters);
+	}
+	
+	public void changeBreedPrice(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		HttpSession s = req.getSession();
+		int price = Integer.parseInt(req.getParameter("newPrice"));
+		String monsterId = req.getParameter("monsterId");
+		
+		List<Monster> monsters = (List<Monster>)(s.getAttribute("monsters"));
+		boolean valid = false;
+		for(Monster m : monsters) {
+			if(m.getId().equals(monsterId)) {
+				valid = true;
+				break;
+			}
+		}
+		if(!valid) return;
+		
+		mdao.changeBreedPrice(monsterId, price);
+		this.reloadMonsters(s);
+		resp.sendRedirect("myfarm.jsp");
+	}
 }

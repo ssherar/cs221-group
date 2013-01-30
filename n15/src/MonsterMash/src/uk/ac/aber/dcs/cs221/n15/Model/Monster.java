@@ -47,6 +47,9 @@ public class Monster{
 	
 	@Column(name="lockMonster")
 	private int locked;
+	
+	@Column(name="breedPrice")
+	private int breedPrice;
 
 	/*//bi-directional many-to-one association to User
     @ManyToOne
@@ -180,6 +183,14 @@ public class Monster{
 
 	public void setLocked(int locked) {
 		this.locked = locked;
+	}
+	
+	public int getBreedPrice() {
+		return breedPrice;
+	}
+	
+	public void setBreedPrice(int breedPrice) {
+		this.breedPrice = breedPrice;
 	}
 	
 	public static String parseNameFromId(String monsterId){
