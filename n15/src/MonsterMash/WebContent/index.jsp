@@ -39,6 +39,9 @@ if(s != null) {
 			<td>password: </td>
 			<td><input type="password" name="password"></input></td>
 			</tr>
+			<tr>
+			<td>server: </td>
+			<td><select name="server" style="width:153px;margin:2px;"><option>local</option><option>...</option></select></td></tr>
 		</table>
 		<br/> 
 		<a class="title" href="JAVASCRIPT:loginForm.submit()" >LOGIN</a><br />
