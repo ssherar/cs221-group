@@ -249,4 +249,9 @@ a:active, a:link, a:visited{
 	display: table;
 }
 
+.fight_window {
+	width:75%;
+	margin:20px auto;
+}
+
 

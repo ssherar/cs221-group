@@ -82,11 +82,12 @@ MonsterDAO mdao = new MonsterDAO();
 				<hr class="horizontal_spacer" />
 				<div>
 				<p class="title_half">Finished Battles</p>
-				<% for (Fight fight : fights) {%>
+				<% //for (Fight fight : fights) {%>
 				<div class="request_window">Your monster lost|won. Your|Their monster took xyz damage.</div>
 				<!-- Needs split to check which monster is whos -->
-				<% } %>
+				<% //} %>
 				</div>
+				
 				<div>
 				<p class="title_half" >Requests</p>
 				<% ArrayList<MonsterFightRequests> reqs = new ArrayList<MonsterFightRequests>();
@@ -99,6 +100,7 @@ MonsterDAO mdao = new MonsterDAO();
 					attmob.setName("Test");
 					Monster defmob = new Monster();
 					defmob.setName("Feck");%>
+				<div class="fight_window">
 				<div class="monster_window">
 					<div class="monster_description">
 					<p class="monster_name"><%= attmob.getName() %></p>
@@ -110,7 +112,10 @@ MonsterDAO mdao = new MonsterDAO();
 						<tr><td>fertility:</td><td><%= attmob.getFertility() %></td></tr>
 					</table>
 					</div>
-					<div class="monster_actions_menu">fight prize: $200</div>
+					<div class="monster_actions_menu">
+						fight prize: $200 <br />
+						<a>view your farm</a>
+					</div>
 				</div>
 				<div class="vs_text">VS</div>
 				<div class="monster_window">
@@ -124,11 +129,17 @@ MonsterDAO mdao = new MonsterDAO();
 						<tr><td>fertility:</td><td><%= defmob.getFertility() %></td></tr>
 					</table>
 					</div>
-					<div class="monster_actions_menu">fight prize: $200</div>
+					<div class="monster_actions_menu">
+						fight prize: $200
+						<br />
+						<a>view friends profile</a>
+					</div>
 				</div>
 				<div class="accept_decline">
 				<a>accept </a>|<a> decline</a>
 				</div>
+				</div>
+				
 				<% } %>
 				</div>
 				
