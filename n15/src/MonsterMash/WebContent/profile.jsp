@@ -126,21 +126,11 @@ else System.out.println("JSP: friends is NOT null");
 						<tr><td>fertility:</td><td><%= m.getFertility() %></td></tr>
 					</table>
 				</div>
-					<div class="monster_actions_menu">
-						<a>challenge to fight</a><br/>
-						<a>buy this monster</a><br/>
-						<a>offer for breeding</a><br/>
-					</div>
-				
-<!-- 				<div class="monster_actions_menu"> -->
-<!-- 					<a>rename</a><br/> -->
-<!-- 					<a>offer for sale</a><br/> -->
-<!-- 					<a>offer for breeding</a><br/> -->
-<!-- 					<br/> -->
-<!-- 					fight prize: $200 -->
-<!-- 				</div> -->
-			
-			
+				<div class="monster_actions_menu">
+					<a>challenge to fight</a><br/>
+					<a>buy this monster</a><br/>
+					<a>offer for breeding</a><br/>
+				</div>			
 			</div>
 			<% } }else{%>
 			<p>User has no monsters.</p>
