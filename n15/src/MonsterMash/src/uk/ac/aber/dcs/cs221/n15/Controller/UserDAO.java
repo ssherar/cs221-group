@@ -194,6 +194,16 @@ public class UserDAO {
 		}
 		return true;
 	}
+	
+	public List<User> getHighscores(int limit) {
+		String sql = "SELECT * FROM users ORDER BY money DESC LIMIT " + limit;
+		Query q = emf.createEntityManager().createNativeQuery(sql, User.class);
+		if (q.getResultList().size() > 0) {
+			return (List<User>)q.getResultList();
+		} else {
+			return new ArrayList<User>();
+		}
+	}
 
 
 }

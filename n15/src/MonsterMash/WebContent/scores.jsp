@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"
     import="uk.ac.aber.dcs.cs221.n15.Model.*"
-    import="uk.ac.aber.dcs.cs221.n15.Controller.MonsterDAO"
+    import="uk.ac.aber.dcs.cs221.n15.Controller.*"
     import="java.util.*"
     import="java.text.DateFormat" %>
  
@@ -80,10 +80,15 @@ if(user == null) {
 				<thead id="rich_thead">
 				<tr><td>Position</td><td>Username</td><td>Coins</td><td>Monsters</td></tr>
 				</thead>
-				<% //for ranked users {
-				User curuser = new User();%>
-				<tr><td style="width:10%">1</td><td style="width:50%"><a><%= curuser.getUsername() %></a></td><td style="width:20%">$<%= curuser.getMoney() %></td><td style="width:20%">Nummonsters</td></tr>
-				<% //} %>
+				<% UserDAO udao = new UserDAO();
+				int i = 1;
+				for (User curuser : udao.getHighscores(10)) {
+				List<Monster> curmonsters = udao.loadMonsters(curuser.getId());
+				if (curmonsters == null) curmonsters = new ArrayList<Monster>();
+				%>
+				<tr><td style="width:10%"><%= i %></td><td style="width:50%"><a href="profile.jsp?id=<%= curuser.getId() %>"><%= curuser.getUsername() %></a></td><td style="width:20%">$<%= curuser.getMoney() %></td><td style="width:20%"><%= curmonsters.size() %></td></tr>
+				<% i++;
+				} %>
 				</table>
 				</div>
 		</center>
