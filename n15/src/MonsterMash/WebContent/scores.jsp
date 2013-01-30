@@ -77,10 +77,12 @@ if(user == null) {
 				<hr class="horizontal_spacer" />
 				<p class="title">Rich List</p>
 				<table id="rich_table">
+				<thead id="rich_thead">
 				<tr><td>Position</td><td>Username</td><td>Coins</td><td>Monsters</td></tr>
+				</thead>
 				<% //for ranked users {
 				User curuser = new User();%>
-				<tr><td>1</td><td><a><%= curuser.getUsername() %></a></td><td>$<%= curuser.getMoney() %></td><td>Nummonsters</td></tr>
+				<tr><td style="width:10%">1</td><td style="width:50%"><a><%= curuser.getUsername() %></a></td><td style="width:20%">$<%= curuser.getMoney() %></td><td style="width:20%">Nummonsters</td></tr>
 				<% //} %>
 				</table>
 				</div>
