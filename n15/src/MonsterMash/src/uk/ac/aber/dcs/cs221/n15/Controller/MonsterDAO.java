@@ -118,7 +118,7 @@ public class MonsterDAO {
 			Monster m = em.find(Monster.class, mID);
 			if(m == null) return;
 			
-			m.setBuyPrice(price);
+			m.setSalePrice(price);
 			em.merge(m);
 			transaction.commit();
 			
