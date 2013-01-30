@@ -39,7 +39,7 @@ function changeBreedPrice(id) {
 	}
 }
 
-function setBuyPrice(id) {
+function changeBuyPrice(id) {
 	var newPrice = prompt("What price would you like to set for selling?", "");
 	if(newPrice != null && newPrice != "" && !isNaN(newPrice)) {
 		document.location = "MonsterEditServlet?type=buyPrice&monsterId=" + id + "&newPrice="+newPrice;
@@ -131,12 +131,13 @@ function setBuyPrice(id) {
 				<div class="monster_actions_menu">
 					<a href="JAVASCRIPT:rename('<%= m.getId() %>')">rename</a><br/>
 					<a href="JAVASCRIPT:changeBreedPrice('<%= m.getId() %>')">change breed price</a><br />
-					<a href="JAVASCRIPT:changeBuyPrice('<%= m.getId() %>')">change buy price</a>
+					<a href="JAVASCRIPT:changeBuyPrice('<%= m.getId() %>')">change buy price</a></br />
 					<a>offer for sale</a><br/>
 					<a>offer for breeding</a><br/>
 					<br/>
 					fight prize: $<%= mdao.calculatePrize(m) %><br />
-					breed price: $<%= m.getBreedPrice() %>
+					breed price: $<%= m.getBreedPrice() %><br />
+					sell price: $<%= m.getSalePrice() %>
 				</div>
 			
 			
