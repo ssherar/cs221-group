@@ -51,6 +51,11 @@ public class MonsterDAO {
 		}
 	}
 	
+	public Monster findMonster(String monsterId){
+		em = emf.createEntityManager();
+		return em.find(Monster.class, monsterId);
+	}
+	
 	public void renameMonster(String monsterID, String newName){
 		
 		try{

@@ -43,10 +43,19 @@ public class RequestDAO {
 	 */
 	public List<Request> getRequests(User user, RequestType type){
 		
-		String numType = Integer.toString(type.ordinal());
-		TypedQuery<Request> q = (TypedQuery<Request>) 
-				emf.createEntityManager().createNativeQuery("SELECT * FROM requests WHERE (sourceId = '"+user.getId()+"' OR targetId= '"+user.getId()+"') AND type = '"+numType+"'", Request.class);
-		return q.getResultList();
+		int n = type.ordinal();
+		if(n >2 && n<8){
+			//Where monster id is stored, instead of user id
+			TypedQuery<Request> q = (TypedQuery<Request>) 
+					emf.createEntityManager().createNativeQuery("SELECT * FROM requests WHERE (sourceId like '"+user.getId()+".%' OR targetId like '"+user.getId()+".%') AND type = '"+n+"'", Request.class);
+			return q.getResultList();
+		}else{
+			TypedQuery<Request> q = (TypedQuery<Request>) 
+					emf.createEntityManager().createNativeQuery("SELECT * FROM requests WHERE (sourceId = '"+user.getId()+"' OR targetId= '"+user.getId()+"') AND type = '"+n+"'", Request.class);
+			return q.getResultList();
+		}
+		
+		
 	}
 	
 	public void updateRequestType(int requestId, RequestType type){

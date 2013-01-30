@@ -8,13 +8,11 @@
 <% HttpSession s = request.getSession(false);
 User user = (User)(s.getAttribute("currentUser"));
 List<Monster> monsters = (List<Monster>)(s.getAttribute("monsters"));
-List<Fight> fights = (List<Fight>)(s.getAttribute("fights"));
 if(user == null) {
 	response.sendRedirect("index.jsp"); 
 } 
 
  if(monsters==null) monsters = new ArrayList<Monster>();
- if(fights==null)  fights = new ArrayList<Fight>();
  
 MonsterDAO mdao = new MonsterDAO();
 
@@ -90,60 +88,17 @@ MonsterDAO mdao = new MonsterDAO();
 				
 				<div>
 				<p class="title_half" >Requests</p>
-				<% ArrayList<MonsterFightRequests> reqs = new ArrayList<MonsterFightRequests>();
-				MonsterFightRequests test = new MonsterFightRequests();
-				reqs.add(test);
-				for (MonsterFightRequests req : reqs) { //TODO: Replace with getRequests() 
-					//Monster attmob = mdao.getMonster(req.getAttackingMonster());
-					//Monster defmob = mdao.getMonster(req.getDefendingMonster());
-					Monster attmob = new Monster();
-					attmob.setName("Test");
-					Monster defmob = new Monster();
-					defmob.setName("Feck");%>
-				<div class="fight_window">
-				<div class="monster_window">
-					<div class="monster_description">
-					<p class="monster_name"><%= attmob.getName() %></p>
-					Born: <%= "NEVER"/*DateFormat.getInstance().format(attmob.getDob())*/ %><br/>
-					<table class="monster_stats">
-						<tr><td>health:</td><td><%= attmob.getHealth() %></td></tr>
-						<tr><td>strength:</td><td><%= attmob.getStrength() %></td></tr>
-						<tr><td>aggression:</td><td><%= attmob.getAggression() %></td></tr>
-						<tr><td>fertility:</td><td><%= attmob.getFertility() %></td></tr>
-					</table>
-					</div>
-					<div class="monster_actions_menu">
-						fight prize: $200 <br />
-						<a>view your farm</a>
-					</div>
-				</div>
-				<div class="vs_text">VS</div>
-				<div class="monster_window">
-					<div class="monster_description">
-					<p class="monster_name"><%= defmob.getName() %></p>
-					Born: <%= "NEVER"/*DateFormat.getInstance().format(defmob.getDob())*/ %><br/>
-					<table class="monster_stats">
-						<tr><td>health:</td><td><%= defmob.getHealth() %></td></tr>
-						<tr><td>strength:</td><td><%= defmob.getStrength() %></td></tr>
-						<tr><td>aggression:</td><td><%= defmob.getAggression() %></td></tr>
-						<tr><td>fertility:</td><td><%= defmob.getFertility() %></td></tr>
-					</table>
-					</div>
-					<div class="monster_actions_menu">
-						fight prize: $200
-						<br />
-						<a>view friends profile</a>
-					</div>
-				</div>
-				<div class="accept_decline">
-				<a>accept </a>|<a> decline</a>
-				</div>
+				
+				<%
+				NotificationManager nm = new NotificationManager(user);
+				%>
+				<%=nm.getNotifications(RequestType.OFFER_FIGHT) %>
+				
 				</div>
 				
-				<% } %>
+
 				</div>
 				
-			</div>
 		</center>
 </body>
 </html>

@@ -5,6 +5,9 @@ package uk.ac.aber.dcs.cs221.n15.Model;
 
 import java.util.List;
 
+import com.sun.jersey.core.impl.provider.entity.XMLJAXBElementProvider.App;
+
+import uk.ac.aber.dcs.cs221.n15.Controller.MonsterDAO;
 import uk.ac.aber.dcs.cs221.n15.Controller.Request;
 import uk.ac.aber.dcs.cs221.n15.Controller.RequestDAO;
 import uk.ac.aber.dcs.cs221.n15.Controller.RequestType;
@@ -31,9 +34,8 @@ public class NotificationManager {
 		this.builder = new StringBuilder();
 		this.rdao = new RequestDAO();
 		List<Request> requests = rdao.getRequests(user, type);
-		System.out.println("Found: " + requests.size());
-		switch(type.ordinal()){
-		case 0:
+		switch(type){
+		case FRIEND_REQUEST:
 			for(Request r : requests){
 				System.out.println("zero!");
 				builder.append(processFriendRequest(r));
@@ -41,7 +43,7 @@ public class NotificationManager {
 			System.out.println("one!");
 			break;
 		
-		case 1:
+		case ACCEPTED_FRIENDSHIP:
 			for(Request r : requests){
 				if(r.getTargetID().equals(user.getId())) continue;
 				else builder.append(processAcceptedFriendship(r));
@@ -49,13 +51,20 @@ public class NotificationManager {
 			System.out.println("two!");
 			break;
 		
-		case 2:
+		case DECLINED_FRIENDSHIP:
 			for(Request r : requests){
 				if(r.getTargetID().equals(user.getId())) continue;
 				else builder.append(processDeclinedFriendship(r));
 			}	
 			System.out.println("three!");
-			break;				
+			break;			
+		case OFFER_FIGHT:
+			System.out.println("offer fisht seen");
+			for(Request r : requests){
+				System.out.println("processing fight");
+				builder.append(processFightOffer(r));
+			}	
+			
 		}
 		
 		
@@ -102,6 +111,65 @@ public class NotificationManager {
 		sb.append(" declined your invitation.");
 		sb.append("<a href=\"RequestDispatcherServlet?action=dismiss&requestid="+r.getId()+"\">");
 		sb.append("<img src=\"img/close.png\" width=\"10px\" /></a></div>");
+		return sb.toString();
+	}
+	
+	private String processFightOffer(Request r){
+		StringBuilder sb = new StringBuilder();
+		
+		MonsterDAO mdao = new MonsterDAO();
+		Monster mine, foe;
+		if(r.getSourceID().contains(user.getId())){
+			mine = mdao.findMonster(r.getSourceID());
+			foe = mdao.findMonster(r.getTargetID());
+		}else{
+			mine = mdao.findMonster(r.getTargetID());	
+			foe = mdao.findMonster(r.getSourceID());					
+		}
+		
+		//My monster window
+		sb.append("<div class=\"fight_window\">");
+		sb.append("<div class=\"monster_window\"><div class=\"monster_description\">" +
+				"<p class=\"monster_name\">")
+		.append(mine.getName()).append("</p>Age:")
+		.append(mdao.calculateDaysDifference(mine.getDob()))
+		.append("<br/><table class=\"monster_stats\">")
+		.append("<tr><td>health:</td><td>"+mine.getHealth()+"</td></tr>")
+		.append("<tr><td>strength:</td><td>"+mine.getStrength()+"</td></tr>")
+		.append("<tr><td>aggression:</td><td>"+mine.getAggression()+"</td></tr>")
+		.append("<tr><td>fertility:</td><td>"+mine.getFertility()+"</td></tr>")
+		.append("</table></div><div class=\"monster_actions_menu\">")
+		.append("fight prize: $"+mdao.calculatePrize(mine)+ "<br/>")
+		.append("<a href=\"myfarm.jsp\">view your farm</a></div></div>");
+		sb.append("<div class=\"vs_text\">VS</div>");
+
+		//Enemy monster window
+		String profileUrl = "profile.jsp?id="+foe.getOwnerId();
+		sb.append("<div class=\"monster_window\"><div class=\"monster_description\">" +
+				"<p class=\"monster_name\">")
+		.append(foe.getName()).append("</p>Age:")
+		.append(mdao.calculateDaysDifference(foe.getDob()))
+		.append("<br/><table class=\"monster_stats\">")
+		.append("<tr><td>health:</td><td>"+foe.getHealth()+"</td></tr>")
+		.append("<tr><td>strength:</td><td>"+foe.getStrength()+"</td></tr>")
+		.append("<tr><td>aggression:</td><td>"+foe.getAggression()+"</td></tr>")
+		.append("<tr><td>fertility:</td><td>"+foe.getFertility()+"</td></tr>")
+		.append("</table></div><div class=\"monster_actions_menu\">")
+		.append("fight prize: $"+mdao.calculatePrize(foe)+ "<br/>")
+		.append("<a href=\""+profileUrl+"\">view friends profile</a></div></div>");
+		
+		//If user sent the reqest, he should see a confirmation that it is pending.
+		if(r.getSourceID().contains(user.getId())){
+			sb.append("<p>Request sent, waiting for response.</p>");
+		}else{
+		//If user received the request, he should see two links, to accept and to decline
+			String acceptLink = "RequestDispatcherServlet?action=accept&type=4&requestid"+r.getId();
+			String declineLink = "RequestDispatcherServlet?action=decline&type=5&requestid"+r.getId();
+			sb.append("<div class=\"accept_decline\"><a href=\""+acceptLink+"\">accept </a> | " +
+					"<a href=\""+declineLink+"\">decline </a></div>");
+		}
+		sb.append("</div>");
+		
 		return sb.toString();
 	}
 }

@@ -28,7 +28,7 @@ public class RequestDispatcherServlet extends HttpServlet{
 	 * type (int)
 	 * 
 	 * To respond to a request :
-	 * action=respond
+	 * action=accept/decline
 	 * requestid (int)
 	 * type (int)
 	 * 
@@ -81,6 +81,11 @@ public class RequestDispatcherServlet extends HttpServlet{
 			case ACCEPTED_FRIENDSHIP:
 				acceptFriendRequest(requestId);
 				resp.sendRedirect("friends.jsp");
+				break;
+			case ACCEPTED_FIGHT:
+				break;
+			case ACCEPT_BREED_OFFER:
+				break;
 			}
 		}else if(action.equals("decline")){
 			switch(type){
@@ -88,14 +93,33 @@ public class RequestDispatcherServlet extends HttpServlet{
 				//Decline Friend request
 				declineFriendRequest(requestId);
 				resp.sendRedirect("friends.jsp");
+				break;
+			case DECLINED_FIGHT:
+				break;
 			}
 		}else if(action.equals("dismiss")){
+			Request r = rdao.getRequest(requestId);
 			rdao.deleteRequest(requestId);
-			resp.sendRedirect("friends.jsp");
+			switch(r.getType()){
+			case ACCEPTED_FRIENDSHIP:
+			case DECLINED_FRIENDSHIP:
+				resp.sendRedirect("friends.jsp");
+				break;
+			case ACCEPTED_FIGHT:
+			case DECLINED_FIGHT:
+				resp.sendRedirect("fight.jsp");
+				break;
+			case ACCEPT_BREED_OFFER:
+				resp.sendRedirect("breed.jsp");
+			}
+			
+			
+			
 		}else if(action.equals("picked")){
 			Request pendingRequest = (Request)s.getAttribute("pendingRequest");
 			if(pendingRequest==null) return;
-			if(pendingRequest.getType()==RequestType.OFFER_FIGHT){
+			switch(pendingRequest.getType()){
+			case OFFER_FIGHT:
 				String pickedMonsterId = req.getParameter("pickedid");
 				rdao.createRequest(pickedMonsterId, pendingRequest.getTargetID(), 
 						RequestType.OFFER_FIGHT, null);
@@ -110,12 +134,9 @@ public class RequestDispatcherServlet extends HttpServlet{
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		super.doPost(req, resp);
+		this.doGet(req, resp);
 	}
 	
-	public void requestDispatcher(String userID) {
-		
-	}
 	
 	public void sendFriendRequest(String friendId) {
 		rdao.createRequest(user.getId(), friendId, RequestType.FRIEND_REQUEST, null);
