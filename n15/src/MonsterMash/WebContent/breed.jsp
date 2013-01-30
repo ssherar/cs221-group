@@ -106,8 +106,6 @@ if(user == null) {
 					</table>
 					</div>
 					<div class="monster_actions_menu">
-						fight prize: $200 <br />
-						<a>view your farm</a>
 					</div>
 				</div>
 				<div class="monster_window">
@@ -122,8 +120,6 @@ if(user == null) {
 					</table>
 					</div>
 					<div class="monster_actions_menu">
-						fight prize: $200
-						<br />
 						<a>view friends profile</a>
 					</div>
 				</div>

@@ -1,39 +1,38 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"
     import="uk.ac.aber.dcs.cs221.n15.Model.*"
-    import="uk.ac.aber.dcs.cs221.n15.Controller.*"
+    import="uk.ac.aber.dcs.cs221.n15.Controller.MonsterDAO"
     import="java.util.*"
     import="java.text.DateFormat" %>
  
 <% HttpSession s = request.getSession(false);
 User user = (User)(s.getAttribute("currentUser"));
 List<Monster> monsters = (List<Monster>)(s.getAttribute("monsters"));
-ArrayList<Friend> friends = (ArrayList<Friend>)(s.getAttribute("friends"));
 if(user == null) {
 	response.sendRedirect("index.jsp"); 
 } 
-if(friends==null) System.out.println("JSP: friends is null");
-else System.out.println("JSP: friends is NOT null");
- if(monsters==null) monsters = new ArrayList<Monster>();
 
- for(Friend f : friends){
-		System.out.println("Name: "+f.getName()+" Money: "+f.getMoney());
-	}
+ if(monsters==null) monsters = new ArrayList<Monster>();
  
- UserDAO udao = new UserDAO();
- String f_id = request.getParameter("id");
- if(f_id.charAt(3)!='.') f_id = "loc." + f_id;
- User friend = udao.findUser(f_id);
- List<Monster> friendsMonsters = udao.loadMonsters(friend.getUsername());
+
 %>
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title><%= friend.getUsername() %> - Monster mash</title>
+<title>Monster mash</title>
 <link rel="stylesheet" type="text/css" href="style.css" />
 <link href='http://fonts.googleapis.com/css?family=Eater|Skranji|Sanchez|Piedra|Carter+One|Slackey' rel='stylesheet' type='text/css' />
+<script>
+function rename(id) {
+	var newname = prompt("What would you like to rename your monster to?", "");
+	if (newname != null && newname != "") {
+		//CallRename
+		document.location = "RenameServlet?monsterId="+id+"&newName="+newname;
+	}	
+}
+</script>
 </head>
 <body>
 	<center>
@@ -78,7 +77,7 @@ else System.out.println("JSP: friends is NOT null");
 					</div>
 					
 					<div id="login_info">
-					Logged as: <a href="edituser.jsp"><%= user.getUsername() %></a> 
+					Logged as: <a href="edituser.jsp"><%= user.getUsername() %></a>
 					<a href="LoginServlet?logout"><img id="logout_icon" src="img/logout.png"  height="15px" /></a>
 					</div>
 					
@@ -87,27 +86,11 @@ else System.out.println("JSP: friends is NOT null");
 				<br/>
 				<hr class="horizontal_spacer" />
 				
-				
-			<p class="profile_title"><%= friend.getUsername() %></p>
-			<p class="align_left">Wealth: <%= friend.getMoney() %></p>
 			
-			<% if(udao.checkFriendship(user.getId(), f_id)){ %>
-				<p class="align_right"><a>Remove from friends</a></p>	
-			<%}else{ 
-				RequestDAO rdao = new RequestDAO();
-				if(rdao.requestExists(user.getId(), f_id, RequestType.FRIEND_REQUEST)){%>
-					 <p class="align_right">Friendship request sent.</p>
-				<%}else{ 
-					String url ="RequestDispatcherServlet?action=send&targetid="+f_id+"&type=0";%>
-					<p class="align_right"><a href="<%=url %>">Send friendship request</a></p>
-				<% } }%>
-					
-						
-			<% if(friendsMonsters!=null){
-				MonsterDAO mdao = new MonsterDAO();
-				mdao.ageMonsters(friendsMonsters);
-				
-				for(Monster m : friendsMonsters){%>
+			
+			<p class="title">My Monster Farm</p>
+			<% MonsterDAO mdao = new MonsterDAO(); %>
+			<% if(monsters!=null) for(Monster m : monsters) {%>
 			
 			<div class="monster_window">
 				<div class="monster_description">
@@ -116,32 +99,31 @@ else System.out.println("JSP: friends is NOT null");
 						<img src="img/female.png" width="20px" />
 					<%} else{%>
 						<img src="img/male.png" width="20px" />
-					<%}%>
+					<%}
+					
+					int age = mdao.calculateDaysDifference(m.getDob());
+					%>
 					</p>
-					Age: <%= mdao.calculateDaysDifference(m.getDob()) %> day(s)<br/>
+					Age: <%=age  %> 
+					<%= age==1 ? "day<br/>" : "days<br/>" %>
 					<table class="monster_stats">
 						<tr><td>health:</td><td><%= m.getHealth() %></td></tr>
 						<tr><td>strength:</td><td><%= m.getStrength() %></td></tr>
 						<tr><td>aggression:</td><td><%= m.getAggression() %></td></tr>
 						<tr><td>fertility:</td><td><%= m.getFertility() %></td></tr>
 					</table>
+					
 				</div>
+				
 				<div class="monster_actions_menu">
-				<% String fightUrl = "RequestDispatcherServlet?action=send&type=3&targetid="+m.getId(); %>
-					<a href="<%=fightUrl %>">challenge to fight</a><br/>
-					<a>buy this monster</a><br/>
-					<% String breedUrl = "RequestDispatcherServlet?action=send&type=9&targetid="+m.getId(); %>
-					<a href="<%=breedUrl %>">offer for breeding</a><br/><br />
-					fight prize: $<%= mdao.calculatePrize(m) %>
-				</div>			
+	
+					<a href="RequestDispatcherServlet?action=pickedbreeding&pickedid=<%=m.getId() %>">PICK</a><br/>
+					
+				</div>
+			
+			
 			</div>
-			<% } }else{%>
-			<p>User has no monsters.</p>
-			<%} %>
-			
-			
-			
-			<br/><br/>
+			<% } %>
 			
 			
 		</div>
