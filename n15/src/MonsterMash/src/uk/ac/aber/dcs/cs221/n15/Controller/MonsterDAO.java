@@ -214,7 +214,7 @@ public class MonsterDAO {
 			strChance = Validator.rand(1,4);
 			aggChance = Validator.rand(1,4);
 			fertChance = Validator.rand(1,4);
-			System.out.println(strChance);
+			System.out.println(strChance + " " + aggChance + " " + fertChance);
 			switch(strChance) {
 			case 1:
 				child.setStrength(minStr);
@@ -238,7 +238,7 @@ public class MonsterDAO {
 				child.setAggression(Validator.rand(20, 70));
 				break;
 			}
-			
+			 
 			switch(fertChance) {
 			case 1:
 				child.setFertility(minFert);
@@ -250,8 +250,19 @@ public class MonsterDAO {
 				child.setFertility(Validator.rand(20, 70));
 				break;
 			}
+			
+			child.setHealth(100);
 			children.add(child);
 		}
 		return children;
+	}
+	
+	public void buy(String buyerid, String sellerid, Monster monster) {
+		String sub = monster.getId().substring(sellerid.length()+1, monster.getId().length());
+		System.out.println(sub);
+		String newid = buyerid + '.' + sub;
+		monster.setId(newid);
+		monster.setOwnerId(buyerid);
+		System.out.println(newid);
 	}
 }

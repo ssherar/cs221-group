@@ -54,13 +54,13 @@ public class TestMonster {
 		elderlyMonster.setDob(calElderly.getTime());
 		
 		weakMonster = new Monster();
-		weakMonster.setAggression(70);
-		weakMonster.setStrength(70);
+		weakMonster.setAggression(50);
+		weakMonster.setStrength(50);
 		weakMonster.setHealth(100);
-		weakMonster.setFertility(70);
+		weakMonster.setFertility(100);
 		
 		strongMonster = new Monster();
-		strongMonster.setAggression(60);
+		strongMonster.setAggression(100);
 		strongMonster.setStrength(100);
 		strongMonster.setHealth(100);
 		strongMonster.setFertility(100);
@@ -118,5 +118,13 @@ public class TestMonster {
 				System.out.println(m);
 			System.out.println("");
 		//}
+	}
+	
+	@Test
+	public void testBuying() {
+		weakMonster.setId("loc.andy.Hello");
+		mdao.buy("loc.Kamil", "loc.andy", weakMonster);
+		assertTrue(weakMonster.getId().equals("loc.Kamil.Hello"));
+		assertTrue(weakMonster.getOwnerId().equals("loc.Kamil"));
 	}
 }
