@@ -119,7 +119,7 @@ function rename(id) {
 					<a>offer for sale</a><br/>
 					<a>offer for breeding</a><br/>
 					<br/>
-					fight prize: $200
+					fight prize: $<%= mdao.calculatePrize(m) %>
 				</div>
 			
 			

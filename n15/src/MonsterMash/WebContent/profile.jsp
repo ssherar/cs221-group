@@ -129,7 +129,8 @@ else System.out.println("JSP: friends is NOT null");
 				<div class="monster_actions_menu">
 					<a>challenge to fight</a><br/>
 					<a>buy this monster</a><br/>
-					<a>offer for breeding</a><br/>
+					<a>offer for breeding</a><br/><br />
+					fight prize: $<%= mdao.calculatePrize(m) %>
 				</div>			
 			</div>
 			<% } }else{%>
