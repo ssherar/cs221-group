@@ -2,6 +2,7 @@ package uk.ac.aber.dcs.cs221.n15.Controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -89,6 +90,11 @@ public class RequestDispatcherServlet extends HttpServlet{
 				resp.sendRedirect("fights.jsp");
 				break;
 			case ACCEPT_BREED_OFFER:
+				//in this case user clicked on monster to breed with
+				//now he needs to pick his monster and then breeding is to be resolved
+				Request fr = new Request(null, targetId, RequestType.ACCEPT_BREED_OFFER);
+				s.setAttribute("pendingRequest", fr);
+				resp.sendRedirect("picker.jsp");
 				break;
 			}
 		}else if(action.equals("decline")){
@@ -125,18 +131,23 @@ public class RequestDispatcherServlet extends HttpServlet{
 			}
 			
 			
-			
 		}else if(action.equals("picked")){
 			Request pendingRequest = (Request)s.getAttribute("pendingRequest");
 			if(pendingRequest==null) return;
 			pendingRequest.setSeen(0);
+			String pickedMonsterId = req.getParameter("pickedid");
 			switch(pendingRequest.getType()){
 			case OFFER_FIGHT:
-				String pickedMonsterId = req.getParameter("pickedid");
 				rdao.createRequest(pickedMonsterId, pendingRequest.getTargetID(), 
 						RequestType.OFFER_FIGHT, null);
 				resp.sendRedirect("fights.jsp");
+				break;
+			case ACCEPT_BREED_OFFER:
+				pendingRequest.setSourceID(pickedMonsterId);
+				acceptBreedOffer(pendingRequest);
+				
 			}
+			
 			
 		}
 		
@@ -232,18 +243,27 @@ public class RequestDispatcherServlet extends HttpServlet{
 		rdao.updateRequestType(requestId, RequestType.DECLINED_FIGHT);
 	}
 	
-	public void sendBreedRequest(String monsterID, String friendMonsterID) {
+	/**
+	 * Here breeding gets resolved.
+	 * @param r
+	 */
+	public void acceptBreedOffer(Request r) {
+		MonsterDAO mdao = new MonsterDAO();
+		//Source monster, i. e. "mother".
+		//Children will go to source monster's owner,
+		//While target's owner will get the money
+		Monster sourceMonster = mdao.findMonster(r.getSourceID());
+		Monster targetMonster = mdao.findMonster(r.getTargetID());
+		//Here children get evaluated
+		List<Monster> children = mdao.breed(sourceMonster, targetMonster);
+		
+		UserDAO udao = new UserDAO();
+		User sourceUser = udao.findUser(sourceMonster.getOwnerId());
+		User targetUser = udao.findUser(targetMonster.getOwnerId());
 		
 	}
 	
-	public void acceptBreedRequest(int requestId) {
 		
-	}
-	
-	public void rejectBreedRequest(int requestId) {
-		
-	}
-	
 	public void sendBuyRequest(String monsterID) {
 		
 	}
