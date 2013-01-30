@@ -181,10 +181,10 @@ public class MonsterDAO {
 		}while(monsterOne==monsterTwo);
 			
 		if(monsterOne > monsterTwo ) {
-			monster1.setHealth(monster1.getHealth() * (1- (monsterTwo / 100) ));
+			monster1.setHealth((int) (monster1.getHealth() * (1- (monsterTwo / 100.00) )));
 			return monster1;
 		} else {
-			monster2.setHealth(monster2.getHealth() * (1- (monsterOne / 100) ));
+			monster2.setHealth((int) (monster2.getHealth() * (1- (monsterOne / 100.00) )));
 			return monster2;
 		}
 	
