@@ -84,6 +84,7 @@ MonsterDAO mdao = new MonsterDAO();
 				NotificationManager nm = new NotificationManager(user);
 				%>
 				<%=nm.getNotifications(RequestType.FIGHT_RESOLVED) %>
+				<%=nm.getNotifications(RequestType.DECLINED_FIGHT) %>
 				</div>
 				
 				<div>

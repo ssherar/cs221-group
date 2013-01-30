@@ -99,6 +99,8 @@ public class RequestDispatcherServlet extends HttpServlet{
 				resp.sendRedirect("friends.jsp");
 				break;
 			case DECLINED_FIGHT:
+				declineFightRequests(requestId);
+				resp.sendRedirect("fights.jsp");
 				break;
 			}
 		}else if(action.equals("dismiss")){
@@ -109,8 +111,8 @@ public class RequestDispatcherServlet extends HttpServlet{
 				rdao.deleteRequest(requestId);
 				resp.sendRedirect("friends.jsp");
 				break;
-			case ACCEPTED_FIGHT:
 			case DECLINED_FIGHT:
+				rdao.deleteRequest(requestId);
 				resp.sendRedirect("fights.jsp");
 				break;
 			case ACCEPT_BREED_OFFER:
@@ -227,7 +229,7 @@ public class RequestDispatcherServlet extends HttpServlet{
 	}
 	
 	public void declineFightRequests(int requestId) {
-		
+		rdao.updateRequestType(requestId, RequestType.DECLINED_FIGHT);
 	}
 	
 	public void sendBreedRequest(String monsterID, String friendMonsterID) {

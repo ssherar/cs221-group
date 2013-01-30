@@ -65,6 +65,12 @@ public class NotificationManager {
 				builder.append(processFightResolved(r));
 			}	
 			break;
+		case DECLINED_FIGHT:
+			for(Request r : requests){
+				if(r.getTargetID().contains(user.getId()+".")) continue;
+				builder.append(processDeclinedFight(r));
+			}	
+			break;
 		}
 		
 		
@@ -193,6 +199,26 @@ public class NotificationManager {
 			.append(") lost the fight and died.</p>");
 		}		
 		
+		sb.append("<a href=\"RequestDispatcherServlet?action=dismiss&requestid="+r.getId()+"\">");
+		sb.append("<img src=\"img/close.png\" width=\"10px\" /></a></div>");
+		
+		return sb.toString();
+	}
+	
+	private String processDeclinedFight(Request r){
+		StringBuilder sb = new StringBuilder();
+		String ownerName;
+		MonsterDAO mdao = new MonsterDAO();
+		Monster m = mdao.findMonster(r.getTargetID());
+		ownerName = m.getOwnerId().substring(4);
+		
+		String sourceName = Monster.parseNameFromId(r.getSourceID());
+		String targetName = Monster.parseNameFromId(r.getTargetID());
+		
+		sb.append("<div class=\"request_window\">");
+		sb.append("<p>Fight between ").append(sourceName)
+		.append(" and ").append(targetName).append(".<br/>");
+		sb.append("<p>").append(ownerName).append(" declined your fight offer.");
 		sb.append("<a href=\"RequestDispatcherServlet?action=dismiss&requestid="+r.getId()+"\">");
 		sb.append("<img src=\"img/close.png\" width=\"10px\" /></a></div>");
 		
