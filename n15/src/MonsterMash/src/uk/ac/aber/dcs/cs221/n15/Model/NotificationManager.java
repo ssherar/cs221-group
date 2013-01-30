@@ -190,8 +190,11 @@ public class NotificationManager {
 			.append(") won!</p>");
 		}else{
 			sb.append("Your monster (").append(winnerName.equals(sourceName) ? targetName : sourceName)
-			.append(") lost the fight and died.</p></div>");
+			.append(") lost the fight and died.</p>");
 		}		
+		
+		sb.append("<a href=\"RequestDispatcherServlet?action=dismiss&requestid="+r.getId()+"\">");
+		sb.append("<img src=\"img/close.png\" width=\"10px\" /></a></div>");
 		
 		return sb.toString();
 	}

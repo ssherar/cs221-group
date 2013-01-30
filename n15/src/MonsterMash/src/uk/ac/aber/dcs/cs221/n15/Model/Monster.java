@@ -184,7 +184,7 @@ public class Monster{
 	
 	public static String parseNameFromId(String monsterId){
 		int lastPoint = monsterId.lastIndexOf(".");
-		return monsterId.substring(lastPoint);
+		return monsterId.substring(lastPoint+1);
 	}
 	
 	@Override

@@ -115,6 +115,10 @@ public class RequestDispatcherServlet extends HttpServlet{
 				break;
 			case ACCEPT_BREED_OFFER:
 				resp.sendRedirect("breed.jsp");
+			case FIGHT_RESOLVED:
+				dismissResolved(requestId);
+				resp.sendRedirect("fights.jsp");
+				
 			}
 			
 			
@@ -122,6 +126,7 @@ public class RequestDispatcherServlet extends HttpServlet{
 		}else if(action.equals("picked")){
 			Request pendingRequest = (Request)s.getAttribute("pendingRequest");
 			if(pendingRequest==null) return;
+			pendingRequest.setSeen(0);
 			switch(pendingRequest.getType()){
 			case OFFER_FIGHT:
 				String pickedMonsterId = req.getParameter("pickedid");
@@ -140,6 +145,31 @@ public class RequestDispatcherServlet extends HttpServlet{
 		// TODO Auto-generated method stub
 		this.doGet(req, resp);
 	}
+	
+	
+	
+	private void dismissResolved(int requestId){
+		Request r = rdao.getRequest(requestId);
+		if(r==null) System.out.println("IN dismissResolved request is null! req id = "+requestId);
+		//check if user is target or source
+		//check seen field from the request
+		//check if should be removed
+		//yes - remove , no - change seen
+		
+		int seen = r.getSeen();
+		
+		//If current user is the source
+		if(r.getSourceID().contains(user.getId()+".")){
+			if(seen==2) rdao.deleteRequest(requestId);
+		    else rdao.changeSeen(requestId, 1);
+		}else{
+		//If current user is the target
+			if(seen==1) rdao.deleteRequest(requestId);
+		    else rdao.changeSeen(requestId, 2);
+		}
+		
+	}
+	
 	
 	
 	public void sendFriendRequest(String friendId) {

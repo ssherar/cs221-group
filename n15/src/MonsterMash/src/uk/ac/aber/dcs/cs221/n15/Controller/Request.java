@@ -28,6 +28,16 @@ public class Request {
 	@Column(name="content")
 	private String content;
 	
+	/**
+	 * Specifies whether the request has been seen by both players that it concerns.
+	 * 1 - only seen by source player
+	 * 2 - only seen by target player
+	 * 3 - seen by both (in this case it gets deleted immediately.
+	 * Only concerns FIGHT_RESOLVED and BREED_RESOLVED
+	 */
+	@Column(name="seen")
+	private int seen;
+	
 	public Request(){
 		
 	}
@@ -90,5 +100,13 @@ public class Request {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	public int getSeen() {
+		return seen;
+	}
+
+	public void setSeen(int seen) {
+		this.seen = seen;
 	}
 }

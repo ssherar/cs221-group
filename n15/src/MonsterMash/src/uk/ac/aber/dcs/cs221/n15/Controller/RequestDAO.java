@@ -27,6 +27,7 @@ public class RequestDAO {
 	public void createRequest(String sourceId, String targetID, RequestType type, String content){
 		em = emf.createEntityManager();
 		Request r = new Request(sourceId, targetID, type);
+		r.setSeen(0);
 		if(content!=null) r.setContent(content);
 		try{
 			UserTransaction transaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
@@ -106,6 +107,21 @@ public class RequestDAO {
 		}catch(Exception ex){ 
 			System.out.print(ex);
 			return null;
+		}
+	}
+	
+	public boolean changeSeen(int requestId, int value){
+		try{
+			em = emf.createEntityManager();
+			UserTransaction transaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
+			transaction.begin();
+			Request r = em.find(Request.class, requestId);
+			r.setSeen(value);
+			transaction.commit();
+			return true;
+		}catch(Exception ex){ 
+			System.out.print(ex);
+			return false;
 		}
 	}
 	

@@ -1,12 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"
     import="uk.ac.aber.dcs.cs221.n15.Model.*"
-    import="uk.ac.aber.dcs.cs221.n15.Controller.MonsterDAO"
+    import="uk.ac.aber.dcs.cs221.n15.Controller.*"
     import="java.util.*"
     import="java.text.DateFormat" %>
  
 <% HttpSession s = request.getSession(false);
 User user = (User)(s.getAttribute("currentUser"));
+MonsterDAO mdao = new MonsterDAO();
 List<Monster> monsters = (List<Monster>)(s.getAttribute("monsters"));
 if(user == null) {
 	response.sendRedirect("index.jsp"); 
@@ -56,11 +57,8 @@ function rename(id) {
 			</div>
 			</td>
 			
-			
 			</tr>
 			</table>
-
-				
 
 			
 			</div>
@@ -86,10 +84,35 @@ function rename(id) {
 				<br/>
 				<hr class="horizontal_spacer" />
 				
+<!-- 				displaying other monster -->
 			
+			<%
+			Request r = (Request) s.getAttribute("pendingRequest");
+			Monster other = mdao.findMonster(r.getTargetID());
 			
-			<p class="title">My Monster Farm</p>
-			<% MonsterDAO mdao = new MonsterDAO(); %>
+			%>	
+			<div class="monster_window">
+				<div class="monster_description">
+					<p class="monster_name"><%= other.getName() %>
+					<%					
+					int age = mdao.calculateDaysDifference(other.getDob());
+					%>
+					</p>
+					Age: <%=age  %> 
+					<%= age==1 ? "day<br/>" : "days<br/>" %>
+					<table class="monster_stats">
+						<tr><td>health:</td><td><%= other.getHealth() %></td></tr>
+						<tr><td>strength:</td><td><%= other.getStrength() %></td></tr>
+						<tr><td>aggression:</td><td><%= other.getAggression() %></td></tr>
+						<tr><td>fertility:</td><td><%= other.getFertility() %></td></tr>
+					</table>
+					
+				</div>
+				
+			
+			</div>	
+			
+			<p class="title">Pick your monster</p>
 			<% if(monsters!=null) for(Monster m : monsters) {%>
 			
 			<div class="monster_window">
@@ -101,7 +124,7 @@ function rename(id) {
 						<img src="img/male.png" width="20px" />
 					<%}
 					
-					int age = mdao.calculateDaysDifference(m.getDob());
+					age = mdao.calculateDaysDifference(m.getDob());
 					%>
 					</p>
 					Age: <%=age  %> 
