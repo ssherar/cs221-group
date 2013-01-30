@@ -184,4 +184,8 @@ public class MonsterDAO {
 		}
 	
 	}
+	
+	public int calculatePrize(Monster monster) {
+		return (monster.getAggression() + monster.getFertility() + monster.getHealth() + monster.getStrength());
+	}
 }
