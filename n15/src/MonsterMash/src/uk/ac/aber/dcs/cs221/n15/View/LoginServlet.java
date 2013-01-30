@@ -102,5 +102,18 @@ public class LoginServlet extends HttpServlet {
 			response.sendRedirect("index.jsp");
 		}
 	}
+	
+	/**
+	 * Monsters are stored in session variable,
+	 * however sometimes they need to be refreshed.
+	 * That's what the method does.
+	 */
+	public static void reloadMonsters(HttpSession s, String userId){
+		UserDAO dao = new UserDAO();
+		List<Monster>  monsters = dao.loadMonsters(userId);
+		MonsterDAO mdao = new MonsterDAO();
+		mdao.ageMonsters(monsters);
+		s.setAttribute("monsters", monsters);
+	}
 
 }

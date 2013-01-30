@@ -182,6 +182,11 @@ public class Monster{
 		this.locked = locked;
 	}
 	
+	public static String parseNameFromId(String monsterId){
+		int lastPoint = monsterId.lastIndexOf(".");
+		return monsterId.substring(lastPoint);
+	}
+	
 	@Override
 	public String toString() {
 		return "Monster " + this.name + ": Str " + this.strength + " Agg " + this.aggression

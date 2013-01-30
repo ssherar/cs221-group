@@ -195,6 +195,24 @@ public class UserDAO {
 		return true;
 	}
 	
+	public boolean changeMoney(User user, int value) {
+		try {
+			EntityManager em = emf.createEntityManager();
+			UserTransaction transaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
+			transaction.begin();
+			User u = em.find(User.class, user.getId());
+			if(u == null) return false;
+			u.setMoney(u.getMoney()+value);
+			em.merge(u);
+			transaction.commit();
+
+		} catch(Exception ex) {
+			System.out.print(ex);
+			return false;
+		}
+		return true;
+	}
+	
 	public List<User> getHighscores(int limit) {
 		String sql = "SELECT * FROM users ORDER BY money DESC LIMIT " + limit;
 		Query q = emf.createEntityManager().createNativeQuery(sql, User.class);

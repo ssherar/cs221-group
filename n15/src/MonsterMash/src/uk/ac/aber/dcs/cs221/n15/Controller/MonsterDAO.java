@@ -13,6 +13,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.UserTransaction;
 
@@ -192,5 +193,39 @@ public class MonsterDAO {
 	
 	public int calculatePrize(Monster monster) {
 		return (monster.getAggression() + monster.getFertility() + monster.getHealth() + monster.getStrength());
+	}
+	
+	/**
+	 * When a monster dies, it needs to be removed from the database,
+	 * and that is what the method does.
+	 */
+	public void wipeMonster(String monsterId){
+		try{
+			em = emf.createEntityManager();
+			UserTransaction transaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
+			transaction.begin();
+			String q = "DELETE FROM requests WHERE (sourceId = '"+monsterId+"' OR targetId = '"+monsterId+"') AND type !='6' ";
+			Query query= emf.createEntityManager().createNativeQuery(q);
+			query.executeUpdate();
+			q = "DELETE FROM monsters WHERE id = '"+monsterId+"'" ;
+			query= emf.createEntityManager().createNativeQuery(q);
+			query.executeUpdate();
+			transaction.commit();
+		}catch(Exception ex){ 
+			
+		}
+	}
+	
+	public void updateHealth(String monsterId, int health){
+		try{
+			em = emf.createEntityManager();
+			UserTransaction transaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
+			transaction.begin();
+			Monster m = em.find(Monster.class, monsterId);
+			m.setHealth(health);
+			transaction.commit();
+		}catch(Exception ex){ 
+			
+		}
 	}
 }

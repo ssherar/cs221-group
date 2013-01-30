@@ -79,21 +79,16 @@ MonsterDAO mdao = new MonsterDAO();
 				<br/>
 				<hr class="horizontal_spacer" />
 				<div>
-				<p class="title_half">Finished Battles</p>
-				<% //for (Fight fight : fights) {%>
-				<div class="request_window">Your monster lost|won. Your|Their monster took xyz damage.</div>
-				<!-- Needs split to check which monster is whos -->
-				<% //} %>
+				<p class="title_half">Resolved Battles</p>
+				<%
+				NotificationManager nm = new NotificationManager(user);
+				%>
+				<%=nm.getNotifications(RequestType.FIGHT_RESOLVED) %>
 				</div>
 				
 				<div>
 				<p class="title_half" >Requests</p>
-				
-				<%
-				NotificationManager nm = new NotificationManager(user);
-				%>
 				<%=nm.getNotifications(RequestType.OFFER_FIGHT) %>
-				
 				</div>
 				
 

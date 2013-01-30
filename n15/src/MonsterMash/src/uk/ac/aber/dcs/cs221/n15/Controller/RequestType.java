@@ -7,6 +7,7 @@ public enum RequestType {
 	OFFER_FIGHT,
 	ACCEPTED_FIGHT,
 	DECLINED_FIGHT,
+	FIGHT_RESOLVED, //content is the winner's id.
 	ACCEPT_BREED_OFFER,
 	BREEDING_RESOLVED,
 	BUY_MONSTER;

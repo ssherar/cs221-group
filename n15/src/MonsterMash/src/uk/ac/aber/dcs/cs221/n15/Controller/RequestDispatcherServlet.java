@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import uk.ac.aber.dcs.cs221.n15.Model.Friend;
+import uk.ac.aber.dcs.cs221.n15.Model.Monster;
 import uk.ac.aber.dcs.cs221.n15.Model.User;
+import uk.ac.aber.dcs.cs221.n15.View.LoginServlet;
 
 
 @WebServlet(name = "RequestDispatcherServlet", urlPatterns = { "/RequestDispatcherServlet" })
@@ -83,6 +85,8 @@ public class RequestDispatcherServlet extends HttpServlet{
 				resp.sendRedirect("friends.jsp");
 				break;
 			case ACCEPTED_FIGHT:
+				acceptFightRequest(requestId);
+				resp.sendRedirect("fights.jsp");
 				break;
 			case ACCEPT_BREED_OFFER:
 				break;
@@ -107,7 +111,7 @@ public class RequestDispatcherServlet extends HttpServlet{
 				break;
 			case ACCEPTED_FIGHT:
 			case DECLINED_FIGHT:
-				resp.sendRedirect("fight.jsp");
+				resp.sendRedirect("fights.jsp");
 				break;
 			case ACCEPT_BREED_OFFER:
 				resp.sendRedirect("breed.jsp");
@@ -163,7 +167,32 @@ public class RequestDispatcherServlet extends HttpServlet{
 	}
 	
 	public void acceptFightRequest(int requestId) {
+		//If request is accepted, the fight is resolved and changes made in a database.
+		Request r = rdao.getRequest(requestId);
+		MonsterDAO mdao = new MonsterDAO();
+		Monster sourceMonster = mdao.findMonster(r.getSourceID());
+		Monster targetMonster = mdao.findMonster(r.getTargetID());
+		Monster winner = mdao.fight(sourceMonster, targetMonster);
 		
+		String looserId = winner.getId().equals(r.getSourceID()) ? 
+				r.getTargetID() : r.getSourceID();
+		Monster looser = mdao.findMonster(looserId);
+		
+		//winner's hp is updated
+		mdao.updateHealth(winner.getId(), winner.getHealth());
+		
+		//owner gets prize
+		UserDAO udao = new UserDAO();
+		User u = udao.findUser(winner.getOwnerId());
+		udao.changeMoney(u, mdao.calculatePrize(looser));
+		
+		rdao.updateRequestType(r.getId(), RequestType.FIGHT_RESOLVED, winner.getId());
+		
+		//looser is removed.
+		mdao.wipeMonster(looserId);
+		
+		//reloading list of monsters
+		LoginServlet.reloadMonsters(s, user.getId());
 	}
 	
 	public void declineFightRequests(int requestId) {

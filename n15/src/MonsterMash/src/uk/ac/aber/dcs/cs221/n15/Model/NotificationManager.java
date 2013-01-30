@@ -40,7 +40,6 @@ public class NotificationManager {
 				System.out.println("zero!");
 				builder.append(processFriendRequest(r));
 			}
-			System.out.println("one!");
 			break;
 		
 		case ACCEPTED_FRIENDSHIP:
@@ -48,7 +47,6 @@ public class NotificationManager {
 				if(r.getTargetID().equals(user.getId())) continue;
 				else builder.append(processAcceptedFriendship(r));
 			}
-			System.out.println("two!");
 			break;
 		
 		case DECLINED_FRIENDSHIP:
@@ -56,15 +54,17 @@ public class NotificationManager {
 				if(r.getTargetID().equals(user.getId())) continue;
 				else builder.append(processDeclinedFriendship(r));
 			}	
-			System.out.println("three!");
 			break;			
 		case OFFER_FIGHT:
-			System.out.println("offer fisht seen");
 			for(Request r : requests){
-				System.out.println("processing fight");
 				builder.append(processFightOffer(r));
 			}	
-			
+			break;
+		case FIGHT_RESOLVED:
+			for(Request r : requests){
+				builder.append(processFightResolved(r));
+			}	
+			break;
 		}
 		
 		
@@ -158,17 +158,40 @@ public class NotificationManager {
 		.append("fight prize: $"+mdao.calculatePrize(foe)+ "<br/>")
 		.append("<a href=\""+profileUrl+"\">view friends profile</a></div></div>");
 		
-		//If user sent the reqest, he should see a confirmation that it is pending.
+		//If user sent the request, he should see a confirmation that it is pending.
 		if(r.getSourceID().contains(user.getId())){
 			sb.append("<p>Request sent, waiting for response.</p>");
 		}else{
 		//If user received the request, he should see two links, to accept and to decline
-			String acceptLink = "RequestDispatcherServlet?action=accept&type=4&requestid"+r.getId();
-			String declineLink = "RequestDispatcherServlet?action=decline&type=5&requestid"+r.getId();
+			String acceptLink = "RequestDispatcherServlet?action=accept&type=4&requestid="+r.getId();
+			String declineLink = "RequestDispatcherServlet?action=decline&type=5&requestid="+r.getId();
 			sb.append("<div class=\"accept_decline\"><a href=\""+acceptLink+"\">accept </a> | " +
 					"<a href=\""+declineLink+"\">decline </a></div>");
 		}
 		sb.append("</div>");
+		
+		return sb.toString();
+	}
+	
+	private String processFightResolved(Request r){
+		StringBuilder sb = new StringBuilder();
+		
+		String winnerName = Monster.parseNameFromId(r.getContent());
+		String sourceName = Monster.parseNameFromId(r.getSourceID());
+		String targetName = Monster.parseNameFromId(r.getTargetID());
+		
+		sb.append("<div class=\"request_window\">");
+		sb.append("<p>Fight between ").append(sourceName)
+		.append(" and ").append(targetName).append(".<br/>");
+		
+		//If user's monster won
+		if(r.getContent().contains(user.getId()+".")){
+			sb.append("Congratulations! Your monster (").append(Monster.parseNameFromId(r.getSourceID()))
+			.append(") won!</p>");
+		}else{
+			sb.append("Your monster (").append(winnerName.equals(sourceName) ? targetName : sourceName)
+			.append(") lost the fight and died.</p></div>");
+		}		
 		
 		return sb.toString();
 	}
