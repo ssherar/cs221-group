@@ -112,5 +112,6 @@ public class MonsterEditServlet extends HttpServlet {
 		}
 		if(!valid) return;
 		mdao.changeBuyPrice(monsterId, price);
+		this.reloadMonsters(s);
 	}
 }
