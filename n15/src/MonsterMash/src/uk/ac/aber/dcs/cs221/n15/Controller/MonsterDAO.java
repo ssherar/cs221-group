@@ -1,6 +1,7 @@
 package uk.ac.aber.dcs.cs221.n15.Controller;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -177,7 +178,7 @@ public class MonsterDAO {
 			
 			monsterOne = (m1Strength + m1hp + m1luck);
 			monsterTwo = (m2Strength + m2hp + m2luck);
-			System.out.println("" + monsterOne + " : " + monsterTwo);
+			//System.out.println("" + monsterOne + " : " + monsterTwo);
 		}while(monsterOne==monsterTwo);
 			
 		if(monsterOne > monsterTwo ) {
@@ -192,5 +193,65 @@ public class MonsterDAO {
 	
 	public int calculatePrize(Monster monster) {
 		return (monster.getAggression() + monster.getFertility() + monster.getHealth() + monster.getStrength());
+	}
+	
+	public List<Monster> breed(Monster monster1, Monster monster2) {
+		List<Monster> children = new ArrayList<Monster>();
+		int mOneFert = monster1.getFertility();
+		int mTwoFert = monster2.getFertility();
+		int avgFert = (mOneFert + mTwoFert) / 2;
+		int noChildren = (Validator.rand(20, avgFert)/20);
+		int minStr = Math.min(monster1.getStrength(), monster2.getStrength()), maxStr = Math.max(monster1.getStrength(), monster2.getStrength());
+		int minFert = Math.min(monster1.getFertility(), monster2.getFertility()), maxFert = Math.max(monster2.getFertility(), monster1.getFertility());
+		int minAgg = Math.min(monster1.getAggression(), monster2.getAggression()), maxAgg = Math.max(monster2.getAggression(), monster1.getAggression());
+		maxStr = Math.min(70, maxStr);
+		maxAgg = Math.min(70, maxAgg);
+		maxFert = Math.min(70, maxFert);
+		for(int i = 0; i < noChildren; i++) {
+			int strChance, aggChance, fertChance;
+			Monster child = new Monster();
+			child.setName("" + Validator.rand(0, 1000));
+			strChance = Validator.rand(1,4);
+			aggChance = Validator.rand(1,4);
+			fertChance = Validator.rand(1,4);
+			System.out.println(strChance);
+			switch(strChance) {
+			case 1:
+				child.setStrength(minStr);
+				break;
+			case 2:
+				child.setStrength(maxStr);
+				break;
+			case 3:
+				child.setStrength(Validator.rand(20, 70));
+				break;
+			}
+			
+			switch(aggChance) {
+			case 1:
+				child.setAggression(minAgg);
+				break;
+			case 2:
+				child.setAggression(maxAgg);
+				break;
+			case 3:
+				child.setAggression(Validator.rand(20, 70));
+				break;
+			}
+			
+			switch(fertChance) {
+			case 1:
+				child.setFertility(minFert);
+				break;
+			case 2:
+				child.setFertility(maxFert);
+				break;
+			case 3:
+				child.setFertility(Validator.rand(20, 70));
+				break;
+			}
+			children.add(child);
+		}
+		return children;
 	}
 }
