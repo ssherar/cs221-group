@@ -37,7 +37,11 @@ public class MonsterEditServlet extends HttpServlet {
 			this.rename(req,resp);
 		} else if(type.equals("breedPrice")) {
 			this.changeBreedPrice(req, resp);
+		} else if(type.equals("buyPrice")) {
+			this.changeBuyPrice(req,resp);
 		}
+		//Redirecting to farm page
+		resp.sendRedirect("myfarm.jsp");
 	}
 	
 	private void rename(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -65,9 +69,6 @@ public class MonsterEditServlet extends HttpServlet {
 		
 		//Reloading list of monsters
 		this.reloadMonsters(s);
-		
-		//Redirecting to farm page
-		resp.sendRedirect("myfarm.jsp");
 	}
 	
 	private void reloadMonsters(HttpSession s) {
@@ -94,6 +95,22 @@ public class MonsterEditServlet extends HttpServlet {
 		
 		mdao.changeBreedPrice(monsterId, price);
 		this.reloadMonsters(s);
-		resp.sendRedirect("myfarm.jsp");
+	}
+	
+	public void changeBuyPrice(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		HttpSession s = req.getSession();
+		int price = Integer.parseInt(req.getParameter("newPrice"));
+		String monsterId = req.getParameter("monsterId");
+		
+		List<Monster> monsters = (List<Monster>)(s.getAttribute("monsters"));
+		boolean valid = false;
+		for(Monster m : monsters) {
+			if(m.getId().equals(monsterId)) {
+				valid = true;
+				break;
+			}
+		}
+		if(!valid) return;
+		mdao.changeBuyPrice(monsterId, price);
 	}
 }

@@ -109,6 +109,23 @@ public class MonsterDAO {
 			
 		}
 	}
+	
+	public void changeBuyPrice(String mID, int price) {
+		try {
+			UserTransaction transaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
+			transaction.begin();
+			em = emf.createEntityManager();
+			Monster m = em.find(Monster.class, mID);
+			if(m == null) return;
+			
+			m.setBuyPrice(price);
+			em.merge(m);
+			transaction.commit();
+			
+		} catch(Exception ex) {
+			
+		}
+	}
 
 	public void ageMonsters(List<Monster> monsters) {
 		for(Monster m : monsters) {
