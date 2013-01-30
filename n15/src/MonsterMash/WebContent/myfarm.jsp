@@ -28,8 +28,15 @@ function rename(id) {
 	var newname = prompt("What would you like to rename your monster to?", "");
 	if (newname != null && newname != "") {
 		//CallRename
-		document.location = "RenameServlet?monsterId="+id+"&newName="+newname;
+		document.location = "MonsterEditServlet?type=rename&monsterId="+id+"&newName="+newname;
 	}	
+}
+
+function changeBreedPrice(id) {
+	var newPrice = prompt("What price would you like to set for breeding?", "");
+	if(newPrice != null && newPrice != "" && !isNaN(newPrice)) {
+		document.location = "MonsterEditServlet?type=breedPrice&monsterId=" + id + "&newPrice="+newPrice;
+	}
 }
 </script>
 </head>
@@ -116,10 +123,12 @@ function rename(id) {
 				
 				<div class="monster_actions_menu">
 					<a href="JAVASCRIPT:rename('<%= m.getId() %>')">rename</a><br/>
+					<a href="JAVASCRIPT:changeBreedPrice('<%= m.getId() %>')">change breed price</a><br />
 					<a>offer for sale</a><br/>
 					<a>offer for breeding</a><br/>
 					<br/>
-					fight prize: $<%= mdao.calculatePrize(m) %>
+					fight prize: $<%= mdao.calculatePrize(m) %><br />
+					breed price: $<%= m.getBreedPrice() %>
 				</div>
 			
 			
