@@ -44,12 +44,15 @@ public class Monster{
 	
 	@Column(name="strength")
 	private int strength;
+	
+	@Column(name="lockMonster")
+	private int locked;
 
 	/*//bi-directional many-to-one association to User
     @ManyToOne
 	@JoinColumn(name="owner_id")
 	private User user;*/
-	
+
 	@Column(name="owner")
 	private String ownerId;
 	
@@ -169,6 +172,14 @@ public class Monster{
 
 	public void setOwnerId(String ownerId) {
 		this.ownerId = ownerId;
+	}
+	
+	public int getLocked() {
+		return locked;
+	}
+
+	public void setLocked(int locked) {
+		this.locked = locked;
 	}
 	
 	@Override
