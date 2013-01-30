@@ -145,7 +145,7 @@ public class RequestDispatcherServlet extends HttpServlet{
 			case ACCEPT_BREED_OFFER:
 				pendingRequest.setSourceID(pickedMonsterId);
 				acceptBreedOffer(pendingRequest);
-				
+				rdao.persistRequest(pendingRequest);	
 			}
 			
 			
@@ -254,12 +254,25 @@ public class RequestDispatcherServlet extends HttpServlet{
 		//While target's owner will get the money
 		Monster sourceMonster = mdao.findMonster(r.getSourceID());
 		Monster targetMonster = mdao.findMonster(r.getTargetID());
+		if(!targetMonster.isForBreeding()) return;
 		//Here children get evaluated
 		List<Monster> children = mdao.breed(sourceMonster, targetMonster);
 		
 		UserDAO udao = new UserDAO();
 		User sourceUser = udao.findUser(sourceMonster.getOwnerId());
 		User targetUser = udao.findUser(targetMonster.getOwnerId());
+		
+		//And payment. 
+		//(checking if user can afford when loading links to breed,
+		//but we will double-check here)
+		int price = targetMonster.getBreedPrice();
+		if(sourceUser.getMoney()<price) return;
+		udao.changeMoney(targetUser, price);
+		udao.changeMoney(sourceUser, -price);
+				
+		//Saving new monsters to database.
+		for(Monster child : children) mdao.persistMonster(child);
+		
 		
 	}
 	

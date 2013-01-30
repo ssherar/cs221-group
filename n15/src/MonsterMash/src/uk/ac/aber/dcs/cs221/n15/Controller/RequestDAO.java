@@ -39,6 +39,18 @@ public class RequestDAO {
 		}
 	}
 	
+	public void persistRequest(Request r){
+		em = emf.createEntityManager();
+		try{
+			UserTransaction transaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
+			transaction.begin();
+			em.persist(r);
+			transaction.commit();
+		}catch(Exception ex){ 
+			
+		}
+	}
+	
 	/*
 	 * Returns list of request of given type for given user.
 	 */

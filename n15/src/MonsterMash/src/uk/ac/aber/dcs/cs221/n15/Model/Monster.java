@@ -50,6 +50,15 @@ public class Monster{
 	
 	@Column(name="breedPrice")
 	private int breedPrice;
+	
+	@Column(name="isForBreeding", columnDefinition= "TINYINT(1)")
+	private boolean isForBreeding;
+	
+	@Column(name="isForSale", columnDefinition= "TINYINT(1)")
+	private boolean isForSale;
+	
+	@Column(name="salePrice")
+	private int salePrice;
 
 	/*//bi-directional many-to-one association to User
     @ManyToOne
@@ -202,5 +211,29 @@ public class Monster{
 	public String toString() {
 		return "Monster " + this.name + ": Str " + this.strength + " Agg " + this.aggression
 				 + "Fert " + this.fertility + " Health " + this.health;
+	}
+
+	public boolean isForBreeding() {
+		return isForBreeding;
+	}
+
+	public void setForBreeding(boolean isForBreeding) {
+		this.isForBreeding = isForBreeding;
+	}
+
+	public boolean isForSale() {
+		return isForSale;
+	}
+
+	public void setForSale(boolean isForSale) {
+		this.isForSale = isForSale;
+	}
+
+	public int getSalePrice() {
+		return salePrice;
+	}
+
+	public void setSalePrice(int salePrice) {
+		this.salePrice = salePrice;
 	}
 }

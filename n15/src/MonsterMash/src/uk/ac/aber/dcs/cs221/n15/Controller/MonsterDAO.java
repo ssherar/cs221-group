@@ -258,10 +258,14 @@ public class MonsterDAO {
 		maxStr = Math.min(70, maxStr);
 		maxAgg = Math.min(70, maxAgg);
 		maxFert = Math.min(70, maxFert);
+		
+		String name = "M"+Validator.rand(0, 1000);
+		
 		for(int i = 0; i < noChildren; i++) {
 			int strChance, aggChance, fertChance;
 			Monster child = new Monster();
-			child.setName("" + Validator.rand(0, 1000));
+			
+			child.setName(name+"_"+i);
 			strChance = Validator.rand(1,4);
 			aggChance = Validator.rand(1,4);
 			fertChance = Validator.rand(1,4);
@@ -303,6 +307,8 @@ public class MonsterDAO {
 			}
 
 			child.setHealth(100);
+			child.setOwnerId(monster1.getOwnerId());
+			child.setId(child.getOwnerId()+"."+child.getName());
 			children.add(child);
 		}
 		return children;
