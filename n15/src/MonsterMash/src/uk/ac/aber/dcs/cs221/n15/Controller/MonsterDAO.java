@@ -1,12 +1,10 @@
 package uk.ac.aber.dcs.cs221.n15.Controller;
 
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Random;
-import java.math.*;
 
 import javax.naming.InitialContext;
 import javax.persistence.EntityManager;
@@ -14,7 +12,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 import javax.transaction.UserTransaction;
 
 import uk.ac.aber.dcs.cs221.n15.Model.Monster;
@@ -228,4 +225,77 @@ public class MonsterDAO {
 			
 		}
 	}
+
+
+public List<Monster> breed(Monster monster1, Monster monster2) {
+	List<Monster> children = new ArrayList<Monster>();
+	int mOneFert = monster1.getFertility();
+	int mTwoFert = monster2.getFertility();
+	int avgFert = (mOneFert + mTwoFert) / 2;
+	int noChildren = (Validator.rand(20, avgFert)/20);
+	int minStr = Math.min(monster1.getStrength(), monster2.getStrength()), maxStr = Math.max(monster1.getStrength(), monster2.getStrength());
+	int minFert = Math.min(monster1.getFertility(), monster2.getFertility()), maxFert = Math.max(monster2.getFertility(), monster1.getFertility());
+	int minAgg = Math.min(monster1.getAggression(), monster2.getAggression()), maxAgg = Math.max(monster2.getAggression(), monster1.getAggression());
+	maxStr = Math.min(70, maxStr);
+	maxAgg = Math.min(70, maxAgg);
+	maxFert = Math.min(70, maxFert);
+	for(int i = 0; i < noChildren; i++) {
+		int strChance, aggChance, fertChance;
+		Monster child = new Monster();
+		child.setName("" + Validator.rand(0, 1000));
+		strChance = Validator.rand(1,4);
+		aggChance = Validator.rand(1,4);
+		fertChance = Validator.rand(1,4);
+		System.out.println(strChance + " " + aggChance + " " + fertChance);
+		switch(strChance) {
+		case 1:
+			child.setStrength(minStr);
+			break;
+		case 2:
+			child.setStrength(maxStr);
+			break;
+		case 3:
+			child.setStrength(Validator.rand(20, 70));
+			break;
+		}
+		
+		switch(aggChance) {
+		case 1:
+			child.setAggression(minAgg);
+			break;
+		case 2:
+			child.setAggression(maxAgg);
+			break;
+		case 3:
+			child.setAggression(Validator.rand(20, 70));
+			break;
+		}
+		 
+		switch(fertChance) {
+		case 1:
+			child.setFertility(minFert);
+			break;
+		case 2:
+			child.setFertility(maxFert);
+			break;
+		case 3:
+			child.setFertility(Validator.rand(20, 70));
+			break;
+		}
+		
+		child.setHealth(100);
+		children.add(child);
+	}
+	return children;
 }
+
+public void buy(String buyerid, String sellerid, Monster monster) {
+	String sub = monster.getId().substring(sellerid.length()+1, monster.getId().length());
+	System.out.println(sub);
+	String newid = buyerid + '.' + sub;
+	monster.setId(newid);
+	monster.setOwnerId(buyerid);
+	System.out.println(newid);
+}
+}
+
