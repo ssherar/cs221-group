@@ -105,7 +105,6 @@ else System.out.println("JSP: friends is NOT null");
 						
 			<% if(friendsMonsters!=null){
 				MonsterDAO mdao = new MonsterDAO();
-				mdao.ageMonsters(friendsMonsters);
 				
 				for(Monster m : friendsMonsters){%>
 			

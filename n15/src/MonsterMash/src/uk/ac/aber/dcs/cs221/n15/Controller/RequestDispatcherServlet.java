@@ -103,10 +103,10 @@ public class RequestDispatcherServlet extends HttpServlet{
 			}
 		}else if(action.equals("dismiss")){
 			Request r = rdao.getRequest(requestId);
-			rdao.deleteRequest(requestId);
 			switch(r.getType()){
 			case ACCEPTED_FRIENDSHIP:
 			case DECLINED_FRIENDSHIP:
+				rdao.deleteRequest(requestId);
 				resp.sendRedirect("friends.jsp");
 				break;
 			case ACCEPTED_FIGHT:
@@ -115,6 +115,7 @@ public class RequestDispatcherServlet extends HttpServlet{
 				break;
 			case ACCEPT_BREED_OFFER:
 				resp.sendRedirect("breed.jsp");
+				break;
 			case FIGHT_RESOLVED:
 				dismissResolved(requestId);
 				resp.sendRedirect("fights.jsp");

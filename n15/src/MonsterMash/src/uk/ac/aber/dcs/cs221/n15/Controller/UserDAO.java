@@ -54,6 +54,8 @@ public class UserDAO {
 		if(ownerId.charAt(3)!='.') ownerId = "loc." + ownerId;
 		TypedQuery<Monster> q = (TypedQuery<Monster>) emf.createEntityManager().createNativeQuery("SELECT * FROM monsters WHERE owner = '"+ownerId+"'", Monster.class);
 		List<Monster> ret = q.getResultList();
+		MonsterDAO mdao = new MonsterDAO();
+		mdao.ageMonsters(ret);
 		return ret;
 	}
 	
@@ -63,6 +65,7 @@ public class UserDAO {
 		return count.intValue();
 	}
 	
+	//TODO remove before submitting
 	public void test(){
 		try{
 			EntityManager em = emf.createEntityManager();

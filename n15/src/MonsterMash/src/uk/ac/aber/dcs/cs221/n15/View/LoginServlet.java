@@ -65,7 +65,6 @@ public class LoginServlet extends HttpServlet {
 			List<Monster>  monsters = dao.loadMonsters(uname);
 			//Calculating monster's parameter according to age
 			MonsterDAO mdao = new MonsterDAO();
-			mdao.ageMonsters(monsters);
 			
 			ArrayList<Friend> friends = dao.getFriends(user);
 			HttpSession session = request.getSession();
