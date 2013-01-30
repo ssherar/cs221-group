@@ -127,7 +127,8 @@ else System.out.println("JSP: friends is NOT null");
 					</table>
 				</div>
 				<div class="monster_actions_menu">
-					<a>challenge to fight</a><br/>
+				<% String fightUrl = "RequestDispatcherServlet?action=send&type=3&targetid="+m.getId(); %>
+					<a href="<%=fightUrl %>">challenge to fight</a><br/>
 					<a>buy this monster</a><br/>
 					<a>offer for breeding</a><br/><br />
 					fight prize: $<%= mdao.calculatePrize(m) %>

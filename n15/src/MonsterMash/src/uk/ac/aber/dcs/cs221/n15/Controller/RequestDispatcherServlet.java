@@ -36,6 +36,10 @@ public class RequestDispatcherServlet extends HttpServlet{
 	 * action=dismiss
 	 * requestid (int)
 	 * 
+	 * To pick monster:
+	 * action=picked
+	 * pickedid (String)
+	 * 
 	 * Optional:
 	 * content = string
 	 * 
@@ -64,6 +68,12 @@ public class RequestDispatcherServlet extends HttpServlet{
 			case FRIEND_REQUEST:
 				sendFriendRequest(targetId);
 				resp.sendRedirect("friends.jsp");
+				break;
+			case OFFER_FIGHT:
+				//in this case targetid is id of a monster, not user!
+				Request fr = new Request(null, targetId, RequestType.OFFER_FIGHT);
+				s.setAttribute("pendingRequest", fr);
+				resp.sendRedirect("picker.jsp");
 			}
 		}else if(action.equals("accept")){
 			
@@ -82,6 +92,16 @@ public class RequestDispatcherServlet extends HttpServlet{
 		}else if(action.equals("dismiss")){
 			rdao.deleteRequest(requestId);
 			resp.sendRedirect("friends.jsp");
+		}else if(action.equals("picked")){
+			Request pendingRequest = (Request)s.getAttribute("pendingRequest");
+			if(pendingRequest==null) return;
+			if(pendingRequest.getType()==RequestType.OFFER_FIGHT){
+				String pickedMonsterId = req.getParameter("pickedid");
+				rdao.createRequest(pickedMonsterId, pendingRequest.getTargetID(), 
+						RequestType.OFFER_FIGHT, null);
+				resp.sendRedirect("fights.jsp");
+			}
+			
 		}
 		
 	}
