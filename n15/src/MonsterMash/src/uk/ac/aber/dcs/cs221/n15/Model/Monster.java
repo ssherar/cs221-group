@@ -51,11 +51,11 @@ public class Monster{
 	@Column(name="breedPrice")
 	private int breedPrice;
 	
-	@Column(name="isForBreeding", columnDefinition= "TINYINT(1)")
-	private boolean isForBreeding;
+	@Column(name="isForBreeding")
+	private int isForBreeding;
 	
-	@Column(name="isForSale", columnDefinition= "TINYINT(1)")
-	private boolean isForSale;
+	@Column(name="isForSale")
+	private int isForSale;
 	
 	@Column(name="salePrice")
 	private int salePrice;
@@ -202,6 +202,38 @@ public class Monster{
 		this.breedPrice = breedPrice;
 	}
 	
+	public int getSalePrice() {
+		return salePrice;
+	}
+
+	public void setSalePrice(int salePrice) {
+		this.salePrice = salePrice;
+	}
+
+	public int getIsForBreeding() {
+		return isForBreeding;
+	}
+
+	public void setIsForBreeding(int isForBreeding) {
+		this.isForBreeding = isForBreeding;
+	}
+	
+	public boolean isForBreeding() {
+		return (this.isForBreeding == 1);
+	}
+
+	public int getIsForSale() {
+		return isForSale;
+	}
+
+	public void setIsForSale(int isForSale) {
+		this.isForSale = isForSale;
+	}
+	
+	public boolean isForSale() {
+		return (this.isForSale == 1);
+	}
+	
 	public static String parseNameFromId(String monsterId){
 		int lastPoint = monsterId.lastIndexOf(".");
 		return monsterId.substring(lastPoint+1);
@@ -213,27 +245,5 @@ public class Monster{
 				 + "Fert " + this.fertility + " Health " + this.health;
 	}
 
-	public boolean isForBreeding() {
-		return isForBreeding;
-	}
 
-	public void setForBreeding(boolean isForBreeding) {
-		this.isForBreeding = isForBreeding;
-	}
-
-	public boolean isForSale() {
-		return isForSale;
-	}
-
-	public void setForSale(boolean isForSale) {
-		this.isForSale = isForSale;
-	}
-
-	public int getSalePrice() {
-		return salePrice;
-	}
-
-	public void setSalePrice(int salePrice) {
-		this.salePrice = salePrice;
-	}
 }
