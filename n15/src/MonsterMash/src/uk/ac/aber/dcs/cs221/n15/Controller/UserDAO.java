@@ -59,6 +59,24 @@ public class UserDAO {
 		return ret;
 	}
 	
+	public List<Monster> getMonstersForBreeding(String ownerId) {
+		if(ownerId.charAt(3)!='.') ownerId = "loc." + ownerId;
+		TypedQuery<Monster> q = (TypedQuery<Monster>) emf.createEntityManager().createNativeQuery("SELECT * FROM monsters WHERE owner = '"+ownerId+"' AND isForBreeding = 1", Monster.class);
+		List<Monster> ret = q.getResultList();
+		MonsterDAO mdao = new MonsterDAO();
+		mdao.ageMonsters(ret);
+		return ret;
+	}
+	
+	public List<Monster> getMonstersForSale(String ownerId) {
+		if(ownerId.charAt(3)!='.') ownerId = "loc." + ownerId;
+		TypedQuery<Monster> q = (TypedQuery<Monster>) emf.createEntityManager().createNativeQuery("SELECT * FROM monsters WHERE owner = '"+ownerId+"' AND isForSale = 1", Monster.class);
+		List<Monster> ret = q.getResultList();
+		MonsterDAO mdao = new MonsterDAO();
+		mdao.ageMonsters(ret);
+		return ret;
+	}
+	
 	public int countMonsters(User user){
 		Query query= emf.createEntityManager().createNativeQuery("SELECT COUNT(*) FROM monsters WHERE owner = '"+user.getId()+"'");
 		Long count = (Long)(query.getSingleResult());

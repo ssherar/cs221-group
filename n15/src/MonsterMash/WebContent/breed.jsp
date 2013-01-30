@@ -50,9 +50,6 @@ if(user == null) {
 			
 			</tr>
 			</table>
-
-				
-
 			
 			</div>
 			<hr class="horizontal_spacer" />
@@ -76,6 +73,7 @@ if(user == null) {
 				</div>
 				<br/>
 				<hr class="horizontal_spacer" />
+				
 				<div>
 				<p class="title_half">Finished Breeding</p>
 				<% //for (Fight fight : fights) {%>
@@ -84,53 +82,49 @@ if(user == null) {
 				<% //} %>
 				</div>
 				
-				<div>
-				<p class="title_half" >Requests</p>
-				<%//for (BreedRequests) { //TODO: Replace with getRequests() 
-					//Monster attmob = mdao.getMonster(req.getAttackingMonster());
-					//Monster defmob = mdao.getMonster(req.getDefendingMonster());
-					Monster mob1 = new Monster();
-					mob1.setName("Test");
-					Monster mob2 = new Monster();
-					mob2.setName("Feck");%>
-				<div class="breed_window">
+				<%
+				List<Monster> monstersForBreeding = new ArrayList<Monster>();
+				List<Friend> friends = (List<Friend>)s.getAttribute("friends");
+				UserDAO udao = new UserDAO();
+				MonsterDAO mdao = new MonsterDAO();
+				for(Friend f : friends){
+					monstersForBreeding.addAll(udao.getMonstersForBreeding(f.getId()));
+					if(monstersForBreeding.size()>60) break;
+				}
+				
+				
+				for(Monster m : monstersForBreeding){%>
+				
 				<div class="monster_window">
-					<div class="monster_description">
-					<p class="monster_name"><%= mob1.getName() %></p>
-					Born: <%= "NEVER"/*DateFormat.getInstance().format(mob1.getDob())*/ %><br/>
+				<div class="monster_description">
+					<p class="monster_name"><%= m.getName() %>
+					<%
+					int age = mdao.calculateDaysDifference(m.getDob());
+					%>
+					</p>
+					Age: <%=age  %> 
+					<%= age==1 ? "day<br/>" : "days<br/>" %>
 					<table class="monster_stats">
-						<tr><td>health:</td><td><%= mob1.getHealth() %></td></tr>
-						<tr><td>strength:</td><td><%= mob1.getStrength() %></td></tr>
-						<tr><td>aggression:</td><td><%= mob1.getAggression() %></td></tr>
-						<tr><td>fertility:</td><td><%= mob1.getFertility() %></td></tr>
+						<tr><td>health:</td><td><%= m.getHealth() %></td></tr>
+						<tr><td>strength:</td><td><%= m.getStrength() %></td></tr>
+						<tr><td>aggression:</td><td><%= m.getAggression() %></td></tr>
+						<tr><td>fertility:</td><td><%= m.getFertility() %></td></tr>
 					</table>
-					</div>
-					<div class="monster_actions_menu">
-					</div>
-				</div>
-				<div class="monster_window">
-					<div class="monster_description">
-					<p class="monster_name"><%= mob2.getName() %></p>
-					Born: <%= "NEVER"/*DateFormat.getInstance().format(mob2.getDob())*/ %><br/>
-					<table class="monster_stats">
-						<tr><td>health:</td><td><%= mob2.getHealth() %></td></tr>
-						<tr><td>strength:</td><td><%= mob2.getStrength() %></td></tr>
-						<tr><td>aggression:</td><td><%= mob2.getAggression() %></td></tr>
-						<tr><td>fertility:</td><td><%= mob2.getFertility() %></td></tr>
-					</table>
-					</div>
-					<div class="monster_actions_menu">
-						<a>view friends profile</a>
-					</div>
-				</div>
-				<div class="accept_decline">
-				<a>accept </a>|<a> decline</a>
-				</div>
+					
 				</div>
 				
-				<% //} %>
+				<div class="monster_actions_menu">
+					
+					<a href="RequestDispatcherServlet?action=accept&type=7&targetid="<%=m.getId() %>>
+					BREED</a><br/>
+					<br/>
+					fight prize: $<%= mdao.calculatePrize(m) %><br />
 				</div>
-				
+			
+			
+			</div>
+			<%} %>
+								
 			</div>
 		</center>
 </body>
