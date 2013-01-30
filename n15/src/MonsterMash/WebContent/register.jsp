@@ -47,7 +47,7 @@ if(s != null) {
 			</tr>
 		</table>
 		<br/> 
-		<input class="title" type="submit"/>
+<!-- 		<input class="title" type="submit"/> -->
 		<a class="title" href="JAVASCRIPT:validate(registerForm);" >REGISTER</a><br  />
 </form>
 </center>
