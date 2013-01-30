@@ -1,5 +1,6 @@
 package uk.ac.aber.dcs.cs221.n15.Tests;
 import static org.junit.Assert.*;
+import java.math.*;
 
 import org.junit.*;
 import uk.ac.aber.dcs.cs221.n15.Controller.*;
@@ -9,6 +10,8 @@ public class TestMonster {
 	private Monster youngMonster;
 	private Monster adultMonster;
 	private Monster elderlyMonster;
+	private Monster weakMonster;
+	private Monster strongMonster;
 	
 	private MonsterDAO mdao;
 	
@@ -49,6 +52,16 @@ public class TestMonster {
 		elderlyMonster.setFertility(50);
 		elderlyMonster.setHealth(100);
 		elderlyMonster.setDob(calElderly.getTime());
+		
+		weakMonster = new Monster();
+		weakMonster.setAggression(50);
+		weakMonster.setStrength(50);
+		weakMonster.setHealth(20);
+		
+		strongMonster = new Monster();
+		strongMonster.setAggression(60);
+		strongMonster.setStrength(600);
+		strongMonster.setHealth(100);
 	}
 
 	@Test
@@ -78,5 +91,20 @@ public class TestMonster {
 		assertTrue(elderlyMonster.getAggression() == adultMonster.getAggression());
 		assertTrue(elderlyMonster.getFertility() == adultMonster.getFertility());
 		assertTrue(elderlyMonster.getHealth() < 100);
+	}
+	
+	@Test
+	public void testFightMonsters() {
+//		int weak = 0, strong = 0;
+//		for(int i = 0; i < 1000; i++) {
+//			if(mdao.fight(weakMonster, strongMonster) == weakMonster) {
+//				weak++;
+//			} else {
+//				strong++;
+//			}
+//		}
+//		System.out.println(weak + " " + strong);
+		Monster winner = mdao.fight(weakMonster, strongMonster);
+		assertTrue(winner.getHealth() < 100);
 	}
 }

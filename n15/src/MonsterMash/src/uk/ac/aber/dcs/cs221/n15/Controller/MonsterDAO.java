@@ -155,4 +155,33 @@ public class MonsterDAO {
 		return calculateDaysDifference(start, new Date());
 	}
 	
+	// TODO: refactor
+	public Monster fight(Monster monster1, Monster monster2) {
+		int monsterOne;
+		int monsterTwo;
+		
+		do{		
+			int m1hp = monster1.getHealth() / 20;
+			int m2hp = monster2.getHealth() / 20;
+			
+			int m1Strength = ((monster1.getStrength() * monster1.getAggression()) / 1000);
+			int m2Strength = ((monster2.getStrength() * monster2.getAggression()) / 1000);
+			
+			int m1luck = Validator.rand(1, 10);
+			int m2luck = Validator.rand(1, 10);
+			
+			monsterOne = (m1Strength + m1hp + m1luck);
+			monsterTwo = (m2Strength + m2hp + m2luck);
+			System.out.println("" + monsterOne + " : " + monsterTwo);
+		}while(monsterOne==monsterTwo);
+			
+		if(monsterOne > monsterTwo ) {
+			monster1.setHealth(monster1.getHealth() * (1- (monsterTwo / 100) ));
+			return monster1;
+		} else {
+			monster2.setHealth(monster2.getHealth() * (1- (monsterOne / 100) ));
+			return monster2;
+		}
+	
+	}
 }
