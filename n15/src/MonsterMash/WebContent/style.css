@@ -254,4 +254,6 @@ a:active, a:link, a:visited{
 	margin:20px auto;
 }
 
-
+.breed_window {
+	width: 85%;
+	margin:20px auto;
