@@ -90,6 +90,40 @@ public class MonsterDAO {
 		}
 	}
 	
+	public void changeOwner(String monsterID, String toUserID){
+
+		try{
+
+			UserTransaction transaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
+			transaction.begin();
+
+			em = emf.createEntityManager();
+			Monster m = em.find(Monster.class, monsterID);
+			if(m==null){
+				System.out.println("Did not find the monster of id :" + monsterID);
+				return;
+			}
+			
+			Monster nm = new Monster();
+			nm.setAggression(m.getAggression());
+			nm.setDob(m.getDob());
+			nm.setFertility(m.getFertility());
+			nm.setOwnerId(toUserID);
+			nm.setHealth(m.getHealth());
+			nm.setStrength(m.getStrength());
+			nm.setName(m.getName());
+			nm.setId(nm.getOwnerId()+"."+nm.getName());
+
+			em.persist(nm);
+			em.remove(m);
+			transaction.commit();
+			this.changeRequestMonsterId(monsterID, nm.getId());
+
+		}catch(Exception ex){
+			System.out.println(ex);
+		}
+	}
+	
 	public void changeBreedPrice(String mID, int price) {
 		try {
 			UserTransaction transaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
