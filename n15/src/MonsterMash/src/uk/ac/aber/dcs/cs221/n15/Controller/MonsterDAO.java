@@ -207,7 +207,7 @@ public class MonsterDAO {
 		monster.setStrength((int) ciStr);
 	}
 
-	public int calculateDaysDifference(Date start, Date end) {
+	/*public int calculateDaysDifference(Date start, Date end) {
 		Calendar startCal = new GregorianCalendar();
 		Calendar endCal = new GregorianCalendar();
 
@@ -219,6 +219,15 @@ public class MonsterDAO {
 		endCal.add(Calendar.DATE, -startCal.get(Calendar.DATE));
 
 		return endCal.get(Calendar.DAY_OF_YEAR);
+	}*/
+	
+	public int calculateDaysDifference(Date start, Date end) {
+		long mStart = start.getTime();
+		long mEnd = end.getTime();
+		long difference = mEnd - mStart;
+		double retVal = (difference / (1000 * 60 * 60 * 24));
+		System.out.println(retVal);
+		return (int) (difference / (1000 * 60 * 60 * 24));
 	}
 
 	public int calculateDaysDifference(Date start) {

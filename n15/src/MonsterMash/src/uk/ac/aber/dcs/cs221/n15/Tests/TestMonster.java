@@ -119,12 +119,4 @@ public class TestMonster {
 			System.out.println("");
 		//}
 	}
-	
-	@Test
-	public void testBuying() {
-		weakMonster.setId("loc.andy.Hello");
-		mdao.buy("loc.Kamil", "loc.andy", weakMonster);
-		assertTrue(weakMonster.getId().equals("loc.Kamil.Hello"));
-		assertTrue(weakMonster.getOwnerId().equals("loc.Kamil"));
-	}
 }
