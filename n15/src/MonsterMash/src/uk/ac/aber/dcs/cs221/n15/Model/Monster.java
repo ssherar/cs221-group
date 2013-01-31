@@ -23,9 +23,6 @@ public class Monster{
 	@Column(name="aggression")
 	private int aggression;
 
-	@Column(name="color")
-	private String color;
-
     @Temporal( TemporalType.TIMESTAMP)
     @Column(name="dob")
 	private Date dob;
@@ -94,14 +91,6 @@ public class Monster{
 			aggression = 0;
 		}
 		this.aggression = aggression;
-	}
-
-	public String getColor() {
-		return this.color;
-	}
-
-	public void setColor(String color) {
-		this.color = color;
 	}
 
 	public Date getDob() {
