@@ -39,6 +39,10 @@ public class MonsterEditServlet extends HttpServlet {
 			this.changeBreedPrice(req, resp);
 		} else if(type.equals("buyPrice")) {
 			this.changeBuyPrice(req,resp);
+		} else if(type.equals("changeSaleOffer")) {
+			this.changeSaleFlag(req, resp);
+		} else if(type.equals("changeBreedOffer")) {
+			this.changeBreedFlag(req, resp);
 		}
 		//Redirecting to farm page
 		resp.sendRedirect("myfarm.jsp");
@@ -112,6 +116,42 @@ public class MonsterEditServlet extends HttpServlet {
 		}
 		if(!valid) return;
 		mdao.changeBuyPrice(monsterId, price);
+		this.reloadMonsters(s);
+	}
+	
+	public void changeSaleFlag(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		HttpSession s = req.getSession();
+		boolean flag = Boolean.parseBoolean(req.getParameter("value"));
+		String monsterId = req.getParameter("monsterId");
+		
+		List<Monster> monsters = (List<Monster>)(s.getAttribute("monsters"));
+		boolean valid = false;
+		for(Monster m : monsters) {
+			if(m.getId().equals(monsterId)) {
+				valid = true;
+				break;
+			}
+		}
+		if(!valid) return;
+		mdao.changeSaleFlag(monsterId, flag);
+		this.reloadMonsters(s);
+	}
+	
+	public void changeBreedFlag(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		HttpSession s = req.getSession();
+		boolean flag = Boolean.parseBoolean(req.getParameter("value"));
+		String monsterId = req.getParameter("monsterId");
+		
+		List<Monster> monsters = (List<Monster>)(s.getAttribute("monsters"));
+		boolean valid = false;
+		for(Monster m : monsters) {
+			if(m.getId().equals(monsterId)) {
+				valid = true;
+				break;
+			}
+		}
+		if(!valid) return;
+		mdao.changeBreedFlag(monsterId, flag);
 		this.reloadMonsters(s);
 	}
 }
