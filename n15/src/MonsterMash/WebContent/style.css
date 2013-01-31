@@ -267,11 +267,6 @@ a:active, a:link, a:visited{
 	border-color: white;
 }
 
-#rich_thead {
-	border-style: solid;
-	border-width: 1px;
-	border-color: white;
-}
 
 .pick_monster_div {
 	float: left;

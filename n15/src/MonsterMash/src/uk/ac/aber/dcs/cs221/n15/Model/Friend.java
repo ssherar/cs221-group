@@ -1,6 +1,6 @@
 package uk.ac.aber.dcs.cs221.n15.Model;
 
-public class Friend {
+public class Friend implements Comparable{
 
 	/**
 	 * The id of the friend
@@ -113,5 +113,13 @@ public class Friend {
 	 */
 	public void setMoney(int money) {
 		this.money = money;
+	}
+
+	@Override
+	public int compareTo(Object arg0) {
+		Friend other = (Friend) arg0;
+		if(this.numberOfMonsters<other.getNumberOfMonsters()) return -1;
+		if(this.numberOfMonsters==other.getNumberOfMonsters()) return 0;
+		return 1;
 	}
 }
