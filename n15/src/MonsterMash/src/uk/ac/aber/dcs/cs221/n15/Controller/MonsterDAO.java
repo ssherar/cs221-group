@@ -78,6 +78,10 @@ public class MonsterDAO {
 			nm.setStrength(m.getStrength());
 			nm.setName(newName);
 			nm.setId(nm.getOwnerId()+"."+nm.getName());
+			nm.setBreedPrice(m.getBreedPrice());
+			nm.setSalePrice(m.getSalePrice());
+			nm.setIsForBreeding(m.getIsForBreeding());
+			nm.setIsForSale(m.getIsForSale());
 
 			m.setName(newName);
 			em.persist(nm);
@@ -113,6 +117,10 @@ public class MonsterDAO {
 			nm.setStrength(m.getStrength());
 			nm.setName(m.getName());
 			nm.setId(nm.getOwnerId()+"."+nm.getName());
+			nm.setBreedPrice(m.getBreedPrice());
+			nm.setSalePrice(m.getSalePrice());
+			nm.setIsForBreeding(m.getIsForBreeding());
+			nm.setIsForSale(m.getIsForSale());
 
 			em.persist(nm);
 			em.remove(m);
