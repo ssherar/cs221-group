@@ -72,10 +72,6 @@ public class Request {
 		this.type = type;
 	}
 
-	public String convertToNotification(){
-		return null;
-	}
-
 	/**
 	 * Gets the source user id
 	 * @return The source user id
