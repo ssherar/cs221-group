@@ -7,7 +7,6 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -18,8 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import uk.ac.aber.dcs.cs221.n15.Controller.MonsterDAO;
-import uk.ac.aber.dcs.cs221.n15.Controller.RequestDAO;
-import uk.ac.aber.dcs.cs221.n15.Controller.RequestType;
 import uk.ac.aber.dcs.cs221.n15.Controller.UserDAO;
 import uk.ac.aber.dcs.cs221.n15.Model.Friend;
 import uk.ac.aber.dcs.cs221.n15.Model.Monster;
@@ -62,14 +59,12 @@ public class LoginServlet extends HttpServlet {
 		User user = dao.authenticateUser(uname, hashedPassword);
 		
 		if(user!=null) {
-			List<Monster>  monsters = dao.loadMonsters(uname);
 			//Calculating monster's parameter according to age
 			MonsterDAO mdao = new MonsterDAO();
-			
 			ArrayList<Friend> friends = dao.getFriends(user);
 			HttpSession session = request.getSession();
+			this.reloadMonsters(session, user.getId());
 			session.setAttribute("currentUser", user);
-			session.setAttribute("monsters", monsters);
 			session.setAttribute("friends", friends);
 			response.sendRedirect("myfarm.jsp");
 		} else {
@@ -89,15 +84,6 @@ public class LoginServlet extends HttpServlet {
 				response.sendRedirect("index.jsp");
 			}
 		} else {
-			//TODO REMOVE BEFORE SUBMISSION!!!
-			if(request.getParameter("test") != null) {
-				dao.test();
-				MonsterDAO mdao = new MonsterDAO();
-				Monster m = new Monster("Charles", "loc.kamil");
-				m.setDob(new Date());
-				mdao.persistMonster(m);
-				
-			}
 			response.sendRedirect("index.jsp");
 		}
 	}
@@ -111,8 +97,8 @@ public class LoginServlet extends HttpServlet {
 		UserDAO dao = new UserDAO();
 		List<Monster>  monsters = dao.loadMonsters(userId);
 		MonsterDAO mdao = new MonsterDAO();
-		mdao.ageMonsters(monsters);
 		s.setAttribute("monsters", monsters);
+		s.setAttribute("numberOfMonsters", monsters.size());
 	}
 
 }

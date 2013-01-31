@@ -6,14 +6,18 @@
     import="java.text.DateFormat" %>
  
 <% HttpSession s = request.getSession(false);
+if(s==null){
+	response.sendRedirect("index.jsp"); 
+	return;
+}
 User user = (User)(s.getAttribute("currentUser"));
 List<Monster> monsters = (List<Monster>)(s.getAttribute("monsters"));
+ArrayList<Friend> friends = (ArrayList<Friend>)(s.getAttribute("friends"));
 if(user == null) {
 	response.sendRedirect("index.jsp"); 
+	return;
 } 
-
- if(monsters==null) monsters = new ArrayList<Monster>();
-
+if(monsters==null) monsters = new ArrayList<Monster>();
 %>
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -124,8 +128,8 @@ function changeBuyPrice(id) {
 				
 				<div class="monster_actions_menu">
 					<a href="JAVASCRIPT:rename('<%= m.getId() %>')">rename</a><br/>
-					<a href="JAVASCRIPT:changeBreedPrice('<%= m.getId() %>')">change breed price</a><br />
-					<a href="JAVASCRIPT:changeBuyPrice('<%= m.getId() %>')">change buy price</a></br />
+					<a href="JAVASCRIPT:changeBreedPrice('<%= m.getId() %>')">change breed price</a><br/>
+					<a href="JAVASCRIPT:changeBuyPrice('<%= m.getId() %>')">change buy price</a><br/>
 					<% boolean forSale = m.isForSale(), forBreeding = m.isForBreeding(); %>
 					<a href="MonsterEditServlet?type=changeSaleOffer&monsterId=<%= m.getId() %>&value=<%= !forSale %>"><%= (forSale) ? "revoke " : "" %>offer for sale</a><br/>
 					<a href="MonsterEditServlet?type=changeBreedOffer&monsterId=<%= m.getId() %>&value=<%= !forBreeding %>"> <%= (forBreeding) ? "revoke " : "" %>offer for breeding</a><br/>

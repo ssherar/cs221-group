@@ -6,14 +6,17 @@
     import="uk.ac.aber.dcs.cs221.n15.Controller.*" %>
  
 <% HttpSession s = request.getSession(false);
+if(s==null){
+	response.sendRedirect("index.jsp"); 
+	return;
+}
 User user = (User)(s.getAttribute("currentUser"));
-List<Monster> monsters = (List<Monster>)(s.getAttribute("monsters"));
-
+ArrayList<Friend> friends = (ArrayList<Friend>)(s.getAttribute("friends"));
 if(user == null) {
 	response.sendRedirect("index.jsp"); 
+	return;
 } 
-
- if(monsters==null) monsters = new ArrayList<Monster>();
+if(friends==null) friends = new ArrayList<Friend>();
 %>
 
 <?xml version="1.0" encoding="UTF-8" ?>
@@ -57,7 +60,7 @@ if(user == null) {
 			
 					<div class="notice_stats">
 					<img src="img/monster_icon.png"  height="15px" />
-					<%= monsters.size() %>
+					<%= s.getAttribute("numberOfMonsters") %>
 					</div>
 					<div class="notice_stats">
 					<img src="img/pouch_icon.png"  height="15px" />
@@ -91,13 +94,13 @@ if(user == null) {
 						
 			<%
 				List<Monster> monstersForSale = new ArrayList<Monster>();
-				List<Friend> friends = (List<Friend>)s.getAttribute("friends");
 				UserDAO udao = new UserDAO();
 				MonsterDAO mdao = new MonsterDAO();
 				for(Friend f : friends){
 					monstersForSale.addAll(udao.getMonstersForSale(f.getId()));
 					if(monstersForSale.size()>60) break;
 				}			
+				
 				
 				for(Monster m : monstersForSale){%>
 				
@@ -130,6 +133,12 @@ if(user == null) {
 			
 			</div>
 			<%} %>
+			
+			<% if(monstersForSale.size()==0) {%>
+				
+				<p>Your friends don't sell any monsters at the moment.</p>		
+				
+				<% } %>	
 			
 			</div>
 <!-- 		</div> -->

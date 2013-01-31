@@ -6,16 +6,17 @@
     import="java.text.DateFormat" %>
  
 <% HttpSession s = request.getSession(false);
+if(s==null){
+	response.sendRedirect("index.jsp"); 
+	return;
+}
 User user = (User)(s.getAttribute("currentUser"));
-MonsterDAO mdao = new MonsterDAO();
 List<Monster> monsters = (List<Monster>)(s.getAttribute("monsters"));
 if(user == null) {
 	response.sendRedirect("index.jsp"); 
+	return;
 } 
-
- if(monsters==null) monsters = new ArrayList<Monster>();
- 
-
+if(monsters==null) monsters = new ArrayList<Monster>();
 %>
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -88,6 +89,7 @@ function rename(id) {
 			
 			<%
 			Request r = (Request) s.getAttribute("pendingRequest");
+			MonsterDAO mdao = new MonsterDAO();
 			Monster other = mdao.findMonster(r.getTargetID());
 			
 			%>	
