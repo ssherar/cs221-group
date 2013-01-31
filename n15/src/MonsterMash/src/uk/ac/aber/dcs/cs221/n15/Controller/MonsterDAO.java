@@ -69,10 +69,8 @@ public class MonsterDAO {
 				System.out.println("Did not find the monster of id :" + monsterID);
 				return;
 			}
-
 			Monster nm = new Monster();
 			nm.setAggression(m.getAggression());
-			nm.setColor(m.getColor());
 			nm.setDob(m.getDob());
 			nm.setFertility(m.getFertility());
 			nm.setOwnerId(m.getOwnerId());
@@ -80,7 +78,6 @@ public class MonsterDAO {
 			nm.setStrength(m.getStrength());
 			nm.setName(newName);
 			nm.setId(nm.getOwnerId()+"."+nm.getName());
-
 
 			m.setName(newName);
 			em.persist(nm);
