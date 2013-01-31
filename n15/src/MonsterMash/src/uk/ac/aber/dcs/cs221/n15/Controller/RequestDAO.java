@@ -17,12 +17,23 @@ import uk.ac.aber.dcs.cs221.n15.Model.User;
 public class RequestDAO {
 
 	@PersistenceContext(unitName="MonsterMash")
+	/**
+	 * The entity manager factory for creating entity managers
+	 */
 	private EntityManagerFactory emf = Persistence.createEntityManagerFactory("MonsterMash");
+	/**
+	 * The entity manager for handling persistence
+	 */
 	private EntityManager em;
 	
-	/*
+	/**
 	 * Creates a request and persists it. If a request does not have content, 
 	 * last parameter should be null.
+	 * 
+	 * @param sourceId The user that sent the request
+	 * @param targetID The user to receive the request
+	 * @param type The type of the request
+	 * @param content The content of the request
 	 */
 	public void createRequest(String sourceId, String targetID, RequestType type, String content){
 		em = emf.createEntityManager();
@@ -39,6 +50,11 @@ public class RequestDAO {
 		}
 	}
 	
+	/**
+	 * Persists a request to the database
+	 * 
+	 * @param r The request to persist
+	 */
 	public void persistRequest(Request r){
 		em = emf.createEntityManager();
 		System.out.print("Trying to persist a Request");
@@ -52,8 +68,12 @@ public class RequestDAO {
 		}
 	}
 	
-	/*
+	/**
 	 * Returns list of request of given type for given user.
+	 * 
+	 * @param user The user to get requests for
+	 * @param type The type of requests to retrieve
+	 * @return A list of requests of given type for given user
 	 */
 	public List<Request> getRequests(User user, RequestType type){
 		
@@ -72,6 +92,12 @@ public class RequestDAO {
 		
 	}
 	
+	/**
+	 * Updates a the type of a current request
+	 * 
+	 * @param requestId The id of the current request
+	 * @param type The new type of the request
+	 */
 	public void updateRequestType(int requestId, RequestType type){
 		try{
 			em = emf.createEntityManager();
@@ -85,6 +111,13 @@ public class RequestDAO {
 		}
 	}
 	
+	/**
+	 * Updates the type of a current request, and content
+	 * 
+	 * @param requestId The id of the current request
+	 * @param type The new type of the request
+	 * @param cont The new content of the request
+	 */
 	public void updateRequestType(int requestId, RequestType type, String cont){
 		try{
 			em = emf.createEntityManager();
@@ -99,6 +132,11 @@ public class RequestDAO {
 		}
 	}
 	
+	/**
+	 * Deletes a request from the database
+	 * 
+	 * @param requestId The id of the request to delete
+	 */
 	public void deleteRequest(int requestId){
 		try{
 			em = emf.createEntityManager();
@@ -112,6 +150,12 @@ public class RequestDAO {
 		}
 	}
 	
+	/**
+	 * Gets a request with a specified id
+	 * 
+	 * @param requestId The id of the request to get
+	 * @return The request with given id
+	 */
 	public Request getRequest(int requestId){
 		try{
 			em = emf.createEntityManager();
@@ -123,6 +167,13 @@ public class RequestDAO {
 		}
 	}
 	
+	/**
+	 * Changes if a request has been seen
+	 * 
+	 * @param requestId The id of the request to change
+	 * @param value The value to set seen to
+	 * @return If the process was successful
+	 */
 	public boolean changeSeen(int requestId, int value){
 		try{
 			em = emf.createEntityManager();
@@ -138,6 +189,14 @@ public class RequestDAO {
 		}
 	}
 	
+	/**
+	 * Checks if a request exists
+	 * 
+	 * @param sourceId The user sending the request
+	 * @param targetId The user receiving the request
+	 * @param type The type of the request
+	 * @return If the request exists
+	 */
 	public boolean requestExists(String sourceId, String targetId, RequestType type){
 		String q = "SELECT COUNT(*) FROM requests WHERE sourceId = '"+sourceId+"' AND targetId = '"+targetId+"' AND type = "+type.ordinal();
 		Query query= emf.createEntityManager().createNativeQuery(q);
