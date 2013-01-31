@@ -108,14 +108,8 @@ function changeBuyPrice(id) {
 			<div class="monster_window">
 				<div class="monster_description">
 					<p class="monster_name"><%= m.getName() %>
-					<%if(m.getGender()=='F') { %>
-						<img src="img/female.png" width="20px" />
-					<%} else{%>
-						<img src="img/male.png" width="20px" />
-					<%}
-					
-					int age = mdao.calculateDaysDifference(m.getDob());
-					%>
+				
+					<% int age = mdao.calculateDaysDifference(m.getDob()); %>
 					</p>
 					Age: <%=age  %> 
 					<%= age==1 ? "day<br/>" : "days<br/>" %>

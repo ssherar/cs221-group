@@ -76,7 +76,6 @@ public class MonsterDAO {
 			nm.setDob(m.getDob());
 			nm.setFertility(m.getFertility());
 			nm.setOwnerId(m.getOwnerId());
-			nm.setGender(m.getGender());
 			nm.setHealth(m.getHealth());
 			nm.setStrength(m.getStrength());
 			nm.setName(newName);

@@ -33,9 +33,6 @@ public class Monster{
     @Column(name="fertility")
 	private int fertility;
 
-    @Column(name="gender")
-	private char gender;
-
     @Column(name="health")
 	private int health;
 
@@ -126,14 +123,6 @@ public class Monster{
 			fertility = 0;
 		}
 		this.fertility = fertility;
-	}
-
-	public char getGender() {
-		return this.gender;
-	}
-
-	public void setGender(char gender) {
-		this.gender = gender;
 	}
 
 	public int getHealth() {

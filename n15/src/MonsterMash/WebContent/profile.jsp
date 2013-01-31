@@ -111,11 +111,6 @@ else System.out.println("JSP: friends is NOT null");
 			<div class="monster_window">
 				<div class="monster_description">
 					<p class="monster_name"><%= m.getName() %>
-					<%if(m.getGender()=='F') { %>
-						<img src="img/female.png" width="20px" />
-					<%} else{%>
-						<img src="img/male.png" width="20px" />
-					<%}%>
 					</p>
 					Age: <%= mdao.calculateDaysDifference(m.getDob()) %> day(s)<br/>
 					<table class="monster_stats">
