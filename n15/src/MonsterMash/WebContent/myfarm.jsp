@@ -38,15 +38,19 @@ function rename(id) {
 
 function changeBreedPrice(id) {
 	var newPrice = prompt("What price would you like to set for breeding?", "");
-	if(newPrice != null && newPrice != "" && !isNaN(newPrice)) {
+	if(newPrice != null && newPrice != "" && !isNaN(newPrice) && newPrice > 0) {
 		document.location = "MonsterEditServlet?type=breedPrice&monsterId=" + id + "&newPrice="+newPrice;
+	} else {
+		alert("You've entered an incorrect value for the price. Please try again!");
 	}
 }
 
 function changeBuyPrice(id) {
 	var newPrice = prompt("What price would you like to set for selling?", "");
-	if(newPrice != null && newPrice != "" && !isNaN(newPrice)) {
+	if(newPrice != null && newPrice != "" && !isNaN(newPrice) && newPrice > 0) {
 		document.location = "MonsterEditServlet?type=buyPrice&monsterId=" + id + "&newPrice="+newPrice;
+	} else {
+		alert("You've entered an incorrect value for the price. Please try again!");
 	}
 }
 </script>
