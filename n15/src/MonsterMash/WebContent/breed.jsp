@@ -6,14 +6,17 @@
     import="uk.ac.aber.dcs.cs221.n15.Controller.*" %>
  
 <% HttpSession s = request.getSession(false);
+if(s==null){
+	response.sendRedirect("index.jsp"); 
+	return;
+}
 User user = (User)(s.getAttribute("currentUser"));
-List<Monster> monsters = (List<Monster>)(s.getAttribute("monsters"));
-
+ArrayList<Friend> friends = (ArrayList<Friend>)(s.getAttribute("friends"));
 if(user == null) {
 	response.sendRedirect("index.jsp"); 
+	return;
 } 
-
- if(monsters==null) monsters = new ArrayList<Monster>();
+if(friends==null) friends = new ArrayList<Friend>();
 %>
 
 <?xml version="1.0" encoding="UTF-8" ?>
@@ -57,7 +60,7 @@ if(user == null) {
 			
 					<div class="notice_stats">
 					<img src="img/monster_icon.png"  height="15px" />
-					<%= monsters.size() %>
+					<%= s.getAttribute("numberOfMonsters") %>
 					</div>
 					<div class="notice_stats">
 					<img src="img/pouch_icon.png"  height="15px" />
@@ -86,7 +89,6 @@ if(user == null) {
 				
 				<%
 				List<Monster> monstersForBreeding = new ArrayList<Monster>();
-				List<Friend> friends = (List<Friend>)s.getAttribute("friends");
 				UserDAO udao = new UserDAO();
 				MonsterDAO mdao = new MonsterDAO();
 				for(Friend f : friends){

@@ -6,15 +6,19 @@
     import="java.text.DateFormat" %>
  
 <% HttpSession s = request.getSession(false);
+if(s==null){
+	response.sendRedirect("index.jsp"); 
+	return;
+}
 User user = (User)(s.getAttribute("currentUser"));
 List<Monster> monsters = (List<Monster>)(s.getAttribute("monsters"));
 ArrayList<Friend> friends = (ArrayList<Friend>)(s.getAttribute("friends"));
 if(user == null) {
 	response.sendRedirect("index.jsp"); 
+	return;
 } 
-if(friends==null) System.out.println("JSP: friends is null");
-else System.out.println("JSP: friends is NOT null");
- if(monsters==null) monsters = new ArrayList<Monster>();
+if(friends==null) friends = new ArrayList<Friend>();
+if(monsters==null) monsters = new ArrayList<Monster>();
 %>
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

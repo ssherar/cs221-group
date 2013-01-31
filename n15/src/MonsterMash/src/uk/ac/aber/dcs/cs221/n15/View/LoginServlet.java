@@ -59,14 +59,12 @@ public class LoginServlet extends HttpServlet {
 		User user = dao.authenticateUser(uname, hashedPassword);
 		
 		if(user!=null) {
-			List<Monster>  monsters = dao.loadMonsters(uname);
 			//Calculating monster's parameter according to age
 			MonsterDAO mdao = new MonsterDAO();
-			
 			ArrayList<Friend> friends = dao.getFriends(user);
 			HttpSession session = request.getSession();
+			this.reloadMonsters(session, user.getId());
 			session.setAttribute("currentUser", user);
-			session.setAttribute("monsters", monsters);
 			session.setAttribute("friends", friends);
 			response.sendRedirect("myfarm.jsp");
 		} else {
@@ -99,8 +97,8 @@ public class LoginServlet extends HttpServlet {
 		UserDAO dao = new UserDAO();
 		List<Monster>  monsters = dao.loadMonsters(userId);
 		MonsterDAO mdao = new MonsterDAO();
-		mdao.ageMonsters(monsters);
 		s.setAttribute("monsters", monsters);
+		s.setAttribute("numberOfMonsters", monsters.size());
 	}
 
 }
