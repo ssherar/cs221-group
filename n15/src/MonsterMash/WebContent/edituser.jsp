@@ -22,6 +22,13 @@ if(monsters==null) monsters = new ArrayList<Monster>();%>
 <link href='http://fonts.googleapis.com/css?family=Eater|Skranji|Sanchez|Piedra|Carter+One|Slackey' rel='stylesheet' type='text/css' />
 <script type="text/javascript" src="js/validation.js"></script>
 <title>Monster Mash</title>
+<script>
+function deleteUser() {
+	if(confirm("Are you sure that you want to delete your account? This action is unreversable")) {
+		deleteAccountForm.submit();
+	}
+}
+</script>
 </head>
 <body>
 <center>
@@ -86,13 +93,16 @@ if(monsters==null) monsters = new ArrayList<Monster>();%>
 				}
 			}
 			%>
-			<form action="EditUserServlet" method="post" name="editForm">
+			<form action="EditUserServlet/edit" method="post" name="editForm">
 			<table>
 			<tr><td>current password: </td><td><input type="password" name="curPass"></input></td></tr>
 			<tr><td>new password: </td><td><input type="password" name="newPass" class="password_confirm" data-minlength="6"></input></td></tr>
 			<tr><td>confirm password: </td><td><input type="password" name="confPass" class="password_confirm" data-minlength="6"></input></td></tr>
 			</table>
 			<a class="title_half" href="JAVASCRIPT:validate(editForm);" >CHANGE</a>
+			</form>
+			<form action="EditUserServlet/delete" method="post" name="deleteAccountForm"> 
+				<a href="JAVASCRIPT:deleteUser();">delete your account</a>
 			</form>
 		</div>
 		</center>
