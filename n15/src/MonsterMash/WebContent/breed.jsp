@@ -82,6 +82,8 @@ if(user == null) {
 				<%=nm.getNotifications(RequestType.ACCEPT_BREED_OFFER) %>
 				</div>
 				
+				<p class="title_half">Offers available for you</p>
+				
 				<%
 				List<Monster> monstersForBreeding = new ArrayList<Monster>();
 				List<Friend> friends = (List<Friend>)s.getAttribute("friends");
@@ -118,7 +120,7 @@ if(user == null) {
 					<a href="RequestDispatcherServlet?action=accept&type=7&targetid=<%=m.getId() %>">
 					BREED</a><br/>
 					<br/>
-					fight prize: $<%= mdao.calculatePrize(m) %><br />
+					price: $<%= m.getBreedPrice()%><br />
 				</div>
 			
 			

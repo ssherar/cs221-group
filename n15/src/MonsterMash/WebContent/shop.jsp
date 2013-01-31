@@ -86,8 +86,8 @@ if(user == null) {
 			</div>	
 			
 			
-			<div id="offers" >
-			<p class="title_half">Offered monsters</p>
+<!-- 			<div id="offers" > -->
+			<p class="title_half" >Offered monsters</p>
 						
 			<%
 				List<Monster> monstersForSale = new ArrayList<Monster>();
@@ -132,7 +132,7 @@ if(user == null) {
 			<%} %>
 			
 			</div>
-		</div>
+<!-- 		</div> -->
 	</center>
 </body>
 </html>
