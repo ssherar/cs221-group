@@ -90,8 +90,8 @@ else System.out.println("JSP: friends is NOT null");
 				
 			<p class="profile_title"><%= friend.getUsername() %></p>
 			<p class="align_left">Wealth: <%= friend.getMoney() %></p>
-			
-			<% if(udao.checkFriendship(user.getId(), f_id)){ %>
+			<% boolean isFriend = udao.checkFriendship(user.getId(), f_id); %>
+			<% if(isFriend){ %>
 				<p class="align_right"><a>Remove from friends</a></p>	
 			<%}else{ 
 				RequestDAO rdao = new RequestDAO();
@@ -126,12 +126,21 @@ else System.out.println("JSP: friends is NOT null");
 					</table>
 				</div>
 				<div class="monster_actions_menu">
-				<% String fightUrl = "RequestDispatcherServlet?action=send&type=3&targetid="+m.getId(); %>
-					<a href="<%=fightUrl %>">challenge to fight</a><br/>
-					<a>buy this monster</a><br/>
-					<% String breedUrl = "RequestDispatcherServlet?action=send&type=9&targetid="+m.getId(); %>
-					<a href="<%=breedUrl %>">offer for breeding</a><br/><br />
-					fight prize: $<%= mdao.calculatePrize(m) %>
+					fight prize: $<%= mdao.calculatePrize(m) %><br />
+					breeding price: $<%= m.getBreedPrice() %><br />
+					sale price: $<%= m.getSalePrice() %><br />
+					<br />
+					<% if(isFriend) { %>
+						<% String fightUrl = "RequestDispatcherServlet?action=send&type=3&targetid="+m.getId(); %>
+						<a href="<%=fightUrl %>">challenge to fight</a><br/>
+						<% boolean forSale = m.isForSale(), forBreeding = m.isForBreeding(); %>
+						<% if(forSale) { %>
+							<a>buy this monster</a><br/>
+						<% } %>
+						<% if(forBreeding) { %>
+							<a>breed with this monster</a><br />
+						<% } %>
+					<% } %>
 				</div>			
 			</div>
 			<% } }else{%>
