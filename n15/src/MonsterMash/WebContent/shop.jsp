@@ -127,7 +127,7 @@ if(friends==null) friends = new ArrayList<Friend>();
 					<a href="RequestDispatcherServlet?action=send&type=9&targetid=<%=m.getId() %>">
 					BUY</a><br/>
 					<br/>
-					PRICE : <%=m.getSalePrice() %><br/>
+					PRICE : $<%=m.getSalePrice() %><br/>
 					fight prize: $<%= mdao.calculatePrize(m) %><br />
 				</div>
 			
