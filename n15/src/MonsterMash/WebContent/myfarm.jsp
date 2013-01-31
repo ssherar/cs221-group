@@ -90,7 +90,7 @@ function changeBuyPrice(id) {
 					</div>
 					<div class="notice_stats">
 					<img src="img/pouch_icon.png"  height="15px" />
-					<%= user.getMoney() %>
+					$<%= user.getMoney() %>
 					</div>
 					
 					<div id="login_info">
