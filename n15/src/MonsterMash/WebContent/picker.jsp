@@ -118,16 +118,8 @@ function rename(id) {
 			<div class="monster_window">
 				<div class="monster_description">
 					<p class="monster_name"><%= m.getName() %>
-					<%if(m.getGender()=='F') { %>
-						<img src="img/female.png" width="20px" />
-					<%} else{%>
-						<img src="img/male.png" width="20px" />
-					<%}
-					
-					age = mdao.calculateDaysDifference(m.getDob());
-					%>
 					</p>
-					Age: <%=age  %> 
+					Age: <%=mdao.calculateDaysDifference(m.getDob())  %> 
 					<%= age==1 ? "day<br/>" : "days<br/>" %>
 					<table class="monster_stats">
 						<tr><td>health:</td><td><%= m.getHealth() %></td></tr>

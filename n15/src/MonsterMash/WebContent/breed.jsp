@@ -76,10 +76,10 @@ if(user == null) {
 				
 				<div>
 				<p class="title_half">Finished Breeding</p>
-				<% //for (Fight fight : fights) {%>
-				<div class="request_window">Your monster has returned from breeding. You now have a new monster!</div>
-				<!-- Needs split to check which monster is whos -->
-				<% //} %>
+				<%
+				NotificationManager nm = new NotificationManager(user);
+				%>
+				<%=nm.getNotifications(RequestType.ACCEPT_BREED_OFFER) %>
 				</div>
 				
 				<%

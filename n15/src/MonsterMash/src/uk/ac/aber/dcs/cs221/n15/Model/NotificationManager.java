@@ -71,6 +71,12 @@ public class NotificationManager {
 				builder.append(processDeclinedFight(r));
 			}	
 			break;
+		case ACCEPT_BREED_OFFER:
+			for(Request r : requests){
+				if((r.getTargetID().contains(user.getId()+"."))==false) continue;
+				builder.append(processAcceptedBreeding(r));
+			}	
+			break;
 		}
 		
 		
@@ -222,6 +228,16 @@ public class NotificationManager {
 		sb.append("<a href=\"RequestDispatcherServlet?action=dismiss&requestid="+r.getId()+"\">");
 		sb.append("<img src=\"img/close.png\" width=\"10px\" /></a></div>");
 		
+		return sb.toString();
+	}
+	
+	public String processAcceptedBreeding(Request r){
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append("<div class=\"request_window\">");
+		sb.append("Someone used your monster for breeding, you earned some cash.");
+		sb.append("<a href=\"RequestDispatcherServlet?action=dismiss&requestid="+r.getId()+"\">");
+		sb.append("<img src=\"img/close.png\" width=\"10px\" /></a></div>");
 		return sb.toString();
 	}
 }
