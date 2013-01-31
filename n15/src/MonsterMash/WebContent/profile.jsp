@@ -18,16 +18,23 @@ if(user == null) {
 UserDAO udao = new UserDAO();
 String f_id = request.getParameter("id");
 User friend = new User();
-friend.setUsername("Friend not found");
-List<Monster> friendsMonsters = new ArrayList<Monster>(); 
+List<Monster> friendsMonsters = new ArrayList<Monster>();
+boolean isFriend = false;
 boolean friendFound = false;
 if(f_id.length()>4){
 	
 	if(f_id.charAt(3)!='.') f_id = "loc." + f_id;
 	friend = udao.findUser(f_id);
+	if(friend==null){
+		friend = new User();
+		friend.setUsername("Friend not found");
+	}else {
+		friendFound = true;
+		isFriend = udao.checkFriendship(user.getId(), f_id); 
+		if(isFriend) friendsMonsters = udao.loadMonsters(friend.getUsername());
+		if(friendsMonsters==null) friendsMonsters = new ArrayList<Monster>();
+	}
 	
-	if(friend!=null)
-	friendsMonsters = udao.loadMonsters(friend.getUsername());
 }
 	
 
@@ -43,7 +50,7 @@ if(f_id.length()>4){
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title><%= friend.getUsername() %> - Monster mash</title>
+<title><%= friendFound ? friend.getUsername() : "Friend not found" %> - Monster mash</title>
 <link rel="stylesheet" type="text/css" href="style.css" />
 <link href='http://fonts.googleapis.com/css?family=Eater|Skranji|Sanchez|Piedra|Carter+One|Slackey' rel='stylesheet' type='text/css' />
 </head>
@@ -102,7 +109,7 @@ if(f_id.length()>4){
 				
 			<p class="profile_title"><%= friend.getUsername() %></p>
 			<p class="align_left">Wealth: <%= friend.getMoney() %></p>
-			<% boolean isFriend = udao.checkFriendship(user.getId(), f_id); %>
+			
 			<% 
 			String message; 
 			if(isFriend){
@@ -125,8 +132,12 @@ if(f_id.length()>4){
 			
 			<%=message  %>					
 						
-			<% if(friendsMonsters!=null){
+			<% 
+			if(!isFriend) friendsMonsters = null;
+			//if user has monsters at all
+			if(friendsMonsters!=null){
 				MonsterDAO mdao = new MonsterDAO();
+				
 				
 				for(Monster m : friendsMonsters){%>
 			
@@ -161,8 +172,13 @@ if(f_id.length()>4){
 				</div>			
 			</div>
 			<% } }else{%>
+			<% if(isFriend) {%>
 			<p>User has no monsters.</p>
-			<%} %>
+			<%}else {%>
+			<br/><br/><br/>
+			<p>You need to be friends to see monsters..</p>
+			<% } } %>
+			
 			
 			<% } else {%>
 			<br/><br/><br/>
