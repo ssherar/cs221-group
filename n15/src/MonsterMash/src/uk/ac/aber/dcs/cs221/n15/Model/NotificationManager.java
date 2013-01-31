@@ -13,22 +13,42 @@ import uk.ac.aber.dcs.cs221.n15.Controller.RequestDAO;
 import uk.ac.aber.dcs.cs221.n15.Controller.RequestType;
 
 /**
- * @author kamil
+ * Handles the formatting and link building for 
+ * creating and dismissing notifications
  *
  */
 public class NotificationManager {
-
+	/**
+	 * The user which is currently logged in.
+	 */
 	private User user;
+	
+	/**
+	 * The Request controller for persisting and retrieving data.
+	 */
 	private RequestDAO rdao;
+	
+	/**
+	 * The builder for outputting the formatted HTML
+	 */
 	StringBuilder builder;
 	
+	/**
+	 * Initalizes the class, and assigns the user to the User passed in to
+	 * the class
+	 * 
+	 * @param u the user.
+	 */
 	public NotificationManager(User u){
 		this.user = u;
 	}
 	
-	/*
+	/**
 	 * Returns notifications for given user, converted to HTML code.
 	 * Type specifies what type of requests are to be displayed as notifications.
+	 * 
+	 * @param type the type of request
+	 * @return the correctly passed HTML
 	 */
 	public String getNotifications(RequestType type){
 		this.builder = new StringBuilder();
@@ -109,6 +129,12 @@ public class NotificationManager {
 		return builder.toString();
 	}
 	
+	/**
+	 * Generates the HTML code for notifying both users, depending on
+	 * which one is currently logged in
+	 * @param r the Request
+	 * @return the parsed string
+	 */
 	private String processFriendRequest(Request r){
 		StringBuilder sb = new StringBuilder();
 		//If the user sent the request
@@ -128,9 +154,16 @@ public class NotificationManager {
 			sb.append("|<a href=\""+declineLink+"\"> decline </a></div>");
 			
 		}
-	return sb.toString();
+		return sb.toString();
 	}
 	
+	/**
+	 * Generates the HTML code displaying that the user
+	 * has accepted the friendship.
+	 * 
+	 * @param r the Request
+	 * @return the parsed string
+	 */
 	private String processAcceptedFriendship(Request r){
 		StringBuilder sb = new StringBuilder();
 		
@@ -142,6 +175,13 @@ public class NotificationManager {
 		return sb.toString();
 	}
 	
+	/**
+	 * Generates the HTML code displaying that the user
+	 * has declined the friendship
+	 * 
+	 * @param r the Request
+	 * @return the parsed string.
+	 */
 	private String processDeclinedFriendship(Request r){
 		StringBuilder sb = new StringBuilder();
 		sb.append("<div class=\"request_window\">");
@@ -152,6 +192,14 @@ public class NotificationManager {
 		return sb.toString();
 	}
 	
+	/**
+	 * Generates the HTML code displaying which monsters have
+	 * been offered to fight, and displaying the statistics between
+	 * the two.
+	 * 
+	 * @param r the Request
+	 * @return the parsed string.
+	 */
 	private String processFightOffer(Request r){
 		StringBuilder sb = new StringBuilder();
 		
@@ -211,6 +259,13 @@ public class NotificationManager {
 		return sb.toString();
 	}
 	
+	/**
+	 * Processes the data for the fight, and display which one lost
+	 * or won.
+	 * 
+	 * @param r the Request
+	 * @return the parsed string
+	 */
 	private String processFightResolved(Request r){
 		StringBuilder sb = new StringBuilder();
 		
@@ -237,6 +292,13 @@ public class NotificationManager {
 		return sb.toString();
 	}
 	
+	/**
+	 * Generates the HTML code displaying that the user has declined 
+	 * the fight.
+	 * 
+	 * @param r the Request
+	 * @return the parsed string
+	 */
 	private String processDeclinedFight(Request r){
 		StringBuilder sb = new StringBuilder();
 		String ownerName;
@@ -257,6 +319,13 @@ public class NotificationManager {
 		return sb.toString();
 	}
 	
+	/**
+	 * Generates the HTML code displaying  the notification for
+	 * the successful breeding of two monsters
+	 * 
+	 * @param r the Request
+	 * @return the parsed string
+	 */
 	public String processAcceptedBreeding(Request r){
 		StringBuilder sb = new StringBuilder();
 		
@@ -267,6 +336,13 @@ public class NotificationManager {
 		return sb.toString();
 	}
 	
+	/**
+	 * Generates the HTML code displaying the notification that
+	 * one of the users monsters has been brought
+	 * 
+	 * @param r the Request
+	 * @return the parsed string
+	 */
 	public String processBuyRequest(Request r){
 		StringBuilder sb = new StringBuilder();
 		
