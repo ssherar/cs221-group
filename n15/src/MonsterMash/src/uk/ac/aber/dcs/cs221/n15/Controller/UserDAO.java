@@ -244,4 +244,8 @@ public class UserDAO {
 		}
 	}
 
+	public User reloadUser(String userId){
+		EntityManager em = emf.createEntityManager();
+		return em.find(User.class, userId);
+	}
 }

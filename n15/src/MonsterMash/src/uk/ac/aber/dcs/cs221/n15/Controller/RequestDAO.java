@@ -58,7 +58,7 @@ public class RequestDAO {
 	public List<Request> getRequests(User user, RequestType type){
 		
 		int n = type.ordinal();
-		if(n >2 && n<9){
+		if(n >2){
 			//Where monster id is stored, instead of user id
 			TypedQuery<Request> q = (TypedQuery<Request>) 
 					emf.createEntityManager().createNativeQuery("SELECT * FROM requests WHERE (sourceId like '"+user.getId()+".%' OR targetId like '"+user.getId()+".%') AND type = '"+n+"'", Request.class);

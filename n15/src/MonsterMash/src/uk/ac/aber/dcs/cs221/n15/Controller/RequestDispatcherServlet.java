@@ -77,6 +77,12 @@ public class RequestDispatcherServlet extends HttpServlet{
 				Request fr = new Request(null, targetId, RequestType.OFFER_FIGHT);
 				s.setAttribute("pendingRequest", fr);
 				resp.sendRedirect("picker.jsp");
+				break;
+			case BUY_MONSTER:
+				rdao.createRequest(user.getId(), targetId, RequestType.BUY_MONSTER, null);
+				buyMonster(targetId);
+				resp.sendRedirect("myfarm.jsp");
+				break;
 			}
 		}else if(action.equals("accept")){
 			
@@ -122,7 +128,12 @@ public class RequestDispatcherServlet extends HttpServlet{
 				resp.sendRedirect("fights.jsp");
 				break;
 			case ACCEPT_BREED_OFFER:
+				rdao.deleteRequest(requestId);
 				resp.sendRedirect("breed.jsp");
+				break;
+			case BUY_MONSTER:
+				rdao.deleteRequest(requestId);
+				resp.sendRedirect("shop.jsp");
 				break;
 			case FIGHT_RESOLVED:
 				dismissResolved(requestId);
@@ -279,20 +290,41 @@ public class RequestDispatcherServlet extends HttpServlet{
 		System.out.print("Children should be in the database");
 		LoginServlet.reloadMonsters(s, user.getId());
 		
-	}
-	
-		
-	public void sendBuyRequest(String monsterID) {
-		
-	}
-	
-	public void acceptBuyRequest(int requestId) {
+		//and reloading the user
+		User rld = udao.findUser(user.getId());
+		s.setAttribute("currentUser", rld);
 		
 	}
 	
-	public void declineBuyRequest(int requestId) {
+		
+	public void buyMonster(String monsterId) {
+		//transfer money
+		//and change owner and id of the monster
+		MonsterDAO mdao = new MonsterDAO();
+		Monster monsterToBuy = mdao.findMonster(monsterId);
+		
+		//Checking if user can afford
+		if(user.getMoney()<monsterToBuy.getSalePrice()) return;
+			
+		//and transfers money
+		UserDAO udao = new UserDAO();
+		User seller = udao.findUser(monsterToBuy.getOwnerId());
+		int price = monsterToBuy.getSalePrice();
+		
+		udao.changeMoney(seller, price);
+		udao.changeMoney(user, -price);
+		
+		//and changes the owner
+		mdao.changeOwner(monsterId, user.getId());
+		
+		//and reloading the user and monsters
+		User rld = udao.findUser(user.getId());
+		s.setAttribute("currentUser", rld);
+		LoginServlet.reloadMonsters(s, user.getId());
 		
 	}
+	
+	
 
 	
 }

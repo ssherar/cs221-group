@@ -77,6 +77,12 @@ public class NotificationManager {
 				builder.append(processAcceptedBreeding(r));
 			}	
 			break;
+		case BUY_MONSTER:
+			for(Request r : requests){
+				if((r.getTargetID().contains(user.getId()+"."))==false) continue;
+				builder.append(processBuyRequest(r));
+			}	
+			break;
 		}
 		
 		
@@ -240,4 +246,17 @@ public class NotificationManager {
 		sb.append("<img src=\"img/close.png\" width=\"10px\" /></a></div>");
 		return sb.toString();
 	}
+	
+	public String processBuyRequest(Request r){
+		StringBuilder sb = new StringBuilder();
+		
+		String monsterName = Monster.parseNameFromId(r.getTargetID());
+		
+		sb.append("<div class=\"request_window\">");
+		sb.append("Someone bought your monster ("+monsterName+"), you earned some cash!");
+		sb.append("<a href=\"RequestDispatcherServlet?action=dismiss&requestid="+r.getId()+"\">");
+		sb.append("<img src=\"img/close.png\" width=\"10px\" /></a></div>");
+		return sb.toString();
+	}
+	
 }

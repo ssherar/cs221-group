@@ -1,5 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+    pageEncoding="ISO-8859-1"
+    import="uk.ac.aber.dcs.cs221.n15.Model.*"
+    import="java.util.*"
+    import="java.text.DateFormat"
+    import="uk.ac.aber.dcs.cs221.n15.Controller.*" %>
+ 
+<% HttpSession s = request.getSession(false);
+User user = (User)(s.getAttribute("currentUser"));
+List<Monster> monsters = (List<Monster>)(s.getAttribute("monsters"));
+
+if(user == null) {
+	response.sendRedirect("index.jsp"); 
+} 
+
+ if(monsters==null) monsters = new ArrayList<Monster>();
+%>
+
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -34,9 +50,6 @@
 			
 			</tr>
 			</table>
-
-				
-
 			
 			</div>
 			<hr class="horizontal_spacer" />
@@ -44,16 +57,16 @@
 			
 					<div class="notice_stats">
 					<img src="img/monster_icon.png"  height="15px" />
-					3 
+					<%= monsters.size() %>
 					</div>
 					<div class="notice_stats">
 					<img src="img/pouch_icon.png"  height="15px" />
-					345$
+					<%= user.getMoney() %>
 					</div>
 					
 					<div id="login_info">
-					Logged as:<a href="edituser.jsp"><% //user.getUsername() %></a> 
-					<img id="logout_icon" src="img/logout.png"  height="15px" />
+					Logged as: <a href="edituser.jsp"><%= user.getUsername() %></a>
+					<a href="LoginServlet?logout"><img id="logout_icon" src="img/logout.png"  height="15px" /></a>
 					</div>
 					
 					
@@ -63,40 +76,12 @@
 				
 			
 			<div id="yours_for_sale">
-			<p class="title_half">Your offers</p>
+			<p class="title_half">Notifications</p>
 			
-			<div class="your_offer_window">
-			<table width="800px, 150px, *">
-			<tr>
-			<td><p class="monster_name">
-				MyFemaleMonster
-				<img src="img/female.png" width="20px" /></p>
-			</td>
-			<td>
-			price: $300
-			</td><td>
-				<a> CHANGE PRICE</a> | 
-				<a> CANCEL OFFER</a>
-			</td></tr></table>
-			</div>
-			
-			
-			<div class="your_offer_window">
-			<table width="800px, 150px, *">
-			<tr>
-			<td><p class="monster_name">
-				MyOtherMonster
-				<img src="img/male.png" width="20px" /></p>
-			</td>
-			<td>
-			price: $250
-			</td><td>
-				<a> CHANGE PRICE</a> | 
-				<a> CANCEL OFFER</a>
-			</td></tr></table>
-			</div>
-			
-			
+			<%
+				NotificationManager nm = new NotificationManager(user);
+				%>
+				<%=nm.getNotifications(RequestType.BUY_MONSTER) %>
 			
 			</div>	
 			
@@ -104,194 +89,49 @@
 			<div id="offers" >
 			<p class="title_half">Offered monsters</p>
 						
-			<div class="monster_window">
+			<%
+				List<Monster> monstersForSale = new ArrayList<Monster>();
+				List<Friend> friends = (List<Friend>)s.getAttribute("friends");
+				UserDAO udao = new UserDAO();
+				MonsterDAO mdao = new MonsterDAO();
+				for(Friend f : friends){
+					monstersForSale.addAll(udao.getMonstersForSale(f.getId()));
+					if(monstersForSale.size()>60) break;
+				}			
+				
+				for(Monster m : monstersForSale){%>
+				
+				<div class="monster_window">
 				<div class="monster_description">
-					<p class="monster_name">SomeMonster
-					<img src="img/male.png" width="20px" />
+					<p class="monster_name"><%= m.getName() %>
+					<%
+					int age = mdao.calculateDaysDifference(m.getDob());
+					%>
 					</p>
-					4 days old<br/>
+					Age: <%=age  %> 
+					<%= age==1 ? "day<br/>" : "days<br/>" %>
 					<table class="monster_stats">
-						<tr><td>health:</td><td>0.9</td></tr>
-						<tr><td>strength:</td><td>0.7</td></tr>
-						<tr><td>aggression:</td><td>0.5</td></tr>
-						<tr><td>fertility:</td><td>0.8</td></tr>
+						<tr><td>health:</td><td><%= m.getHealth() %></td></tr>
+						<tr><td>strength:</td><td><%= m.getStrength() %></td></tr>
+						<tr><td>aggression:</td><td><%= m.getAggression() %></td></tr>
+						<tr><td>fertility:</td><td><%= m.getFertility() %></td></tr>
 					</table>
 					
 				</div>
 				
 				<div class="monster_actions_menu">
-					<p style="margin-top: 0px;">owner:<br/>
-					<a>SomePlayer</a>
-					</p>
-					fight prize: $200<br/>
-					<br/>
-					price: $345<br/>
-					<a>BUY</a>
-				</div>
-			</div>
-			<div class="monster_window">
-				<div class="monster_description">
-					<p class="monster_name">SomeMonster
-					<img src="img/male.png" width="20px" />
-					</p>
-					4 days old<br/>
-					<table class="monster_stats">
-						<tr><td>health:</td><td>0.9</td></tr>
-						<tr><td>strength:</td><td>0.7</td></tr>
-						<tr><td>aggression:</td><td>0.5</td></tr>
-						<tr><td>fertility:</td><td>0.8</td></tr>
-					</table>
 					
-				</div>
-				
-				<div class="monster_actions_menu">
-					<p style="margin-top: 0px;">owner:<br/>
-					<a>SomePlayer</a>
-					</p>
-					fight prize: $200<br/>
+					<a href="RequestDispatcherServlet?action=send&type=9&targetid=<%=m.getId() %>">
+					BUY</a><br/>
 					<br/>
-					price: $345<br/>
-					<a>BUY</a>
+					PRICE : <%=m.getSalePrice() %><br/>
+					fight prize: $<%= mdao.calculatePrize(m) %><br />
 				</div>
-			</div>
-			<div class="monster_window">
-				<div class="monster_description">
-					<p class="monster_name">SomeMonster
-					<img src="img/male.png" width="20px" />
-					</p>
-					4 days old<br/>
-					<table class="monster_stats">
-						<tr><td>health:</td><td>0.9</td></tr>
-						<tr><td>strength:</td><td>0.7</td></tr>
-						<tr><td>aggression:</td><td>0.5</td></tr>
-						<tr><td>fertility:</td><td>0.8</td></tr>
-					</table>
-					
-				</div>
-				
-				<div class="monster_actions_menu">
-					<p style="margin-top: 0px;">owner:<br/>
-					<a>SomePlayer</a>
-					</p>
-					fight prize: $200<br/>
-					<br/>
-					price: $345<br/>
-					<a>BUY</a>
-				</div>
-			</div>
-			<div class="monster_window">
-				<div class="monster_description">
-					<p class="monster_name">SomeMonster
-					<img src="img/male.png" width="20px" />
-					</p>
-					4 days old<br/>
-					<table class="monster_stats">
-						<tr><td>health:</td><td>0.9</td></tr>
-						<tr><td>strength:</td><td>0.7</td></tr>
-						<tr><td>aggression:</td><td>0.5</td></tr>
-						<tr><td>fertility:</td><td>0.8</td></tr>
-					</table>
-					
-				</div>
-				
-				<div class="monster_actions_menu">
-					<p style="margin-top: 0px;">owner:<br/>
-					<a>SomePlayer</a>
-					</p>
-					fight prize: $200<br/>
-					<br/>
-					price: $345<br/>
-					<a>BUY</a>
-				</div>
-			</div>
-			<div class="monster_window">
-				<div class="monster_description">
-					<p class="monster_name">SomeMonster
-					<img src="img/male.png" width="20px" />
-					</p>
-					4 days old<br/>
-					<table class="monster_stats">
-						<tr><td>health:</td><td>0.9</td></tr>
-						<tr><td>strength:</td><td>0.7</td></tr>
-						<tr><td>aggression:</td><td>0.5</td></tr>
-						<tr><td>fertility:</td><td>0.8</td></tr>
-					</table>
-					
-				</div>
-				
-				<div class="monster_actions_menu">
-					<p style="margin-top: 0px;">owner:<br/>
-					<a>SomePlayer</a>
-					</p>
-					fight prize: $200<br/>
-					<br/>
-					price: $345<br/>
-					<a>BUY</a>
-				</div>
-			</div>
-			<div class="monster_window">
-				<div class="monster_description">
-					<p class="monster_name">SomeMonster
-					<img src="img/male.png" width="20px" />
-					</p>
-					4 days old<br/>
-					<table class="monster_stats">
-						<tr><td>health:</td><td>0.9</td></tr>
-						<tr><td>strength:</td><td>0.7</td></tr>
-						<tr><td>aggression:</td><td>0.5</td></tr>
-						<tr><td>fertility:</td><td>0.8</td></tr>
-					</table>
-					
-				</div>
-				
-				<div class="monster_actions_menu">
-					<p style="margin-top: 0px;">owner:<br/>
-					<a>SomePlayer</a>
-					</p>
-					fight prize: $200<br/>
-					<br/>
-					price: $345<br/>
-					<a>BUY</a>
-				</div>
-			</div>
-			<div class="monster_window">
-				<div class="monster_description">
-					<p class="monster_name">SomeMonster
-					<img src="img/male.png" width="20px" />
-					</p>
-					4 days old<br/>
-					<table class="monster_stats">
-						<tr><td>health:</td><td>0.9</td></tr>
-						<tr><td>strength:</td><td>0.7</td></tr>
-						<tr><td>aggression:</td><td>0.5</td></tr>
-						<tr><td>fertility:</td><td>0.8</td></tr>
-					</table>
-					
-				</div>
-				
-				<div class="monster_actions_menu">
-					<p style="margin-top: 0px;">owner:<br/>
-					<a>SomePlayer</a>
-					</p>
-					fight prize: $200<br/>
-					<br/>
-					price: $345<br/>
-					<a>BUY</a>
-				</div>
-			</div>
-			
-			
 			
 			</div>
+			<%} %>
 			
-			
-			
-			
-			
-			
-			<br/><br/>
-			
-			
+			</div>
 		</div>
 	</center>
 </body>
