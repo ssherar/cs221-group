@@ -156,7 +156,7 @@ if(f_id.length()>4){
 						<% String fightUrl = "RequestDispatcherServlet?action=send&type=3&targetid="+m.getId(); %>
 						<a href="<%=fightUrl %>">challenge to fight</a><br/>
 						<% boolean forSale = m.isForSale(), forBreeding = m.isForBreeding(); %>
-						<% if(forSale) { %>
+						<% if(forSale && m.getSalePrice() <= user.getMoney()) { %>
 							<a>buy this monster</a><br/>
 						<% } %>
 						<% if(forBreeding) { %>

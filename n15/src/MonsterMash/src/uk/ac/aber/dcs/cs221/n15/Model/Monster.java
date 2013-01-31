@@ -60,12 +60,6 @@ public class Monster{
 	 */
 	private int strength;
 	
-	@Column(name="lockMonster")
-	/**
-	 * 
-	 */
-	private int locked;
-	
 	@Column(name="breedPrice")
 	/**
 	 * The breed price of the monster
@@ -147,7 +141,9 @@ public class Monster{
 	}
 
 	/**
-	 * Sets the monsters aggression
+	 * Sets the monsters aggression. It also checks
+	 * if the value passed in is between the range
+	 * 0 to 100
 	 * 
 	 * @param aggression The monsters aggression
 	 */
@@ -211,7 +207,9 @@ public class Monster{
 	}
 
 	/**
-	 * Sets the monsters health
+	 * Sets the monsters health. It also checks
+	 * if the value passed in is between the range
+	 * 0 to 100
 	 * 
 	 * @param health The monsters health
 	 */
@@ -252,7 +250,9 @@ public class Monster{
 	}
 
 	/**
-	 * Sets the monsters strength
+	 * Sets the monsters strength. It also checks
+	 * if the value passed in is between the range
+	 * 0 to 100
 	 * 
 	 * @param strength The monsters strength
 	 */
@@ -289,24 +289,6 @@ public class Monster{
 	 */
 	public void setOwnerId(String ownerId) {
 		this.ownerId = ownerId;
-	}
-	
-	/**
-	 * Gets the monsters lock
-	 * 
-	 * @return The monsters lock
-	 */
-	public int getLocked() {
-		return locked;
-	}
-
-	/**
-	 * Sets the monsters lock
-	 * 
-	 * @param locked The monsters lock
-	 */
-	public void setLocked(int locked) {
-		this.locked = locked;
 	}
 	
 	/**
