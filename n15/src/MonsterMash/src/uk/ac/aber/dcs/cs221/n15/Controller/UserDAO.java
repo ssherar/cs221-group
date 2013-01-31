@@ -128,25 +128,26 @@ public class UserDAO {
 		return null;
 	}
 	
-	public User[] retrieveFriends(User user){
-		EntityManager em = emf.createEntityManager();
-		String[] ids = user.getFriends().split(";");
-		User[] users = new User[ids.length];
-		for(int i = 0; i < ids.length; i++){
-			if(ids[i].length()>1) 
-			users[i] = em.find(User.class, ids[i]);
-		}
-		return users;
-	}
-	
 	public ArrayList<Friend> getFriends(User u){
 		EntityManager em = emf.createEntityManager();
 		ArrayList<Friend> friends = new ArrayList<Friend>();
-		String flist = u.getFriends();
+		
+		String flist ="";
+		
+		try{
+		UserTransaction transaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
+		transaction.begin();
+		Query qFind = em.createNativeQuery("SELECT friends FROM users WHERE id = '"+u.getId()+"'");
+		flist = (String) qFind.getSingleResult();
+		transaction.commit();
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		
 		if(flist.length()==0){
 			return friends;
 		}
-		String[] ids = u.getFriends().split(";");
+		String[] ids = flist.split(";");
 		for(String id : ids){
 			User f = em.find(User.class, id);
 			friends.add(new Friend(f.getId(), f.getMoney(), countMonsters(f)));
