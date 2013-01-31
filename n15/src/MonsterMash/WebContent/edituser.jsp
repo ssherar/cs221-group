@@ -6,13 +6,16 @@
     import="java.text.DateFormat"%>
     
 <% HttpSession s = request.getSession(false);
+if(s==null){
+	response.sendRedirect("index.jsp"); 
+	return;
+}
 User user = (User)(s.getAttribute("currentUser"));
-List<Monster> monsters = (List<Monster>)(s.getAttribute("monsters"));
 if(user == null) {
 	response.sendRedirect("index.jsp"); 
-}
-
-if(monsters==null) monsters = new ArrayList<Monster>();%>
+	return;
+} 
+%>
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -65,7 +68,7 @@ function deleteUser() {
 			
 				<div class="notice_stats">
 				<img src="img/monster_icon.png"  height="15px" />
-				<%= monsters.size() %>
+				<%= s.getAttribute("numberOfMonsters") %>
 				</div>
 				<div class="notice_stats">
 				<img src="img/pouch_icon.png"  height="15px" />
