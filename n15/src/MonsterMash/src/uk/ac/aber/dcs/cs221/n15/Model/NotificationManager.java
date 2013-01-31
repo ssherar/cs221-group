@@ -65,11 +65,6 @@ public class NotificationManager {
 				//if user is target and seen is 2 - continue
 				//if user is source and seen is 1 continue
 				//else display
-				if(r.getTargetID().contains(user.getId()+".")){
-					if(r.getSeen()==2) continue;
-				}else{
-					if(r.getSeen()==1) continue;
-				}
 				builder.append(processFightResolved(r));
 			}	
 			break;
