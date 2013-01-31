@@ -11,7 +11,8 @@ if(s==null){
 	return;
 }
 User user = (User)(s.getAttribute("currentUser"));
-ArrayList<Friend> friends = (ArrayList<Friend>)(s.getAttribute("friends"));
+UserDAO dao = new UserDAO();
+ArrayList<Friend> friends = dao.getFriends(user);
 if(user == null) {
 	response.sendRedirect("index.jsp"); 
 	return;

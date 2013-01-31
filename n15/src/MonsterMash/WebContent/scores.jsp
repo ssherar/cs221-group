@@ -84,8 +84,8 @@ if(user == null) {
 				
 				sb.append("<thead id=\"rich_thead\"><tr><td>Position</td><td>Username</td><td>Money</td><td>Monsters</td></tr></thead>");
 				ArrayList<Friend> fs = new ArrayList<Friend>();
-				fs.addAll((ArrayList<Friend>)(s.getAttribute("friends")));
-				
+				UserDAO dao = new UserDAO();
+				fs.addAll((ArrayList<Friend>)(dao.getFriends(user)));
 				fs.add(new Friend(user.getId(),user.getMoney(), (Integer)s.getAttribute("numberOfMonsters")));
 				
 				Collections.sort(fs);

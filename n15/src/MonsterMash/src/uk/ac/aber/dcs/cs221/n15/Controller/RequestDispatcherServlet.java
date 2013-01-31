@@ -46,6 +46,10 @@ public class RequestDispatcherServlet extends HttpServlet{
 	 * action=picked
 	 * pickedid (String)
 	 * 
+	 * To remove a Friend
+	 * action=removefriend
+	 * targetid (String)
+	 * 
 	 * Optional:
 	 * content = string
 	 * 
@@ -163,6 +167,10 @@ public class RequestDispatcherServlet extends HttpServlet{
 			}
 			
 			
+		}else if(action.equals("removefriend")){
+			UserDAO udao = new UserDAO();
+			udao.removeFriendship(user.getId(), targetId);
+			resp.sendRedirect("friends.jsp");
 		}
 		
 	}
@@ -174,7 +182,6 @@ public class RequestDispatcherServlet extends HttpServlet{
 	 */
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		this.doGet(req, resp);
 	}
 	
@@ -227,11 +234,6 @@ public class RequestDispatcherServlet extends HttpServlet{
 		UserDAO udao = new UserDAO();
 		Request r = rdao.getRequest(requestId);
 		udao.addFriendship(user.getId(), r.getSourceID());
-		//Refreshing list of friends
-		User rld = udao.findUser(user.getId());
-		s.setAttribute("currentUser", rld);
-		ArrayList<Friend> friends = udao.getFriends(rld);
-		s.setAttribute("friends", friends);
 	}
 	
 	/**

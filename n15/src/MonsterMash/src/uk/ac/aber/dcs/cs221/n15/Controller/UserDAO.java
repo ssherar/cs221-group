@@ -144,17 +144,12 @@ public class UserDAO {
 		ArrayList<Friend> friends = new ArrayList<Friend>();
 		String flist = u.getFriends();
 		if(flist.length()==0){
-			System.out.println("NO FRIENDS!");
 			return friends;
 		}
 		String[] ids = u.getFriends().split(";");
 		for(String id : ids){
 			User f = em.find(User.class, id);
 			friends.add(new Friend(f.getId(), f.getMoney(), countMonsters(f)));
-		}
-		
-		for(Friend f : friends){
-			System.out.println("Name: "+f.getName()+" Money: "+f.getMoney());
 		}
 		return friends;
 	}
@@ -241,6 +236,7 @@ public class UserDAO {
 		EntityManager em = emf.createEntityManager();
 		return em.find(User.class, userId);
 	}
+	
 	public void deleteUser(User u) {
 		String userId = u.getId();
 		try {
@@ -258,7 +254,7 @@ public class UserDAO {
 			List<Friend> friends = this.getFriends(u);
 			for(Friend f : friends) {
 				transaction.begin();
-				Query qFind = em.createNativeQuery("SELECT friends FROM user WHERE id = '"+f.getId()+"'");
+				Query qFind = em.createNativeQuery("SELECT friends FROM users WHERE id = '"+f.getId()+"'");
 				String friendString = (String) qFind.getSingleResult();
 				friendString = friendString.replace(userId+";", "");
 				Query qUpdate = em.createNativeQuery("UPDATE users SET friends = '"+friendString +"' WHERE id = '" + f.getId() +"'");
@@ -276,6 +272,35 @@ public class UserDAO {
 			// reove id from names
 		} catch (Exception ex) {
 			ex.printStackTrace();
+		}
+	}
+	
+	public boolean removeFriendship(String friendId1, String friendId2){
+		try{
+		EntityManager em = emf.createEntityManager();
+		UserTransaction transaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
+		
+		if(!checkFriendship(friendId1, friendId2)) return false;
+		
+		transaction.begin();
+		
+		Query qFind = em.createNativeQuery("SELECT friends FROM users WHERE id = '"+friendId1+"'");
+		String friendString = (String) qFind.getSingleResult();
+		friendString = friendString.replace(friendId2+";", "");
+		Query qUpdate = em.createNativeQuery("UPDATE users SET friends = '"+friendString +"' WHERE id = '" + friendId1 +"'");
+		qUpdate.executeUpdate();
+		
+		qFind = em.createNativeQuery("SELECT friends FROM users WHERE id = '"+friendId2+"'");
+		friendString = (String) qFind.getSingleResult();
+		friendString = friendString.replace(friendId1+";", "");
+		qUpdate = em.createNativeQuery("UPDATE users SET friends = '"+friendString +"' WHERE id = '" + friendId2 +"'");
+		qUpdate.executeUpdate();	
+		
+		transaction.commit();
+		return true;
+		}catch(Exception ex){
+			ex.printStackTrace();
+			return false;
 		}
 	}
 }

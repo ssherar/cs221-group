@@ -107,7 +107,8 @@ if(f_id.length()>4){
 			<% 
 			String message; 
 			if(isFriend){
-				message = "<p class=\"align_right\"><a>Remove from friends</a></p>";
+				String removeLink = "RequestDispatcherServlet?action=removefriend&targetid="+f_id;
+				message = "<p class=\"align_right\"><a href=\""+removeLink+"\">Remove from friends</a></p>";
 			}else{
 				RequestDAO rdao = new RequestDAO();
 				if(rdao.requestExists(user.getId(), f_id, RequestType.FRIEND_REQUEST)){

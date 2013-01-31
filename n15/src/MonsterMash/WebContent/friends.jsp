@@ -2,6 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"
     import="uk.ac.aber.dcs.cs221.n15.Model.*"
+    import="uk.ac.aber.dcs.cs221.n15.Controller.*"
     import="java.util.*"
     import="java.text.DateFormat" %>
  
@@ -12,7 +13,8 @@ if(s==null){
 }
 User user = (User)(s.getAttribute("currentUser"));
 List<Monster> monsters = (List<Monster>)(s.getAttribute("monsters"));
-ArrayList<Friend> friends = (ArrayList<Friend>)(s.getAttribute("friends"));
+UserDAO dao = new UserDAO();
+ArrayList<Friend> friends = dao.getFriends(user);
 if(user == null) {
 	response.sendRedirect("index.jsp"); 
 	return;

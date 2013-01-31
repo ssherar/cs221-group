@@ -12,7 +12,6 @@ if(s==null){
 }
 User user = (User)(s.getAttribute("currentUser"));
 List<Monster> monsters = (List<Monster>)(s.getAttribute("monsters"));
-ArrayList<Friend> friends = (ArrayList<Friend>)(s.getAttribute("friends"));
 if(user == null) {
 	response.sendRedirect("index.jsp"); 
 	return;

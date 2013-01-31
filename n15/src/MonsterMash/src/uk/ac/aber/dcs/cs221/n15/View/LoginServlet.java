@@ -51,7 +51,6 @@ public class LoginServlet extends HttpServlet {
 			hashedPassword = new BigInteger(1, md.digest()).toString(16);
 			
 		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -65,7 +64,6 @@ public class LoginServlet extends HttpServlet {
 			HttpSession session = request.getSession();
 			this.reloadMonsters(session, user.getId());
 			session.setAttribute("currentUser", user);
-			session.setAttribute("friends", friends);
 			response.sendRedirect("myfarm.jsp");
 		} else {
 			HttpSession session = request.getSession();
