@@ -126,6 +126,12 @@ if(user == null) {
 			
 			</div>
 			<%} %>
+					
+				<% if(monstersForBreeding.size()==0) {%>
+				
+				<p>Your friends don't offer any monsters for breeding at the moment.</p>		
+				
+				<% } %>	
 								
 			</div>
 		</center>

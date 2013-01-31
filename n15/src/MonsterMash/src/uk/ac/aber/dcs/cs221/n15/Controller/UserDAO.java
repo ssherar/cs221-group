@@ -24,18 +24,11 @@ public class UserDAO {
 	private EntityManagerFactory emf = Persistence.createEntityManagerFactory("MonsterMash");
 
 	
-	public boolean userExists(User user) {
+	public boolean userExists(String userId) {
 		
-		String sql = "SELECT * FROM users where users.email='"+user.getUsername()+"'";
-		Query q = emf.createEntityManager().createNamedQuery("checkExists")
-					.setParameter("username", user.getUsername())
-					.setParameter("password", user.getPassword());
-		
-		if(q.getResultList().size() > 0) {
-			return true;
-		} else {
-			return false;
-		}
+		EntityManager em = emf.createEntityManager();
+		User u = (User) em.find(User.class, userId);
+		return u==null ? false : true;
 		
 	}
 	
@@ -83,32 +76,27 @@ public class UserDAO {
 		return count.intValue();
 	}
 	
-	//TODO remove before submitting
-	public void test(){
-		try{
-			EntityManager em = emf.createEntityManager();
-			
-			User kamil = em.find(User.class, "loc.kamil");
-			UserTransaction transaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
-			transaction.begin();
-			kamil.setFriends("user1;user2");
-			transaction.commit();
-		}catch(Exception ex){
-			ex.printStackTrace();
-		}
-		
-	}
 	
-	public void createUser(String uname, String pass){
+	public boolean createUser(String uname, String pass){
 		try{
 			EntityManager em = emf.createEntityManager();
 			User user = new User(uname, pass);
+			
+			//Generating start monster for the user
+			MonsterDAO mdao = new MonsterDAO();
+			mdao.generateMonster(user.getId(), "MyFirstMonster");
+			
+			user.setMoney(600);
+			user.setFriends("");
+			
 			UserTransaction transaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
 			transaction.begin();
 			em.persist(user);
 			transaction.commit();
+			return true;
 		}catch(Exception ex){
 			ex.printStackTrace();
+			return false;
 		}	
 	}
 	

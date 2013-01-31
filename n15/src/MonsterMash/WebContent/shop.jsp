@@ -99,6 +99,7 @@ if(user == null) {
 					if(monstersForSale.size()>60) break;
 				}			
 				
+				
 				for(Monster m : monstersForSale){%>
 				
 				<div class="monster_window">
@@ -130,6 +131,12 @@ if(user == null) {
 			
 			</div>
 			<%} %>
+			
+			<% if(monstersForSale.size()==0) {%>
+				
+				<p>Your friends don't sell any monsters at the moment.</p>		
+				
+				<% } %>	
 			
 			</div>
 <!-- 		</div> -->

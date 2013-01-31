@@ -3,7 +3,6 @@ package uk.ac.aber.dcs.cs221.n15.Controller;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.naming.InitialContext;
@@ -127,6 +126,32 @@ public class MonsterDAO {
 			System.out.println(ex);
 		}
 	}
+	
+	/**
+	 * Generates a random monster and persists it.
+	 * (All base parameters are between 20 and 70).
+	 * @param userId Owner of the new monster
+	 * @param monsterName
+	 */
+	public Monster generateMonster(String userId, String monsterName){
+		//Checking if such user exists.
+		UserDAO udao = new UserDAO();
+		if(udao.userExists(userId)) return null;
+		
+		Monster m = new Monster(monsterName, userId);
+		m.setAggression(Validator.rand(20, 70));
+		m.setStrength(Validator.rand(20, 70));
+		m.setFertility(Validator.rand(20, 70));
+		m.setHealth(100);
+		m.setIsForBreeding(0);
+		m.setIsForSale(0);
+		m.setSalePrice(this.calculatePrize(m));
+		m.setBreedPrice(m.getSalePrice()/2);
+		
+		this.persistMonster(m);
+		return m;
+	}
+	
 	
 	/**
 	 * Changes the owner of the monster, and any recurrence of that in the database
@@ -300,14 +325,14 @@ public class MonsterDAO {
 
 		int youngAge = (daysOld > 5) ? 5 : daysOld;
 
-		ciStr = baseStr * Math.pow(this.CHILD_PERCENT, youngAge);
-		ciAgg = baseAgg * Math.pow(this.CHILD_PERCENT, youngAge);
-		ciFert = baseFert * Math.pow(this.CHILD_PERCENT, youngAge);
+		ciStr = baseStr * Math.pow(CHILD_PERCENT, youngAge);
+		ciAgg = baseAgg * Math.pow(CHILD_PERCENT, youngAge);
+		ciFert = baseFert * Math.pow(CHILD_PERCENT, youngAge);
 
 		if(daysOld > 5) {
 			int matureAge = ((daysOld > 12) ? 12 : daysOld) - 5;
-			ciStr = ciStr * Math.pow(this.MATURE_PERCENT, matureAge);
-			ciAgg = ciAgg * Math.pow(this.MATURE_PERCENT, matureAge);
+			ciStr = ciStr * Math.pow(MATURE_PERCENT, matureAge);
+			ciAgg = ciAgg * Math.pow(MATURE_PERCENT, matureAge);
 		}
 
 		if(daysOld > 12) {
@@ -540,6 +565,8 @@ public class MonsterDAO {
 		EntityManager em = emf.createEntityManager();
 		Query qSource = em.createNativeQuery("UPDATE requests SET sourceId = '"+toID+"' where sourceId = '"+fromID+"'");
 		Query qTarget = em.createNamedQuery("UPDATE requests SET targetId = '"+toID+"' where targetId = '"+fromID+"'");
+		qSource.executeUpdate();
+		qTarget.executeUpdate();
 	}
 }
 

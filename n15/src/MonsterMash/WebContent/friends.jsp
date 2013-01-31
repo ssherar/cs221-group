@@ -15,10 +15,6 @@ if(user == null) {
 if(friends==null) System.out.println("JSP: friends is null");
 else System.out.println("JSP: friends is NOT null");
  if(monsters==null) monsters = new ArrayList<Monster>();
-
- for(Friend f : friends){
-		System.out.println("Name: "+f.getName()+" Money: "+f.getMoney());
-	}
 %>
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -81,6 +77,12 @@ else System.out.println("JSP: friends is NOT null");
 							
 			<div id="friends_div" class="vertical_half" >
 			<p class="title_half">Friends</p>
+			
+			<% if(friends.size()==0) {%>
+			
+			<p>You don't have any friends. Use search option to find friend's profile.</p>		
+			
+			<% } %>	
 						
 			<% for(Friend friend : friends) {%>			
 			<div class="friend_window">
