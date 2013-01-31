@@ -361,15 +361,6 @@ public class MonsterDAO {
 		}
 		return children;
 	}
-
-	public void buy(String buyerid, String sellerid, Monster monster) {
-		String sub = monster.getId().substring(sellerid.length()+1, monster.getId().length());
-		System.out.println(sub);
-		String newid = buyerid + '.' + sub;
-		monster.setId(newid);
-		monster.setOwnerId(buyerid);
-		System.out.println(newid);
-	}
 	
 	public void changeRequestMonsterId(String fromID, String toID) {
 		EntityManager em = emf.createEntityManager();
