@@ -17,9 +17,22 @@ if(user == null) {
 } 
 UserDAO udao = new UserDAO();
 String f_id = request.getParameter("id");
-if(f_id.charAt(3)!='.') f_id = "loc." + f_id;
-User friend = udao.findUser(f_id);
-List<Monster> friendsMonsters = udao.loadMonsters(friend.getUsername());
+User friend = new User();
+friend.setUsername("Friend not found");
+List<Monster> friendsMonsters = new ArrayList<Monster>(); 
+boolean friendFound = false;
+if(f_id.length()>4){
+	
+	if(f_id.charAt(3)!='.') f_id = "loc." + f_id;
+	friend = udao.findUser(f_id);
+	
+	if(friend!=null)
+	friendsMonsters = udao.loadMonsters(friend.getUsername());
+}
+	
+
+
+
 %>
 
 
@@ -85,6 +98,7 @@ List<Monster> friendsMonsters = udao.loadMonsters(friend.getUsername());
 				<br/>
 				<hr class="horizontal_spacer" />
 				
+			<% if(friendFound) { %>	
 				
 			<p class="profile_title"><%= friend.getUsername() %></p>
 			<p class="align_left">Wealth: <%= friend.getMoney() %></p>
@@ -150,7 +164,10 @@ List<Monster> friendsMonsters = udao.loadMonsters(friend.getUsername());
 			<p>User has no monsters.</p>
 			<%} %>
 			
-			
+			<% } else {%>
+			<br/><br/><br/>
+			<p>Such player does not exist.</p>
+			<%} %>
 			
 			<br/><br/>
 			
