@@ -13,22 +13,42 @@ import uk.ac.aber.dcs.cs221.n15.Controller.RequestDAO;
 import uk.ac.aber.dcs.cs221.n15.Controller.RequestType;
 
 /**
+ * 
+ * 
  * @author kamil
  *
  */
 public class NotificationManager {
 
+	/**
+	 * The user linked to this notification manager
+	 */
 	private User user;
+	
+	/**
+	 * The Request Data Access Object for the specified user
+	 */
 	private RequestDAO rdao;
+	
+	/**
+	 * The string builder for building HTML strings
+	 */
 	StringBuilder builder;
 	
+	/**
+	 * Instantiates the notification manager for a specified user
+	 * 
+	 * @param u The user
+	 */
 	public NotificationManager(User u){
 		this.user = u;
 	}
 	
-	/*
+	/**
 	 * Returns notifications for given user, converted to HTML code.
-	 * Type specifies what type of requests are to be displayed as notifications.
+	 * 
+	 * @param type specifies what type of requests are to be displayed as notifications.
+	 * @return The notifications for given user, converted to HTML code.
 	 */
 	public String getNotifications(RequestType type){
 		this.builder = new StringBuilder();
@@ -89,6 +109,12 @@ public class NotificationManager {
 		return builder.toString();
 	}
 	
+	/**
+	 * Processes a friend request
+	 * 
+	 * @param r The friend request
+	 * @return The request, formatted as HTML
+	 */
 	private String processFriendRequest(Request r){
 		StringBuilder sb = new StringBuilder();
 		//If the user sent the request
@@ -111,6 +137,12 @@ public class NotificationManager {
 	return sb.toString();
 	}
 	
+	/**
+	 * Processes an accepted friendship
+	 * 
+	 * @param r The accept friendship request
+	 * @return The request, formatted as HTML
+	 */
 	private String processAcceptedFriendship(Request r){
 		StringBuilder sb = new StringBuilder();
 		
@@ -122,6 +154,12 @@ public class NotificationManager {
 		return sb.toString();
 	}
 	
+	/**
+	 * Processes a declined friendship
+	 * 
+	 * @param r The decline friendship request
+	 * @return The request, formatted as HTML
+	 */
 	private String processDeclinedFriendship(Request r){
 		StringBuilder sb = new StringBuilder();
 		sb.append("<div class=\"request_window\">");
@@ -132,6 +170,12 @@ public class NotificationManager {
 		return sb.toString();
 	}
 	
+	/**
+	 * Processes a fight offer
+	 * 
+	 * @param r The fight offer request
+	 * @return The request, formatted as HTML
+	 */
 	private String processFightOffer(Request r){
 		StringBuilder sb = new StringBuilder();
 		
@@ -191,6 +235,12 @@ public class NotificationManager {
 		return sb.toString();
 	}
 	
+	/**
+	 * Processes a fight resolved request
+	 * 
+	 * @param r The fight resolved request
+	 * @return The request, formatted as HTML
+	 */
 	private String processFightResolved(Request r){
 		StringBuilder sb = new StringBuilder();
 		
@@ -217,6 +267,12 @@ public class NotificationManager {
 		return sb.toString();
 	}
 	
+	/**
+	 * Processes a decline fight request
+	 * 
+	 * @param r The declined fight request
+	 * @return The request, formatted as HTML
+	 */
 	private String processDeclinedFight(Request r){
 		StringBuilder sb = new StringBuilder();
 		String ownerName;
@@ -237,6 +293,12 @@ public class NotificationManager {
 		return sb.toString();
 	}
 	
+	/**
+	 * Processes an accepted breeding request
+	 * 
+	 * @param r The accepted breeding request
+	 * @return The request, formatted as HTML
+	 */
 	public String processAcceptedBreeding(Request r){
 		StringBuilder sb = new StringBuilder();
 		
@@ -247,6 +309,11 @@ public class NotificationManager {
 		return sb.toString();
 	}
 	
+	/**
+	 * Processes a buy request
+	 * @param r The buy request
+	 * @return The request, formatted as HTML
+	 */
 	public String processBuyRequest(Request r){
 		StringBuilder sb = new StringBuilder();
 		
