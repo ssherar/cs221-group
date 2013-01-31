@@ -59,6 +59,9 @@ public class NotificationManager {
 			for(Request r : requests){
 				builder.append(processFightOffer(r));
 			}	
+			if(builder.length()==0){
+				builder.append("<p>No notifications to display.</p>");
+			}
 			break;
 		case FIGHT_RESOLVED:
 			for(Request r : requests){
@@ -70,8 +73,12 @@ public class NotificationManager {
 				}else{
 					if(r.getSeen()==1) continue;
 				}
+				
 				builder.append(processFightResolved(r));
 			}	
+			if(builder.length()==0){
+				builder.append("<p>No notifications to display.</p>");
+			}
 			break;
 		case DECLINED_FIGHT:
 			for(Request r : requests){
@@ -84,15 +91,20 @@ public class NotificationManager {
 				if((r.getTargetID().contains(user.getId()+"."))==false) continue;
 				builder.append(processAcceptedBreeding(r));
 			}	
+			if(builder.length()==0){
+				builder.append("<p>No notifications to display.</p>");
+			}
 			break;
 		case BUY_MONSTER:
 			for(Request r : requests){
 				if((r.getTargetID().contains(user.getId()+"."))==false) continue;
 				builder.append(processBuyRequest(r));
 			}	
+			if(builder.length()==0){
+				builder.append("<p>No notifications to display.</p>");
+			}
 			break;
 		}
-		
 		
 		return builder.toString();
 	}
