@@ -35,7 +35,7 @@ if(s != null) {
 		<table>
 			<tr>
 			<td>email address: </td>
-			<td><input type="text" name="email" class="required" data-minlength="6"></input></td>
+			<td><input type="text" name="email" class="required email" data-minlength="6"></input></td>
 			</tr>
 			<tr>
 			<td>password: </td>

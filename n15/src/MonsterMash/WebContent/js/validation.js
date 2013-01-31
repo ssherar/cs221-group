@@ -11,6 +11,8 @@
  *   		Tests if it's numeric
  *   - password_confirm
  *   		Expects two password fields, and checks if they are same
+ *   - email
+ *   		Checks if the value is a valid email
  * Dataset selectors
  * 	 - minlength
  * 			Checks if the length is not less than the value given
@@ -52,6 +54,11 @@ function validate(formVar) {
 						if(password != ele.value) {
 							mesg += "passwords are not the same \n";
 						}
+					}
+				}
+					var re = new RegExp("[a-zA-Z0-9-._]+@[a-zA-Z0-9-.]+[a-zA-Z]+");
+					if(!ele.value.match(re)) {
+						mesg += "you have not entered a valid email\n";
 					}
 				}
 			}
