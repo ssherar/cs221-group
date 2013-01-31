@@ -10,7 +10,8 @@ if(s==null){
 	response.sendRedirect("index.jsp"); 
 	return;
 }
-User user = (User)(s.getAttribute("currentUser"));
+UserDAO dao = new UserDAO();
+User user = dao.findUser((String)s.getAttribute("currentUser"));
 
 if(user == null) {
 	response.sendRedirect("index.jsp"); 
@@ -84,7 +85,6 @@ if(user == null) {
 				
 				sb.append("<thead id=\"rich_thead\"><tr><td>Position</td><td>Username</td><td>Money</td><td>Monsters</td></tr></thead>");
 				ArrayList<Friend> fs = new ArrayList<Friend>();
-				UserDAO dao = new UserDAO();
 				fs.addAll((ArrayList<Friend>)(dao.getFriends(user)));
 				fs.add(new Friend(user.getId(),user.getMoney(), (Integer)s.getAttribute("numberOfMonsters")));
 				

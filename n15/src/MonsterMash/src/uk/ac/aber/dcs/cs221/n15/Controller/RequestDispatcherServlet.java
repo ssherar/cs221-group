@@ -60,7 +60,8 @@ public class RequestDispatcherServlet extends HttpServlet{
 			throws ServletException, IOException {
 		
 		s = req.getSession(false);
-		user = (User) s.getAttribute("currentUser");
+		UserDAO dao = new UserDAO();
+		User user = dao.findUser((String)s.getAttribute("currentUser"));
 		//If user is not logged in, redirects to login page
 		if(user==null) resp.sendRedirect("index.jsp");
 		
@@ -279,7 +280,7 @@ public class RequestDispatcherServlet extends HttpServlet{
 		mdao.wipeMonster(looserId);
 		
 		//reloading list of monsters
-		LoginServlet.reloadMonsters(s, user.getId());
+//		LoginServlet.reloadMonsters(s, user.getId());
 	}
 	
 	public void declineFightRequests(int requestId) {
@@ -358,9 +359,9 @@ public class RequestDispatcherServlet extends HttpServlet{
 		mdao.changeOwner(monsterId, user.getId());
 		
 		//and reloading the user and monsters
-		User rld = udao.findUser(user.getId());
-		s.setAttribute("currentUser", rld);
-		LoginServlet.reloadMonsters(s, user.getId());
+//		User rld = udao.findUser(user.getId());
+//		s.setAttribute("currentUser", rld);
+//		LoginServlet.reloadMonsters(s, user.getId());
 		
 	}
 }

@@ -60,10 +60,9 @@ public class LoginServlet extends HttpServlet {
 		if(user!=null) {
 			//Calculating monster's parameter according to age
 			MonsterDAO mdao = new MonsterDAO();
-			ArrayList<Friend> friends = dao.getFriends(user);
 			HttpSession session = request.getSession();
 			this.reloadMonsters(session, user.getId());
-			session.setAttribute("currentUser", user);
+			session.setAttribute("currentUser", user.getId());
 			response.sendRedirect("myfarm.jsp");
 		} else {
 			HttpSession session = request.getSession();

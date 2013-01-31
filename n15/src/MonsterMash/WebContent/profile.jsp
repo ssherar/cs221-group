@@ -10,12 +10,12 @@ if(s==null){
 	response.sendRedirect("index.jsp"); 
 	return;
 }
-User user = (User)(s.getAttribute("currentUser"));
+UserDAO udao = new UserDAO();
+User user = udao.findUser((String)s.getAttribute("currentUser"));
 if(user == null) {
 	response.sendRedirect("index.jsp"); 
 	return;
 } 
-UserDAO udao = new UserDAO();
 String f_id = request.getParameter("id");
 User friend = new User();
 List<Monster> friendsMonsters = new ArrayList<Monster>();

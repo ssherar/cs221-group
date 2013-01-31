@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"
     import="uk.ac.aber.dcs.cs221.n15.Model.*"
-    import="uk.ac.aber.dcs.cs221.n15.Controller.MonsterDAO"
+    import="uk.ac.aber.dcs.cs221.n15.Controller.*"
     import="java.util.*"
     import="java.text.DateFormat" %>
  
@@ -10,8 +10,9 @@ if(s==null){
 	response.sendRedirect("index.jsp"); 
 	return;
 }
-User user = (User)(s.getAttribute("currentUser"));
-List<Monster> monsters = (List<Monster>)(s.getAttribute("monsters"));
+UserDAO dao = new UserDAO();
+User user = dao.findUser((String)s.getAttribute("currentUser"));
+List<Monster> monsters = dao.loadMonsters(user.getId());
 if(user == null) {
 	response.sendRedirect("index.jsp"); 
 	return;

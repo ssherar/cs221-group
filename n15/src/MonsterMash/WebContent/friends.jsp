@@ -11,7 +11,8 @@ if(s==null){
 	response.sendRedirect("index.jsp"); 
 	return;
 }
-User user = (User)(s.getAttribute("currentUser"));
+UserDAO udao = new UserDAO();
+User user = udao.findUser((String)s.getAttribute("currentUser"));
 List<Monster> monsters = (List<Monster>)(s.getAttribute("monsters"));
 UserDAO dao = new UserDAO();
 ArrayList<Friend> friends = dao.getFriends(user);
