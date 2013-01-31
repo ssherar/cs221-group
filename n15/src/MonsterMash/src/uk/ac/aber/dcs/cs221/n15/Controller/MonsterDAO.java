@@ -83,6 +83,7 @@ public class MonsterDAO {
 			em.persist(nm);
 			em.remove(m);
 			transaction.commit();
+			this.changeRequestMonsterId(monsterID, nm.getId());
 
 		}catch(Exception ex){
 			System.out.println(ex);
@@ -368,6 +369,12 @@ public class MonsterDAO {
 		monster.setId(newid);
 		monster.setOwnerId(buyerid);
 		System.out.println(newid);
+	}
+	
+	public void changeRequestMonsterId(String fromID, String toID) {
+		EntityManager em = emf.createEntityManager();
+		Query qSource = em.createNativeQuery("UPDATE requests SET sourceId = '"+toID+"' where sourceId = '"+fromID+"'");
+		Query qTarget = em.createNamedQuery("UPDATE requests SET targetId = '"+toID+"' where targetId = '"+fromID+"'");
 	}
 }
 
