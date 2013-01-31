@@ -259,6 +259,9 @@ public class RequestDispatcherServlet extends HttpServlet{
 		//Here children get evaluated
 		List<Monster> children = mdao.breed(sourceMonster, targetMonster);
 		
+		System.out.println("Children:");
+		for(Monster m : children) System.out.print(m.toString());
+		
 		UserDAO udao = new UserDAO();
 		User sourceUser = udao.findUser(sourceMonster.getOwnerId());
 		User targetUser = udao.findUser(targetMonster.getOwnerId());
@@ -273,7 +276,8 @@ public class RequestDispatcherServlet extends HttpServlet{
 				
 		//Saving new monsters to database.
 		for(Monster child : children) mdao.persistMonster(child);
-		
+		System.out.print("Children should be in the database");
+		LoginServlet.reloadMonsters(s, user.getId());
 		
 	}
 	

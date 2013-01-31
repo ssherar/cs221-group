@@ -48,7 +48,7 @@ public class RequestDAO {
 			em.persist(r);
 			transaction.commit();
 		}catch(Exception ex){ 
-			
+			System.out.println(ex);
 		}
 	}
 	

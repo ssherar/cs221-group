@@ -34,9 +34,8 @@ public class MonsterDAO {
 			em = emf.createEntityManager();
 			UserTransaction transaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
 			transaction.begin();
-			Date dob = m.getDob();
 			Calendar cal = Calendar.getInstance();
-			cal.setTime(dob);
+			cal.setTime(new Date());
 			cal.set(Calendar.HOUR_OF_DAY, 0);
 			cal.set(Calendar.MINUTE, 0);
 			cal.set(Calendar.MILLISECOND, 0);
@@ -45,7 +44,7 @@ public class MonsterDAO {
 			em.persist(m);
 			transaction.commit();
 		}catch(Exception ex){ 
-
+			System.out.println(ex);
 		}
 	}
 
