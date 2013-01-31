@@ -5,12 +5,17 @@ import java.util.List;
 
 import javax.annotation.ManagedBean;
 import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.RollbackException;
+import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
 import uk.ac.aber.dcs.cs221.n15.Model.Friend;
@@ -235,5 +240,42 @@ public class UserDAO {
 	public User reloadUser(String userId){
 		EntityManager em = emf.createEntityManager();
 		return em.find(User.class, userId);
+	}
+	public void deleteUser(User u) {
+		String userId = u.getId();
+		try {
+			
+			EntityManager em = emf.createEntityManager();
+			MonsterDAO mdao = new MonsterDAO();
+			List<Monster> monsters = this.loadMonsters(userId);
+			System.out.println("Amount of monsters " + monsters.size());
+			for(Monster m : monsters) {
+				System.out.println(m.getId());
+				mdao.wipeMonster(m.getId());
+			}
+			
+			UserTransaction transaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
+			List<Friend> friends = this.getFriends(u);
+			for(Friend f : friends) {
+				transaction.begin();
+				Query qFind = em.createNativeQuery("SELECT friends FROM user WHERE id = '"+f.getId()+"'");
+				String friendString = (String) qFind.getSingleResult();
+				friendString = friendString.replace(userId+";", "");
+				Query qUpdate = em.createNativeQuery("UPDATE users SET friends = '"+friendString +"' WHERE id = '" + f.getId() +"'");
+				qUpdate.executeUpdate();
+				transaction.commit();
+			}
+			transaction.begin();
+			String sql = "DELETE FROM users WHERE id = '"+userId+"'";
+			Query qDelete = em.createNativeQuery(sql);
+			qDelete.executeUpdate();
+			transaction.commit();
+			// retrieve all monsters from the database
+			// remove all requests with these monsters in
+			// delete monsters
+			// reove id from names
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 }

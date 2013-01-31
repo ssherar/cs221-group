@@ -18,5 +18,7 @@
   <servlet-mapping>
     <servlet-name>EditUserServlet</servlet-name>
     <url-pattern>/EditUserServlet</url-pattern>
+    <url-pattern>/EditUserServlet/delete</url-pattern>
+    <url-pattern>/EditUserServlet/edit</url-pattern>
   </servlet-mapping>
 </web-app>

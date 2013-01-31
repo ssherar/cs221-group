@@ -456,7 +456,7 @@ public class MonsterDAO {
 			query.executeUpdate();
 			transaction.commit();
 		}catch(Exception ex){ 
-
+			ex.printStackTrace();
 		}
 	}
 

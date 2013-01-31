@@ -17,7 +17,7 @@ import java.io.PrintWriter;
 /**
  * Servlet implementation class EditUserServlet
  */
-@WebServlet(name = "EditUserServlet", urlPatterns = { "/EditUserServlet" })
+@WebServlet(name = "EditUserServlet", urlPatterns = { "/EditUserServlet", "/EditUserServlet/edit", "/EditUserServlet/delete" })
 public class EditUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -33,7 +33,7 @@ public class EditUserServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		response.sendRedirect(request.getContextPath() + "/edituser.jsp");
 	}
 
 	/**
@@ -45,26 +45,35 @@ public class EditUserServlet extends HttpServlet {
 		User user = (User) session.getAttribute("currentUser");
 		String message = "";
 		
-		String currentPassword = Validator.toMD5((String) request.getParameter("curPass"));
-		String newPassword = Validator.toMD5((String) request.getParameter("newPass"));
-		String confirmPassword = Validator.toMD5((String) request.getParameter("confPass"));
-		
-		if(udao.authenticateUser(user.getUsername(), currentPassword) != null) {
-			if(newPassword.equals(confirmPassword)) {
-				boolean retVal = udao.updateUser(user.getId(), newPassword);
-				if(retVal) {
-					message = "Password updated sucessfully";
+		if(request.getServletPath().equals("/EditUserServlet/edit")) {
+			String currentPassword = Validator.toMD5((String) request.getParameter("curPass"));
+			String newPassword = Validator.toMD5((String) request.getParameter("newPass"));
+			String confirmPassword = Validator.toMD5((String) request.getParameter("confPass"));
+			if(udao.authenticateUser(user.getUsername(), currentPassword) != null) {
+				if(newPassword.equals(confirmPassword)) {
+					boolean retVal = udao.updateUser(user.getId(), newPassword);
+					if(retVal) {
+						message = "Password updated sucessfully";
+					} else {
+						message = "Oops! Something went wrong our side, please try again!";
+					}
 				} else {
-					message = "Oops! Something went wrong our side, please try again!";
+					message = "The new password was not the same as the confirmed password! Please try again.";
 				}
 			} else {
-				message = "The new password was not the same as the confirmed password! Please try again.";
+				message = "The current password was incorrect!";
 			}
-		} else {
-			message = "The current password was incorrect!";
+			session.setAttribute("message", message);
+			response.sendRedirect(request.getContextPath() + "/edituser.jsp");
+		} else if(request.getServletPath().equals("/EditUserServlet/delete")) {
+			HttpSession s = request.getSession();
+			User u = (User) s.getAttribute("currentUser");
+			udao.deleteUser(u);
+			session.invalidate();
+			response.sendRedirect(request.getContextPath());
 		}
-		session.setAttribute("message", message);
-		response.sendRedirect("edituser.jsp");
+		
+
 	}
 
 }
