@@ -1,6 +1,3 @@
-/**
- * 
- */
 package uk.ac.aber.dcs.cs221.n15.View;
 
 import java.io.IOException;
@@ -20,14 +17,27 @@ import uk.ac.aber.dcs.cs221.n15.Model.Monster;
 import uk.ac.aber.dcs.cs221.n15.Model.User;
 
 /**
- * @author kamil
+ * Handles the editing of the monsters attributes,
+ * such as the name and prices of breeding and sale.
  *
  */
 @WebServlet(name = "RenameServlet", urlPatterns = { "/MonsterEditServlet" })
 public class MonsterEditServlet extends HttpServlet {
-
+	/**
+	 * The Data Access Object which manipulates the data in the monsters table/
+	 */
 	MonsterDAO mdao;
 	
+	/**
+	 * The main entry point into the servlet, this handles which attribute we are editing,
+	 * and then passes the data to the right method
+	 * 
+	 * @see MonsterEditServlet#rename(req, resp)
+	 * @see MonsterEditServlet#changeBreedPirce(req, resp)
+	 * @see MonsterEditServlet#changeBuyPrice(req, resp)
+	 * @see MonsterEditServlet#changeSaleFlag(req, resp)
+	 * @see MonsterEditServlet#changeBreedFlag(req, resp)
+	 */
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -48,6 +58,13 @@ public class MonsterEditServlet extends HttpServlet {
 		resp.sendRedirect("myfarm.jsp");
 	}
 	
+	/**
+	 * Renames the monster according to what the user has specified
+	 * 
+	 * @param req the HTTP Servlet Request
+	 * @param resp the HTTP Servlet Response
+	 * @throws IOException If there is a problem handling the session
+	 */
 	private void rename(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		HttpSession s = req.getSession(false);
 		String monsterId = (String) req.getParameter("monsterId");
@@ -75,6 +92,11 @@ public class MonsterEditServlet extends HttpServlet {
 		this.reloadMonsters(s);
 	}
 	
+	/**
+	 * Reloads the monsters into the session from the database according to
+	 * the current users UID
+	 * @param s the Http Session
+	 */
 	private void reloadMonsters(HttpSession s) {
 		User user = (User) s.getAttribute("currentUser");
 		UserDAO dao = new UserDAO();
@@ -82,6 +104,13 @@ public class MonsterEditServlet extends HttpServlet {
 		s.setAttribute("monsters", nmonsters);
 	}
 	
+	/**
+	 * Changes the breed price of the monster.
+	 * 
+	 * @param req the HTTP Servlet Request
+	 * @param resp the HTTP Servlet Response
+	 * @throws IOException If there is a problem handling the session
+	 */
 	public void changeBreedPrice(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		HttpSession s = req.getSession();
 		int price = Integer.parseInt(req.getParameter("newPrice"));
@@ -101,6 +130,13 @@ public class MonsterEditServlet extends HttpServlet {
 		this.reloadMonsters(s);
 	}
 	
+	/**
+	 * Changes the Buy price of the monster.
+	 * 
+	 * @param req the HTTP Servlet Request
+	 * @param resp the HTTP Servlet Response
+	 * @throws IOException If there is a problem handling the session
+	 */
 	public void changeBuyPrice(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		HttpSession s = req.getSession();
 		int price = Integer.parseInt(req.getParameter("newPrice"));
@@ -119,6 +155,13 @@ public class MonsterEditServlet extends HttpServlet {
 		this.reloadMonsters(s);
 	}
 	
+	/**
+	 * Changes the state of the buy flag on the monster
+	 * 
+	 * @param req the HTTP Servlet Request
+	 * @param resp the HTTP Servlet Response
+	 * @throws IOException If there is a problem handling the session
+	 */
 	public void changeSaleFlag(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		HttpSession s = req.getSession();
 		boolean flag = Boolean.parseBoolean(req.getParameter("value"));
@@ -137,6 +180,13 @@ public class MonsterEditServlet extends HttpServlet {
 		this.reloadMonsters(s);
 	}
 	
+	/**
+	 * Changes the state of the breed flag on the monster
+	 * 
+	 * @param req the HTTP Servlet Request
+	 * @param resp the HTTP Servlet Response
+	 * @throws IOException If there is a problem handling the session
+	 */
 	public void changeBreedFlag(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		HttpSession s = req.getSession();
 		boolean flag = Boolean.parseBoolean(req.getParameter("value"));
