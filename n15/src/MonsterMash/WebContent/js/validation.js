@@ -56,6 +56,7 @@ function validate(formVar) {
 						}
 					}
 				}
+				if(classes[j] == "email") {
 					var re = new RegExp("[a-zA-Z0-9-._]+@[a-zA-Z0-9-.]+[a-zA-Z]+");
 					if(!ele.value.match(re)) {
 						mesg += "you have not entered a valid email\n";
