@@ -92,8 +92,9 @@ function rename(id) {
 			MonsterDAO mdao = new MonsterDAO();
 			Monster other = mdao.findMonster(r.getTargetID());
 			
-			%>	
-			<div class="monster_window">
+			%>
+			<br/>
+			<div class="monster_window" style="float:center">
 				<div class="monster_description">
 					<p class="monster_name"><%= other.getName() %>
 					<%					
@@ -111,9 +112,15 @@ function rename(id) {
 					
 				</div>
 				
+				<div class="monster_actions_menu">
+	
+					<p>FRIEND'S MONSTER</p><br/>
+					
+				</div>
+				
 			
-			</div>	
-			
+			</div>
+			<div class="pick_monster_div">
 			<p class="title">Pick your monster</p>
 			<% if(monsters!=null) for(Monster m : monsters) {%>
 			
@@ -141,6 +148,7 @@ function rename(id) {
 			
 			</div>
 			<% } %>
+			</div>
 			
 			
 		</div>
