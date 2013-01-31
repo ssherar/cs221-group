@@ -224,7 +224,7 @@ public class NotificationManager {
 		
 		//If user's monster won
 		if(r.getContent().contains(user.getId()+".")){
-			sb.append("Congratulations! Your monster (").append(winnerName);
+			sb.append("Congratulations! Your monster (").append(winnerName)
 			.append(") won!</p>");
 		}else{
 			sb.append("Your monster (").append(winnerName.equals(sourceName) ? targetName : sourceName)
