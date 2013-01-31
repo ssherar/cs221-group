@@ -81,7 +81,6 @@ List<Monster> friendsMonsters = udao.loadMonsters(friend.getUsername());
 					<a href="LoginServlet?logout"><img id="logout_icon" src="img/logout.png"  height="15px" /></a>
 					</div>
 					
-					
 				</div>
 				<br/>
 				<hr class="horizontal_spacer" />
@@ -90,17 +89,27 @@ List<Monster> friendsMonsters = udao.loadMonsters(friend.getUsername());
 			<p class="profile_title"><%= friend.getUsername() %></p>
 			<p class="align_left">Wealth: <%= friend.getMoney() %></p>
 			<% boolean isFriend = udao.checkFriendship(user.getId(), f_id); %>
-			<% if(isFriend){ %>
-				<p class="align_right"><a>Remove from friends</a></p>	
-			<%}else{ 
+			<% 
+			String message; 
+			if(isFriend){
+				message = "<p class=\"align_right\"><a>Remove from friends</a></p>";
+			}else{
 				RequestDAO rdao = new RequestDAO();
-				if(rdao.requestExists(user.getId(), f_id, RequestType.FRIEND_REQUEST)){%>
-					 <p class="align_right">Friendship request sent.</p>
-				<%}else{ 
-					String url ="RequestDispatcherServlet?action=send&targetid="+f_id+"&type=0";%>
-					<p class="align_right"><a href="<%=url %>">Send friendship request</a></p>
-				<% } }%>
-					
+				if(rdao.requestExists(user.getId(), f_id, RequestType.FRIEND_REQUEST)){
+					message = "<p class=\"align_right\">Friendship request sent.</p>";
+				}else{
+					if(f_id.equals(user.getId())){
+						message = "<p class=\"align_right\">That's you!</p>";
+					}else{
+						String url ="RequestDispatcherServlet?action=send&targetid="+f_id+"&type=0";
+						message = "<p class=\"align_right\"><a href=\""+url+
+								"\">Send friendship request</a></p>";	
+					}
+				}	
+			}	
+			%>
+			
+			<%=message  %>					
 						
 			<% if(friendsMonsters!=null){
 				MonsterDAO mdao = new MonsterDAO();
