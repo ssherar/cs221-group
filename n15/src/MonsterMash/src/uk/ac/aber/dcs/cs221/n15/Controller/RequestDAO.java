@@ -41,6 +41,7 @@ public class RequestDAO {
 	
 	public void persistRequest(Request r){
 		em = emf.createEntityManager();
+		System.out.print("Trying to persist a Request");
 		try{
 			UserTransaction transaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
 			transaction.begin();

@@ -145,7 +145,8 @@ public class RequestDispatcherServlet extends HttpServlet{
 			case ACCEPT_BREED_OFFER:
 				pendingRequest.setSourceID(pickedMonsterId);
 				acceptBreedOffer(pendingRequest);
-				rdao.persistRequest(pendingRequest);	
+				rdao.persistRequest(pendingRequest);
+				resp.sendRedirect("myfarm.jsp");
 			}
 			
 			

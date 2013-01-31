@@ -52,6 +52,7 @@ public class MonsterDAO {
 	public Monster findMonster(String monsterId){
 		em = emf.createEntityManager();
 		Monster m = em.find(Monster.class, monsterId);
+		if(m==null) System.out.println("M is NULL!");
 		age(m);
 		return m;
 	}

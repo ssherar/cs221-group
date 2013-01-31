@@ -115,7 +115,7 @@ if(user == null) {
 				
 				<div class="monster_actions_menu">
 					
-					<a href="RequestDispatcherServlet?action=accept&type=7&targetid="<%=m.getId() %>>
+					<a href="RequestDispatcherServlet?action=accept&type=7&targetid=<%=m.getId() %>">
 					BREED</a><br/>
 					<br/>
 					fight prize: $<%= mdao.calculatePrize(m) %><br />
