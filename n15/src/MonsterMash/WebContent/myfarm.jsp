@@ -132,8 +132,9 @@ function changeBuyPrice(id) {
 					<a href="JAVASCRIPT:rename('<%= m.getId() %>')">rename</a><br/>
 					<a href="JAVASCRIPT:changeBreedPrice('<%= m.getId() %>')">change breed price</a><br />
 					<a href="JAVASCRIPT:changeBuyPrice('<%= m.getId() %>')">change buy price</a></br />
-					<a>offer for sale</a><br/>
-					<a>offer for breeding</a><br/>
+					<% boolean forSale = m.isForSale(), forBreeding = m.isForBreeding(); %>
+					<a href="MonsterEditServlet?type=changeSaleOffer&monsterId=<%= m.getId() %>&value=<%= !forSale %>"><%= (forSale) ? "revoke " : "" %>offer for sale</a><br/>
+					<a href="MonsterEditServlet?type=changeBreedOffer&monsterId=<%= m.getId() %>&value=<%= !forBreeding %>"> <%= (forBreeding) ? "revoke " : "" %>offer for breeding</a><br/>
 					<br/>
 					fight prize: $<%= mdao.calculatePrize(m) %><br />
 					breed price: $<%= m.getBreedPrice() %><br />

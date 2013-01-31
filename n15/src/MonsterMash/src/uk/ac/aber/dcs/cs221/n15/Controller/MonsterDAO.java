@@ -126,6 +126,40 @@ public class MonsterDAO {
 			
 		}
 	}
+	
+	public void changeBreedFlag(String mID, boolean flag) {
+		try {
+			UserTransaction transaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
+			transaction.begin();
+			em = emf.createEntityManager();
+			Monster m = em.find(Monster.class, mID);
+			if(m == null) return;
+			
+			m.setIsForBreeding((flag) ? 1 : 0);
+			em.merge(m);
+			transaction.commit();
+			
+		} catch(Exception ex) {
+			
+		}
+	}
+	
+	public void changeSaleFlag(String mID, boolean flag) {
+		try {
+			UserTransaction transaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
+			transaction.begin();
+			em = emf.createEntityManager();
+			Monster m = em.find(Monster.class, mID);
+			if(m == null) return;
+			
+			m.setIsForSale((flag) ? 1 : 0);
+			em.merge(m);
+			transaction.commit();
+			
+		} catch(Exception ex) {
+			
+		}
+	}
 
 	public void ageMonsters(List<Monster> monsters) {
 		for(Monster m : monsters) {
