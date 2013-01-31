@@ -19,16 +19,38 @@ import uk.ac.aber.dcs.cs221.n15.Model.Monster;
 
 
 public class MonsterDAO {
+	
+	/**
+	 * The value used for improving monster performance at the child stage
+	 */
 	private static double CHILD_PERCENT = 1.05;
+	
+	/**
+	 * The value used for improving monster performance at the mature stage
+	 */
 	private static double MATURE_PERCENT = 1.02;
 
 	@PersistenceContext(unitName="MonsterMash")
+	/**
+	 * The entity manager factory for creating entity managers
+	 */
 	private EntityManagerFactory emf = Persistence.createEntityManagerFactory("MonsterMash");
+	/**
+	 * The entity manage for handling persistence
+	 */
 	private EntityManager em;
 
+	/**
+	 * Instantiates the MonsterDAO
+	 */
 	public MonsterDAO(){
 	}
 
+	/**
+	 * Persists a specified monster
+	 * 
+	 * @param m The monster to persist
+	 */
 	public void persistMonster(Monster m){
 		try{
 			em = emf.createEntityManager();
@@ -48,6 +70,12 @@ public class MonsterDAO {
 		}
 	}
 
+	/**
+	 * Finds a monster
+	 * 
+	 * @param monsterId The id of the monster to find
+	 * @return The monster
+	 */
 	public Monster findMonster(String monsterId){
 		em = emf.createEntityManager();
 		Monster m = em.find(Monster.class, monsterId);
@@ -56,6 +84,12 @@ public class MonsterDAO {
 		return m;
 	}
 
+	/**
+	 * Renames a monster, and any recurrence of the name in the database
+	 * 
+	 * @param monsterID The id of the monster to rename
+	 * @param newName The new name of the monster
+	 */
 	public void renameMonster(String monsterID, String newName){
 
 		try{
@@ -94,6 +128,12 @@ public class MonsterDAO {
 		}
 	}
 	
+	/**
+	 * Changes the owner of the monster, and any recurrence of that in the database
+	 * 
+	 * @param monsterID The id of the monster to change owner
+	 * @param toUserID The user id to change to
+	 */
 	public void changeOwner(String monsterID, String toUserID){
 
 		try{
@@ -132,6 +172,12 @@ public class MonsterDAO {
 		}
 	}
 	
+	/**
+	 * Changes the breed price of a specified monster, and any recurrence of it in the database
+	 * 
+	 * @param mID The id of the monster to change breed price
+	 * @param price The price to change to
+	 */
 	public void changeBreedPrice(String mID, int price) {
 		try {
 			UserTransaction transaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
@@ -149,6 +195,12 @@ public class MonsterDAO {
 		}
 	}
 	
+	/**
+	 * Changes the buy price of a specified monster, and any recurrence of it in the database
+	 * 
+	 * @param mID The id of the monster to change buy price
+	 * @param price The price to change to
+	 */
 	public void changeBuyPrice(String mID, int price) {
 		try {
 			UserTransaction transaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
@@ -166,6 +218,12 @@ public class MonsterDAO {
 		}
 	}
 	
+	/**
+	 * Changes the breed flag of a specified monster, and any recurrence of it in the database
+	 * 
+	 * @param mID The id of the monster to change breed flag
+	 * @param flag The breed flag to change to
+	 */
 	public void changeBreedFlag(String mID, boolean flag) {
 		try {
 			UserTransaction transaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
@@ -183,6 +241,12 @@ public class MonsterDAO {
 		}
 	}
 	
+	/**
+	 * Changes the sale flag of a specified monster, and any recurrence of it in the database
+	 * 
+	 * @param mID The id of the monster to change sale flag
+	 * @param flag The sale flag to change to
+	 */
 	public void changeSaleFlag(String mID, boolean flag) {
 		try {
 			UserTransaction transaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
@@ -200,12 +264,23 @@ public class MonsterDAO {
 		}
 	}
 
+	/**
+	 * Ages a list of monsters
+	 * 
+	 * @param monsters The list of monsters to age
+	 */
 	public void ageMonsters(List<Monster> monsters) {
 		for(Monster m : monsters) {
 			this.age(m);
 		}
 	}
 
+	/**
+	 * Ages a specified monster, young monsters grow fast in all strength, aggression and fertility,
+	 * mature monsters grow slowly in strength and aggression, and elderly monsters lose health as they age
+	 * 
+	 * @param monster
+	 */
 	public void age(Monster monster) {
 		Date date = new Date();
 		Date bornDate = monster.getDob();
@@ -263,6 +338,14 @@ public class MonsterDAO {
 		return endCal.get(Calendar.DAY_OF_YEAR);
 	}*/
 	
+	/**
+	 * Calculates the difference in days between 2 dates
+	 * 
+	 * @param start The first date
+	 * @param end The second date
+	 * 
+	 * @return The difference in days
+	 */
 	public int calculateDaysDifference(Date start, Date end) {
 		long mStart = start.getTime();
 		long mEnd = end.getTime();
@@ -272,10 +355,23 @@ public class MonsterDAO {
 		return (int) (difference / (1000 * 60 * 60 * 24));
 	}
 
+	/**
+	 * Calculates the difference in days between a date and right now
+	 * 
+	 * @param start The first date
+	 * @return The difference in days
+	 */
 	public int calculateDaysDifference(Date start) {
 		return calculateDaysDifference(start, new Date());
 	}
 
+	/**
+	 * Fights two specified monsters
+	 * 
+	 * @param monster1 The first monster to fight
+	 * @param monster2 The second monster to fight
+	 * @return The monster that wins
+	 */
 	// TODO: refactor
 	public Monster fight(Monster monster1, Monster monster2) {
 		int monsterOne;
@@ -306,6 +402,12 @@ public class MonsterDAO {
 
 	}
 
+	/**
+	 * Calculates the price of a specified monster
+	 * 
+	 * @param monster The monster to calculate the prize of
+	 * @return A sum of the monster stats
+	 */
 	public int calculatePrize(Monster monster) {
 		return (monster.getAggression() + monster.getFertility() + monster.getHealth() + monster.getStrength());
 	}
@@ -313,6 +415,8 @@ public class MonsterDAO {
 	/**
 	 * When a monster dies, it needs to be removed from the database,
 	 * and that is what the method does.
+	 * 
+	 * @param The monster to wipe
 	 */
 	public void wipeMonster(String monsterId){
 		try{
@@ -331,6 +435,12 @@ public class MonsterDAO {
 		}
 	}
 
+	/**
+	 * Updates the health of a specified monster
+	 * 
+	 * @param monsterId The id of the monster to update the health of
+	 * @param health The new health
+	 */
 	public void updateHealth(String monsterId, int health){
 		try{
 			em = emf.createEntityManager();
@@ -345,6 +455,13 @@ public class MonsterDAO {
 	}
 
 
+	/**
+	 * Breeds two monsters
+	 * 
+	 * @param monster1 The first monster to breed
+	 * @param monster2 The second monster to breed
+	 * @return A list of the child monsters
+	 */
 	public List<Monster> breed(Monster monster1, Monster monster2) {
 		List<Monster> children = new ArrayList<Monster>();
 		int mOneFert = monster1.getFertility();
@@ -413,6 +530,12 @@ public class MonsterDAO {
 		return children;
 	}
 	
+	/**
+	 * Changes the id of any requests to a new id
+	 * 
+	 * @param fromID The old monsters id
+	 * @param toID The new monsters is
+	 */
 	public void changeRequestMonsterId(String fromID, String toID) {
 		EntityManager em = emf.createEntityManager();
 		Query qSource = em.createNativeQuery("UPDATE requests SET sourceId = '"+toID+"' where sourceId = '"+fromID+"'");
