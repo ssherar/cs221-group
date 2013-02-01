@@ -344,6 +344,8 @@ public class MonsterDAO {
 		monster.setFertility((int) ciFert);
 		monster.setHealth((int) ciHealth);
 		monster.setStrength((int) ciStr);
+		if(monster.getHealth()<=0) monster.setHealth(1);
+		
 	}
 	
 	/**
