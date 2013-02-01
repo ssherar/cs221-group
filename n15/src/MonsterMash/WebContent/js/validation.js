@@ -16,6 +16,12 @@
  * Dataset selectors
  * 	 - minlength
  * 			Checks if the length is not less than the value given
+ *   - minvalue
+ *   		Checks if the integer value of the element is not less
+ *   		than the supplied value
+ *   - maxvalue
+ *   		Checks if the integer value of the element is not greater
+ *   		than the supplied value
  * 
  * Example usage:
  * <form type="post" onsubmit="return validate(this);">
@@ -64,9 +70,22 @@ function validate(formVar) {
 				}
 			}
 		}
+		
 		if(ele.dataset.minlength != undefined) {
 			if(ele.value.length < parseInt(ele.dataset.minlength)) {
 				mesg += ele.name + " is too short! Minimum: " + ele.dataset.minlength + " \n";
+			}
+		} else if(ele.dataset.minvalue != undefined) {
+			if(!NaN(ele.value)) {
+				if(parseInt(ele.value) < parseInt(ele.dataset.minvalue)) {
+					mesg += ele.name + " is below the minimum value " + ele.dataset.minvalue + "\n";
+				}
+			}
+		} else if(ele.dataset.maxvalue != undefined) {
+			if(!NaN(ele.value)) {
+				if(parseInt(ele.value) > parseInt(ele.dataset.maxvalue)) {
+					mesg += ele.name + " is above the max value " + ele.dataset.maxvalue + "\n";
+				}
 			}
 		}
 	}

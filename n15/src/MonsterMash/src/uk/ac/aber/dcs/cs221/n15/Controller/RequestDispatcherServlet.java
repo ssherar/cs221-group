@@ -24,7 +24,10 @@ public class RequestDispatcherServlet extends HttpServlet{
 	private RequestDAO rdao = new RequestDAO();
 	private HttpSession s;
 	
-	/*
+	/**
+	 * Handles all requests for breeding, buying, fighting and friendships. The main entry
+	 * point for the file.
+	 * 
 	 * To send a request :
 	 * action=send
 	 * targetid (string)
@@ -43,10 +46,13 @@ public class RequestDispatcherServlet extends HttpServlet{
 	 * action=picked
 	 * pickedid (String)
 	 * 
+	 * To remove a Friend
+	 * action=removefriend
+	 * targetid (String)
+	 * 
 	 * Optional:
 	 * content = string
 	 * 
-	 * (non-Javadoc)
 	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
 	 */
 	@Override
@@ -54,7 +60,8 @@ public class RequestDispatcherServlet extends HttpServlet{
 			throws ServletException, IOException {
 		
 		s = req.getSession(false);
-		user = (User) s.getAttribute("currentUser");
+		UserDAO dao = new UserDAO();
+		user = dao.findUser((String)s.getAttribute("currentUser"));
 		//If user is not logged in, redirects to login page
 		if(user==null) resp.sendRedirect("index.jsp");
 		
@@ -161,19 +168,31 @@ public class RequestDispatcherServlet extends HttpServlet{
 			}
 			
 			
+		}else if(action.equals("removefriend")){
+			UserDAO udao = new UserDAO();
+			udao.removeFriendship(user.getId(), targetId);
+			resp.sendRedirect("friends.jsp");
 		}
 		
 	}
 
 	@Override
+	/**
+	 * Sends the data to doGet(request, response)
+	 * @see(RequestDispatcherServlet#doGet(req, resp)
+	 */
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		this.doGet(req, resp);
 	}
 	
 	
-	
+	/**
+	 * Dismisses the resolved request in the database by deleting.
+	 * 
+	 * This only deletes when both users have seen the notificaton
+	 * @param requestId the record identifier
+	 */
 	private void dismissResolved(int requestId){
 		Request r = rdao.getRequest(requestId);
 		if(r==null) System.out.println("IN dismissResolved request is null! req id = "+requestId);
@@ -196,32 +215,45 @@ public class RequestDispatcherServlet extends HttpServlet{
 		
 	}
 	
-	
-	
+	/**
+	 * Creates a request which is identified as a RequestType.FRIEND_REQUEST
+	 * in the database.
+	 * @param friendId the friends unique identifier
+	 */
 	public void sendFriendRequest(String friendId) {
 		rdao.createRequest(user.getId(), friendId, RequestType.FRIEND_REQUEST, null);
 	}
 	
+	/**
+	 * Actions the request by changing the request to an RequestType.ACCEPTED_FRIENDSHIP,
+	 * and also adds the friendship in the database and refreshes the session variable which holds the User model
+	 * 
+	 * @param requestId the requests unique identifier.
+	 */
 	public void acceptFriendRequest(int requestId) {
 		rdao.updateRequestType(requestId, RequestType.ACCEPTED_FRIENDSHIP);
 		UserDAO udao = new UserDAO();
 		Request r = rdao.getRequest(requestId);
 		udao.addFriendship(user.getId(), r.getSourceID());
-		//Refreshing list of friends
-		User rld = udao.findUser(user.getId());
-		s.setAttribute("currentUser", rld);
-		ArrayList<Friend> friends = udao.getFriends(rld);
-		s.setAttribute("friends", friends);
 	}
 	
+	/**
+	 * Updates the request by setting the request type to a RequestType.DECLINED_FRIENDSHIP
+	 * @param requestId
+	 */
 	public void declineFriendRequest(int requestId) {
 		rdao.updateRequestType(requestId, RequestType.DECLINED_FRIENDSHIP);
 	}
 	
-	public void sendFightRequest(String monsterID, String friendMonsterID) {
-		
-	}
-	
+	/**
+	 * Accepts the request, and then fights the monsters.
+	 * 
+	 * It retrieves both monsters unique identifier, and then fights them using {@link MonsterDAO#fight(monster1, monster2)}.
+	 * When the winning monster is returned, the looser gets removed from the database, and
+	 * the prize money gets added to the user. Finally it sets the Request to Request.FIGHT_RESOLVED.
+	 * 
+	 * @param requestId the request UID
+	 */
 	public void acceptFightRequest(int requestId) {
 		//If request is accepted, the fight is resolved and changes made in a database.
 		Request r = rdao.getRequest(requestId);
@@ -248,7 +280,7 @@ public class RequestDispatcherServlet extends HttpServlet{
 		mdao.wipeMonster(looserId);
 		
 		//reloading list of monsters
-		LoginServlet.reloadMonsters(s, user.getId());
+//		LoginServlet.reloadMonsters(s, user.getId());
 	}
 	
 	public void declineFightRequests(int requestId) {
@@ -256,7 +288,12 @@ public class RequestDispatcherServlet extends HttpServlet{
 	}
 	
 	/**
-	 * Here breeding gets resolved.
+	 * Accepts the breed request, and then breeds the monsters together.
+	 * 
+	 * It retrieves the monsters UID from the request database, and then breeds the monsters
+	 * together by using the {@link MonsterDAO#breed(monster1, monster2)}, which returns the children,
+	 * which is passed to the Source user, and then adds the breed price amount to the Target users
+	 * coffers. It finally reloads the user from the database and adds it to the session variable
 	 * @param r
 	 */
 	public void acceptBreedOffer(Request r) {
@@ -296,7 +333,11 @@ public class RequestDispatcherServlet extends HttpServlet{
 		
 	}
 	
-		
+	/**
+	 * Handles the transfer of monsters between users, while checking if the user has
+	 * enough money for the transaction.
+	 * @param monsterId
+	 */
 	public void buyMonster(String monsterId) {
 		//transfer money
 		//and change owner and id of the monster
@@ -318,13 +359,9 @@ public class RequestDispatcherServlet extends HttpServlet{
 		mdao.changeOwner(monsterId, user.getId());
 		
 		//and reloading the user and monsters
-		User rld = udao.findUser(user.getId());
-		s.setAttribute("currentUser", rld);
-		LoginServlet.reloadMonsters(s, user.getId());
+//		User rld = udao.findUser(user.getId());
+//		s.setAttribute("currentUser", rld);
+//		LoginServlet.reloadMonsters(s, user.getId());
 		
 	}
-	
-	
-
-	
 }

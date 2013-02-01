@@ -51,7 +51,6 @@ public class LoginServlet extends HttpServlet {
 			hashedPassword = new BigInteger(1, md.digest()).toString(16);
 			
 		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -61,11 +60,9 @@ public class LoginServlet extends HttpServlet {
 		if(user!=null) {
 			//Calculating monster's parameter according to age
 			MonsterDAO mdao = new MonsterDAO();
-			ArrayList<Friend> friends = dao.getFriends(user);
 			HttpSession session = request.getSession();
 			this.reloadMonsters(session, user.getId());
-			session.setAttribute("currentUser", user);
-			session.setAttribute("friends", friends);
+			session.setAttribute("currentUser", user.getId());
 			response.sendRedirect("myfarm.jsp");
 		} else {
 			HttpSession session = request.getSession();

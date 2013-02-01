@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"
     import="uk.ac.aber.dcs.cs221.n15.Model.*"
-    import="uk.ac.aber.dcs.cs221.n15.Controller.MonsterDAO"
+    import="uk.ac.aber.dcs.cs221.n15.Controller.*"
     import="java.util.*"
     import="java.text.DateFormat" %>
  
@@ -10,9 +10,9 @@ if(s==null){
 	response.sendRedirect("index.jsp"); 
 	return;
 }
-User user = (User)(s.getAttribute("currentUser"));
-List<Monster> monsters = (List<Monster>)(s.getAttribute("monsters"));
-ArrayList<Friend> friends = (ArrayList<Friend>)(s.getAttribute("friends"));
+UserDAO dao = new UserDAO();
+User user = dao.findUser((String)s.getAttribute("currentUser"));
+List<Monster> monsters = dao.loadMonsters(user.getId());
 if(user == null) {
 	response.sendRedirect("index.jsp"); 
 	return;
@@ -38,15 +38,19 @@ function rename(id) {
 
 function changeBreedPrice(id) {
 	var newPrice = prompt("What price would you like to set for breeding?", "");
-	if(newPrice != null && newPrice != "" && !isNaN(newPrice)) {
+	if(newPrice != null && newPrice != "" && !isNaN(newPrice) && newPrice > 0) {
 		document.location = "MonsterEditServlet?type=breedPrice&monsterId=" + id + "&newPrice="+newPrice;
+	} else {
+		alert("You've entered an incorrect value for the price. Please try again!");
 	}
 }
 
 function changeBuyPrice(id) {
 	var newPrice = prompt("What price would you like to set for selling?", "");
-	if(newPrice != null && newPrice != "" && !isNaN(newPrice)) {
+	if(newPrice != null && newPrice != "" && !isNaN(newPrice) && newPrice > 0) {
 		document.location = "MonsterEditServlet?type=buyPrice&monsterId=" + id + "&newPrice="+newPrice;
+	} else {
+		alert("You've entered an incorrect value for the price. Please try again!");
 	}
 }
 </script>
