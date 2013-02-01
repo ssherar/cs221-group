@@ -26,7 +26,7 @@ function keyPressed(e) {
 <div id="login_page_content">
 
 
-<img src="img/mmlogo.png" />
+<img src="img/logo.png" />
 
 <center>
 <% HttpSession s = request.getSession();
