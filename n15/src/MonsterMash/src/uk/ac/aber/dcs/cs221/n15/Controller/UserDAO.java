@@ -276,7 +276,7 @@ public class UserDAO {
 		}
 	}
 	
-	public boolean removeFriendship(String friendId1, String friendId2){
+	/*public boolean removeFriendship(String friendId1, String friendId2){
 		try{
 		EntityManager em = emf.createEntityManager();
 		UserTransaction transaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
@@ -303,5 +303,25 @@ public class UserDAO {
 			ex.printStackTrace();
 			return false;
 		}
+	}*/
+	
+	public boolean removeFriendship(String friendId1, String friendId2) {
+		try {
+			EntityManager em = emf.createEntityManager();
+			UserTransaction transaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
+			transaction.begin();
+			User friend1 = em.find(User.class, friendId1);
+			User friend2 = em.find(User.class, friendId2);
+			String f1Friends = friend1.getFriends().replace(friendId2 + ";", "");
+			String f2Friends = friend2.getFriends().replace(friendId1 + ";", "");
+			friend1.setFriends(f1Friends);
+			friend2.setFriends(f2Friends);
+			em.merge(friend1);
+			em.merge(friend2);
+			transaction.commit();
+		} catch(Exception ex) {
+			return false;
+		}
+		return true;
 	}
 }
