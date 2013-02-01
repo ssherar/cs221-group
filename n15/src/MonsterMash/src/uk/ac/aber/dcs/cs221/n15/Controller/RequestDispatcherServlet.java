@@ -61,7 +61,7 @@ public class RequestDispatcherServlet extends HttpServlet{
 		
 		s = req.getSession(false);
 		UserDAO dao = new UserDAO();
-		User user = dao.findUser((String)s.getAttribute("currentUser"));
+		user = dao.findUser((String)s.getAttribute("currentUser"));
 		//If user is not logged in, redirects to login page
 		if(user==null) resp.sendRedirect("index.jsp");
 		

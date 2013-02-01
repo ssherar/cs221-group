@@ -89,20 +89,8 @@ public class MonsterEditServlet extends HttpServlet {
 		System.out.println("Should be renamed!");
 		
 		//Reloading list of monsters
-		this.reloadMonsters(s);
 	}
 	
-	/**
-	 * Reloads the monsters into the session from the database according to
-	 * the current users UID
-	 * @param s the Http Session
-	 */
-	private void reloadMonsters(HttpSession s) {
-		User user = (User) s.getAttribute("currentUser");
-		UserDAO dao = new UserDAO();
-		List<Monster> nmonsters = dao.loadMonsters(user.getId());
-		s.setAttribute("monsters", nmonsters);
-	}
 	
 	/**
 	 * Changes the breed price of the monster.
@@ -127,7 +115,6 @@ public class MonsterEditServlet extends HttpServlet {
 		if(!valid) return;
 		
 		mdao.changeBreedPrice(monsterId, price);
-		this.reloadMonsters(s);
 	}
 	
 	/**
@@ -152,7 +139,6 @@ public class MonsterEditServlet extends HttpServlet {
 		}
 		if(!valid) return;
 		mdao.changeBuyPrice(monsterId, price);
-		this.reloadMonsters(s);
 	}
 	
 	/**
@@ -177,7 +163,6 @@ public class MonsterEditServlet extends HttpServlet {
 		}
 		if(!valid) return;
 		mdao.changeSaleFlag(monsterId, flag);
-		this.reloadMonsters(s);
 	}
 	
 	/**
@@ -202,6 +187,5 @@ public class MonsterEditServlet extends HttpServlet {
 		}
 		if(!valid) return;
 		mdao.changeBreedFlag(monsterId, flag);
-		this.reloadMonsters(s);
 	}
 }
