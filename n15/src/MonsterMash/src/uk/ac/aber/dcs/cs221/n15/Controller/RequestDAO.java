@@ -201,4 +201,12 @@ public class RequestDAO {
 		Long count = (Long)(query.getSingleResult());
 		return count==0? false :true;
 	}
+	
+	public boolean requestExists(String sourceId, RequestType type) {
+		String q = "SELECT COUNT(*) FROM requests WHERE (sourceId = '" + sourceId + "' OR targetId = '" + sourceId + "') AND type = " + type.ordinal();
+		System.out.println(q);
+		Query query = emf.createEntityManager().createNativeQuery(q);
+		long count = (Long)(query.getSingleResult());
+		return (count == 0) ? false : true;
+	}
 }

@@ -152,10 +152,16 @@ public class RequestDispatcherServlet extends HttpServlet{
 			if(pendingRequest==null) return;
 			pendingRequest.setSeen(0);
 			String pickedMonsterId = req.getParameter("pickedid");
+			boolean checkPicked = rdao.requestExists(pickedMonsterId, RequestType.OFFER_FIGHT);
+			boolean checkTarget = rdao.requestExists(pendingRequest.getTargetID(), RequestType.OFFER_FIGHT);
 			switch(pendingRequest.getType()){
 			case OFFER_FIGHT:
-				rdao.createRequest(pickedMonsterId, pendingRequest.getTargetID(), 
-						RequestType.OFFER_FIGHT, null);
+				if(!checkPicked && !checkTarget) {
+					rdao.createRequest(pickedMonsterId, pendingRequest.getTargetID(), 
+							RequestType.OFFER_FIGHT, null);
+				} else {
+					s.setAttribute("message", "The monster is currently in another fight. Please try again later");
+				}
 				resp.sendRedirect("fights.jsp");
 				break;
 			case ACCEPT_BREED_OFFER:
@@ -164,6 +170,7 @@ public class RequestDispatcherServlet extends HttpServlet{
 				rdao.persistRequest(pendingRequest);
 				resp.sendRedirect("myfarm.jsp");
 			}
+			
 			
 			
 		}else if(action.equals("removefriend")){
@@ -350,7 +357,5 @@ public class RequestDispatcherServlet extends HttpServlet{
 		
 		//and changes the owner
 		mdao.changeOwner(monsterId, user.getId());
-		
-		
 	}
 }

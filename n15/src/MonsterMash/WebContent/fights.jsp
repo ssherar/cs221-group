@@ -78,6 +78,17 @@ if(user == null) {
 				<br/>
 				<hr class="horizontal_spacer" />
 				<div>
+				<%
+				String message = "";
+				if(s != null) {
+					if(s.getAttribute("message") != null) {
+						%>
+						<%= s.getAttribute("message") %>
+						<%
+						s.removeAttribute("message");
+					}
+				}
+				%>
 				<p class="title_half">Resolved Battles</p>
 				<%
 				NotificationManager nm = new NotificationManager(user);
