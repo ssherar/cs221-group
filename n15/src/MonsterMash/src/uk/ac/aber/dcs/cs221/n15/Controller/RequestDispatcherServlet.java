@@ -1,7 +1,6 @@
 package uk.ac.aber.dcs.cs221.n15.Controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -11,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import uk.ac.aber.dcs.cs221.n15.Model.Friend;
 import uk.ac.aber.dcs.cs221.n15.Model.Monster;
 import uk.ac.aber.dcs.cs221.n15.Model.User;
 import uk.ac.aber.dcs.cs221.n15.View.LoginServlet;
@@ -195,7 +193,6 @@ public class RequestDispatcherServlet extends HttpServlet{
 	 */
 	private void dismissResolved(int requestId){
 		Request r = rdao.getRequest(requestId);
-		if(r==null) System.out.println("IN dismissResolved request is null! req id = "+requestId);
 		//check if user is target or source
 		//check seen field from the request
 		//check if should be removed
@@ -307,9 +304,6 @@ public class RequestDispatcherServlet extends HttpServlet{
 		//Here children get evaluated
 		List<Monster> children = mdao.breed(sourceMonster, targetMonster);
 		
-		System.out.println("Children:");
-		for(Monster m : children) System.out.print(m.toString());
-		
 		UserDAO udao = new UserDAO();
 		User sourceUser = udao.findUser(sourceMonster.getOwnerId());
 		User targetUser = udao.findUser(targetMonster.getOwnerId());
@@ -324,12 +318,11 @@ public class RequestDispatcherServlet extends HttpServlet{
 				
 		//Saving new monsters to database.
 		for(Monster child : children) mdao.persistMonster(child);
-		System.out.print("Children should be in the database");
 		LoginServlet.reloadMonsters(s, user.getId());
 		
 		//and reloading the user
 		User rld = udao.findUser(user.getId());
-		s.setAttribute("currentUser", rld);
+		s.setAttribute("currentUser", rld.getId());
 		
 	}
 	
@@ -358,10 +351,6 @@ public class RequestDispatcherServlet extends HttpServlet{
 		//and changes the owner
 		mdao.changeOwner(monsterId, user.getId());
 		
-		//and reloading the user and monsters
-//		User rld = udao.findUser(user.getId());
-//		s.setAttribute("currentUser", rld);
-//		LoginServlet.reloadMonsters(s, user.getId());
 		
 	}
 }
