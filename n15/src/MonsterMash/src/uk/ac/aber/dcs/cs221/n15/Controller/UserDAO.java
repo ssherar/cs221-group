@@ -21,9 +21,17 @@ import uk.ac.aber.dcs.cs221.n15.Model.User;
 public class UserDAO {
 	
 	@PersistenceContext(unitName="MonsterMash")
+	/**
+	 * The entity manager factor for creating entity managers
+	 */
 	private EntityManagerFactory emf = Persistence.createEntityManagerFactory("MonsterMash");
 
-	
+	/**
+	 * Checks whether a user exists
+	 * 
+	 * @param userId
+	 * @return
+	 */
 	public boolean userExists(String userId) {
 		
 		EntityManager em = emf.createEntityManager();
