@@ -96,15 +96,13 @@ if(user == null) {
 					i++;
 					if(f.getId().equals(user.getId())){
 						sb.append("<tr><td style=\"width:10%\"><b>").append(i)
-						.append("</b></td><td style=\"width:50%\"><a href=\"profile.jsp?id=\"")
-						.append(f.getId()).append("\"><b>").append(f.getName()).append("</b></a></td>")
+						.append("</b></td><td style=\"width:50%\"><b>").append(f.getName()).append("</b></td>")
 						.append("<td style=\"width:20%\"><b>$").append(f.getMoney())
 						.append("</b></td><td style=\"width:20%\"><b>").append(f.getNumberOfMonsters())
 						.append("</b></td></tr>");
 					}else{
 						sb.append("<tr><td style=\"width:10%\">").append(i)
-						.append("</td><td style=\"width:50%\"><a href=\"profile.jsp?id=\"")
-						.append(f.getId()).append("\">").append(f.getName()).append("</a></td>")
+						.append("</td><td style=\"width:50%\">").append(f.getName()).append("</td>")
 						.append("<td style=\"width:20%\">$").append(f.getMoney())
 						.append("</td><td style=\"width:20%\">").append(f.getNumberOfMonsters())
 						.append("</td></tr>");
