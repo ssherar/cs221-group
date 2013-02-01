@@ -29,8 +29,8 @@ public class UserDAO {
 	/**
 	 * Checks whether a user exists
 	 * 
-	 * @param userId
-	 * @return
+	 * @param userId The id of the user
+	 * @return If the user exists
 	 */
 	public boolean userExists(String userId) {
 		
@@ -40,6 +40,12 @@ public class UserDAO {
 		
 	}
 	
+	/**
+	 * Checks whether a username exists
+	 * 
+	 * @param username The username of the user
+	 * @return If the username exists
+	 */
 	public boolean usernameExists(String username) {
 		Query q = emf.createEntityManager().createNamedQuery("usernameExists")
 						.setParameter("username", username);
@@ -51,6 +57,12 @@ public class UserDAO {
 	}
 
 	@SuppressWarnings("unchecked")
+	/**
+	 * Loads a certain users monsters
+	 * 
+	 * @param ownerId The id of the owner
+	 * @return A list of the owned monsters
+	 */
 	public List<Monster> loadMonsters(String ownerId) {
 		if(ownerId.charAt(3)!='.') ownerId = "loc." + ownerId;
 		TypedQuery<Monster> q = (TypedQuery<Monster>) emf.createEntityManager().createNativeQuery("SELECT * FROM monsters WHERE owner = '"+ownerId+"'", Monster.class);
@@ -60,6 +72,12 @@ public class UserDAO {
 		return ret;
 	}
 	
+	/**
+	 * Loads a certain user monsters that are breeding
+	 * 
+	 * @param ownerId The id of the user
+	 * @return A list of monsters that are breeding
+	 */
 	public List<Monster> getMonstersForBreeding(String ownerId) {
 		if(ownerId.charAt(3)!='.') ownerId = "loc." + ownerId;
 		TypedQuery<Monster> q = (TypedQuery<Monster>) emf.createEntityManager().createNativeQuery("SELECT * FROM monsters WHERE owner = '"+ownerId+"' AND isForBreeding = 1", Monster.class);
@@ -69,6 +87,12 @@ public class UserDAO {
 		return ret;
 	}
 	
+	/**
+	 * Loads a certain user monsters that are for sale
+	 * 
+	 * @param ownerId The id of the suer
+	 * @return A list of monsters that are for sale
+	 */
 	public List<Monster> getMonstersForSale(String ownerId) {
 		if(ownerId.charAt(3)!='.') ownerId = "loc." + ownerId;
 		TypedQuery<Monster> q = (TypedQuery<Monster>) emf.createEntityManager().createNativeQuery("SELECT * FROM monsters WHERE owner = '"+ownerId+"' AND isForSale = 1", Monster.class);
@@ -78,13 +102,25 @@ public class UserDAO {
 		return ret;
 	}
 	
+	/**
+	 * Counts the amount of monsters a user has
+	 * 
+	 * @param user The user
+	 * @return The amount of monsters a user has
+	 */
 	public int countMonsters(User user){
 		Query query= emf.createEntityManager().createNativeQuery("SELECT COUNT(*) FROM monsters WHERE owner = '"+user.getId()+"'");
 		Long count = (Long)(query.getSingleResult());
 		return count.intValue();
 	}
 	
-	
+	/**
+	 * Creates a username with a specified username and password
+	 * 
+	 * @param uname The username
+	 * @param pass The password
+	 * @return Whether it succeeded
+	 */
 	public boolean createUser(String uname, String pass){
 		try{
 			EntityManager em = emf.createEntityManager();
@@ -108,6 +144,13 @@ public class UserDAO {
 		}	
 	}
 	
+	/**
+	 * Authenticates a user
+	 * 
+	 * @param username The username
+	 * @param password The password
+	 * @return The user if it was successful, null otherwise
+	 */
 	public User authenticateUser(String username, String password){
 		try{
 			EntityManager em = emf.createEntityManager();
@@ -120,6 +163,12 @@ public class UserDAO {
 		return null;
 	}
 	
+	/**
+	 * Finds a user
+	 * 
+	 * @param id The id of the user
+	 * @return The user
+	 */
 	public User findUser(String id){
 		try{
 			EntityManager em = emf.createEntityManager();
@@ -131,6 +180,12 @@ public class UserDAO {
 		return null;
 	}
 	
+	/**
+	 * Gets a users friends
+	 * 
+	 * @param u The user
+	 * @return An ArrayList of the users friends
+	 */
 	public ArrayList<Friend> getFriends(User u){
 		EntityManager em = emf.createEntityManager();
 		ArrayList<Friend> friends = new ArrayList<Friend>();
@@ -158,9 +213,13 @@ public class UserDAO {
 		return friends;
 	}
 	
-	/*
+	/**
 	 * Returns true if two users are friends, i. e. when one has the other one 
 	 * in his friends list. If not, returns false.
+	 * 
+	 * @param userIdOne The first user
+	 * @param userIdTwo The second user
+	 * @return If they are friends
 	 */
 	public boolean checkFriendship(String userIdOne, String userIdTwo){
 		EntityManager em = emf.createEntityManager();
@@ -170,6 +229,13 @@ public class UserDAO {
 		return false;
 	}
 	
+	/**
+	 * Adds two people as friends
+	 * 
+	 * @param userIdOne The first user
+	 * @param userIdTwo The second user
+	 * @return If the query succeeded
+	 */
 	public boolean addFriendship(String userIdOne,String userIdTwo){
 		try {
 			EntityManager em = emf.createEntityManager();
@@ -190,6 +256,13 @@ public class UserDAO {
 		return true;
 	}
 	
+	/**
+	 * Updates a user
+	 * 
+	 * @param username The username of the user
+	 * @param password The password of the user
+	 * @return Whether the query succeeded
+	 */
 	public boolean updateUser(String username, String password) {
 		try {
 			EntityManager em = emf.createEntityManager();
@@ -208,6 +281,13 @@ public class UserDAO {
 		return true;
 	}
 	
+	/**
+	 * Change the amount of money the user has
+	 * 
+	 * @param user The user
+	 * @param value The amount to change it to
+	 * @return Whether the query succeeded
+	 */
 	public boolean changeMoney(User user, int value) {
 		try {
 			EntityManager em = emf.createEntityManager();
