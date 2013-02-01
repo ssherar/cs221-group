@@ -62,7 +62,7 @@ function changeBuyPrice(id) {
 
 			<table width="100%">
 			<tr>
-			<td align="left"><img src="img/mmlogo.png"  height="70px"></img></td>
+			<td align="left"><img src="img/logo.png"  height="70px"></img></td>
 			
 			
 			
