@@ -160,7 +160,7 @@ if(f_id.length()>4){
 						<% if(forSale && m.getSalePrice() <= user.getMoney()) { %>
 							<a>buy this monster</a><br/>
 						<% } %>
-						<% if(forBreeding) { %>
+						<% if(forBreeding && m.getBreedPrice() <= user.getMoney()) { %>
 							<a>breed with this monster</a><br />
 						<% } %>
 					<% } %>

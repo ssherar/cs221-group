@@ -124,9 +124,11 @@ if(friends==null) friends = new ArrayList<Friend>();
 				</div>
 				
 				<div class="monster_actions_menu">
-					
+					<% if(m.getSalePrice() <= user.getMoney()) {%>
 					<a href="RequestDispatcherServlet?action=send&type=9&targetid=<%=m.getId() %>">
-					BUY</a><br/>
+					BUY</a>
+					<% } %>
+					<br/>
 					<br/>
 					PRICE : $<%=m.getSalePrice() %><br/>
 					fight prize: $<%= mdao.calculatePrize(m) %><br />
