@@ -119,4 +119,48 @@ public class TestMonster {
 			System.out.println("");
 		//}
 	}
+	
+	@Test
+	public void testStrength() {
+		assertEquals(elderlyMonster.getStrength(), 50);
+		elderlyMonster.setStrength(200);
+		assertFalse(elderlyMonster.getStrength() == 200);
+		
+		elderlyMonster.setStrength(-100);
+		assertFalse(elderlyMonster.getStrength() == -100) ;
+	
+    }
+	
+	@Test
+	public void testAggression()
+	{
+		assertEquals(youngMonster.getAggression(), 50);
+		youngMonster.setAggression(200);
+		assertFalse(youngMonster.getAggression() == 200);
+		
+		youngMonster.setAggression(-100);
+		assertFalse(youngMonster.getAggression() == -100);
+	}
+	
+	@Test
+	public void testFertility()
+	{
+		assertEquals(adultMonster.getFertility(), 50);
+		adultMonster.setFertility(200);
+		assertFalse(adultMonster.getFertility() == 200);
+		
+		adultMonster.setFertility(-100);
+		assertFalse(adultMonster.getAggression() == -100);
+	}
+	
+	@Test
+	public void testHealth()
+	{
+		assertEquals(youngMonster.getHealth(), 100);
+		youngMonster.setHealth(200);
+		assertFalse(youngMonster.getHealth() == 200);
+		
+		youngMonster.setHealth(-100);
+		assertFalse(youngMonster.getHealth() == -100);
+	}
 }
