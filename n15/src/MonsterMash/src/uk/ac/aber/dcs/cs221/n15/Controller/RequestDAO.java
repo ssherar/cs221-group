@@ -202,6 +202,13 @@ public class RequestDAO {
 		return count==0? false :true;
 	}
 	
+	/**
+	 * Checks if a request exists
+	 * 
+	 * @param sourceId The user sending the request
+	 * @param type The type of the request
+	 * @return If the request exists
+	 */
 	public boolean requestExists(String sourceId, RequestType type) {
 		String q = "SELECT COUNT(*) FROM requests WHERE (sourceId = '" + sourceId + "' OR targetId = '" + sourceId + "') AND type = " + type.ordinal();
 		System.out.println(q);
