@@ -40,7 +40,8 @@ public class EditUserServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		UserDAO udao = new UserDAO();
 		HttpSession session = request.getSession();
-		User user = (User) session.getAttribute("currentUser");
+		String userId = (String) session.getAttribute("currentUser");
+		User user = udao.findUser(userId);
 		String message = "";
 		
 		if(request.getServletPath().equals("/EditUserServlet/edit")) {
@@ -64,9 +65,7 @@ public class EditUserServlet extends HttpServlet {
 			session.setAttribute("message", message);
 			response.sendRedirect(request.getContextPath() + "/edituser.jsp");
 		} else if(request.getServletPath().equals("/EditUserServlet/delete")) {
-			HttpSession s = request.getSession();
-			User u = (User) s.getAttribute("currentUser");
-			udao.deleteUser(u);
+			udao.deleteUser(user);
 			session.invalidate();
 			response.sendRedirect(request.getContextPath());
 		}
