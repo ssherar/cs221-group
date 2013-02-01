@@ -1,6 +1,5 @@
 package uk.ac.aber.dcs.cs221.n15.Tests;
 import static org.junit.Assert.*;
-import java.math.*;
 
 import org.junit.*;
 import uk.ac.aber.dcs.cs221.n15.Controller.*;
@@ -12,53 +11,53 @@ public class TestMonster {
 	private Monster elderlyMonster;
 	private Monster weakMonster;
 	private Monster strongMonster;
-	
+
 	private MonsterDAO mdao;
-	
+
 	@Before
 	public void setup() {
 		mdao = new MonsterDAO();
-		
+
 		Calendar calYoung = new GregorianCalendar();
 		Calendar calAdult = new GregorianCalendar();
 		Calendar calElderly = new GregorianCalendar();
-		
+
 		calYoung.setTime(new Date());
 		calYoung.add(Calendar.DATE, -5);
-		
+
 		calAdult.setTime(new Date());
 		calAdult.add(Calendar.DATE, -12);
-		
+
 		calElderly.setTime(new Date());
 		calElderly.add(Calendar.DATE, -17);
-		
+
 		youngMonster = new Monster();
 		youngMonster.setAggression(50);
 		youngMonster.setStrength(50);
 		youngMonster.setFertility(50);
 		youngMonster.setHealth(100);
 		youngMonster.setDob(calYoung.getTime());
-		
+
 		adultMonster = new Monster();
 		adultMonster.setAggression(50);
 		adultMonster.setStrength(50);
 		adultMonster.setFertility(50);
 		adultMonster.setHealth(100);
 		adultMonster.setDob(calAdult.getTime());
-		
+
 		elderlyMonster = new Monster();
 		elderlyMonster.setAggression(50);
 		elderlyMonster.setStrength(50);
 		elderlyMonster.setFertility(50);
 		elderlyMonster.setHealth(100);
 		elderlyMonster.setDob(calElderly.getTime());
-		
+
 		weakMonster = new Monster();
 		weakMonster.setAggression(50);
 		weakMonster.setStrength(50);
 		weakMonster.setHealth(100);
 		weakMonster.setFertility(100);
-		
+
 		strongMonster = new Monster();
 		strongMonster.setAggression(100);
 		strongMonster.setStrength(100);
@@ -74,7 +73,7 @@ public class TestMonster {
 		assertTrue(youngMonster.getFertility() > 50);
 		assertTrue(youngMonster.getHealth() == 100);
 	}
-	
+
 	@Test
 	public void testAgingAdult() {
 		mdao.age(youngMonster);
@@ -84,7 +83,7 @@ public class TestMonster {
 		assertTrue(adultMonster.getFertility() == youngMonster.getFertility());
 		assertTrue(adultMonster.getHealth() == 100);
 	}
-	
+
 	@Test
 	public void testAgingElderly() {
 		mdao.age(adultMonster);
@@ -94,29 +93,60 @@ public class TestMonster {
 		assertTrue(elderlyMonster.getFertility() == adultMonster.getFertility());
 		assertTrue(elderlyMonster.getHealth() < 100);
 	}
-	
+
 	@Test
 	public void testFightMonsters() {
-//		int weak = 0, strong = 0;
-//		for(int i = 0; i < 1000; i++) {
-//			if(mdao.fight(weakMonster, strongMonster) == weakMonster) {
-//				weak++;
-//			} else {
-//				strong++;
-//			}
-//		}
-//		System.out.println(weak + " " + strong);
 		Monster winner = mdao.fight(weakMonster, strongMonster);
-		//System.out.println(winner.getHealth());
+		assertTrue(winner.getHealth() < 100);
 	}
-	
+
 	@Test
 	public void testBreeding() {
-		//for(int i = 0; i < 10; i++) {
-			List<Monster> children = mdao.breed(weakMonster, strongMonster);
-			for(Monster m : children)
-				System.out.println(m);
-			System.out.println("");
-		//}
+		List<Monster> children = mdao.breed(weakMonster, strongMonster);
+		assertTrue(children.size() > 0);
+	}
+
+	@Test
+	public void testStrength() {
+		assertEquals(elderlyMonster.getStrength(), 50);
+		elderlyMonster.setStrength(200);
+		assertFalse(elderlyMonster.getStrength() == 200);
+
+		elderlyMonster.setStrength(-100);
+		assertFalse(elderlyMonster.getStrength() == -100) ;
+
+	}
+
+	@Test
+	public void testAggression()
+	{
+		assertEquals(youngMonster.getAggression(), 50);
+		youngMonster.setAggression(200);
+		assertFalse(youngMonster.getAggression() == 200);
+
+		youngMonster.setAggression(-100);
+		assertFalse(youngMonster.getAggression() == -100);
+	}
+
+	@Test
+	public void testFertility()
+	{
+		assertEquals(adultMonster.getFertility(), 50);
+		adultMonster.setFertility(200);
+		assertFalse(adultMonster.getFertility() == 200);
+
+		adultMonster.setFertility(-100);
+		assertFalse(adultMonster.getAggression() == -100);
+	}
+
+	@Test
+	public void testHealth()
+	{
+		assertEquals(youngMonster.getHealth(), 100);
+		youngMonster.setHealth(200);
+		assertFalse(youngMonster.getHealth() == 200);
+
+		youngMonster.setHealth(-100);
+		assertFalse(youngMonster.getHealth() == -100);
 	}
 }

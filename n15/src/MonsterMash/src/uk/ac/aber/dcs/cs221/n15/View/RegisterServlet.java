@@ -25,7 +25,6 @@ public class RegisterServlet extends HttpServlet {
      */
     public RegisterServlet() {
         super();
-        // TODO Auto-generated constructor stub
         dao = new UserDAO();
     }
 

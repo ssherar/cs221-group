@@ -10,7 +10,8 @@ if(s==null){
 	response.sendRedirect("index.jsp"); 
 	return;
 }
-User user = (User)(s.getAttribute("currentUser"));
+UserDAO dao = new UserDAO();
+User user = dao.findUser((String)s.getAttribute("currentUser"));
 if(user == null) {
 	response.sendRedirect("index.jsp"); 
 	return;

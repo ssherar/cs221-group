@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -16,9 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import uk.ac.aber.dcs.cs221.n15.Controller.MonsterDAO;
 import uk.ac.aber.dcs.cs221.n15.Controller.UserDAO;
-import uk.ac.aber.dcs.cs221.n15.Model.Friend;
 import uk.ac.aber.dcs.cs221.n15.Model.Monster;
 import uk.ac.aber.dcs.cs221.n15.Model.User;
 
@@ -51,7 +48,6 @@ public class LoginServlet extends HttpServlet {
 			hashedPassword = new BigInteger(1, md.digest()).toString(16);
 			
 		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -60,12 +56,9 @@ public class LoginServlet extends HttpServlet {
 		
 		if(user!=null) {
 			//Calculating monster's parameter according to age
-			MonsterDAO mdao = new MonsterDAO();
-			ArrayList<Friend> friends = dao.getFriends(user);
 			HttpSession session = request.getSession();
-			this.reloadMonsters(session, user.getId());
-			session.setAttribute("currentUser", user);
-			session.setAttribute("friends", friends);
+			LoginServlet.reloadMonsters(session, user.getId());
+			session.setAttribute("currentUser", user.getId());
 			response.sendRedirect("myfarm.jsp");
 		} else {
 			HttpSession session = request.getSession();
@@ -96,7 +89,6 @@ public class LoginServlet extends HttpServlet {
 	public static void reloadMonsters(HttpSession s, String userId){
 		UserDAO dao = new UserDAO();
 		List<Monster>  monsters = dao.loadMonsters(userId);
-		MonsterDAO mdao = new MonsterDAO();
 		s.setAttribute("monsters", monsters);
 		s.setAttribute("numberOfMonsters", monsters.size());
 	}

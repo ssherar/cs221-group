@@ -65,7 +65,7 @@ public class MonsterDAO {
 			em.persist(m);
 			transaction.commit();
 		}catch(Exception ex){ 
-			System.out.println(ex);
+			ex.printStackTrace();
 		}
 	}
 
@@ -78,7 +78,6 @@ public class MonsterDAO {
 	public Monster findMonster(String monsterId){
 		em = emf.createEntityManager();
 		Monster m = em.find(Monster.class, monsterId);
-		if(m==null) System.out.println("M is NULL!");
 		age(m);
 		return m;
 	}
@@ -99,7 +98,6 @@ public class MonsterDAO {
 			em = emf.createEntityManager();
 			Monster m = em.find(Monster.class, monsterID);
 			if(m==null){
-				System.out.println("Did not find the monster of id :" + monsterID);
 				return;
 			}
 			Monster nm = new Monster();
@@ -123,7 +121,7 @@ public class MonsterDAO {
 			this.changeRequestMonsterId(monsterID, nm.getId());
 
 		}catch(Exception ex){
-			System.out.println(ex);
+			ex.printStackTrace();
 		}
 	}
 	
@@ -169,7 +167,6 @@ public class MonsterDAO {
 			em = emf.createEntityManager();
 			Monster m = em.find(Monster.class, monsterID);
 			if(m==null){
-				System.out.println("Did not find the monster of id :" + monsterID);
 				return;
 			}
 			
@@ -193,7 +190,7 @@ public class MonsterDAO {
 			this.changeRequestMonsterId(monsterID, nm.getId());
 
 		}catch(Exception ex){
-			System.out.println(ex);
+			ex.printStackTrace();
 		}
 	}
 	
@@ -348,20 +345,6 @@ public class MonsterDAO {
 		monster.setHealth((int) ciHealth);
 		monster.setStrength((int) ciStr);
 	}
-
-	/*public int calculateDaysDifference(Date start, Date end) {
-		Calendar startCal = new GregorianCalendar();
-		Calendar endCal = new GregorianCalendar();
-
-		startCal.setTime(start);
-		endCal.setTime(end);
-
-		endCal.add(Calendar.YEAR, -startCal.get(Calendar.YEAR));
-		endCal.add(Calendar.MONTH, -startCal.get(Calendar.MONTH));
-		endCal.add(Calendar.DATE, -startCal.get(Calendar.DATE));
-
-		return endCal.get(Calendar.DAY_OF_YEAR);
-	}*/
 	
 	/**
 	 * Calculates the difference in days between 2 dates
@@ -376,8 +359,7 @@ public class MonsterDAO {
 		long mEnd = end.getTime();
 		long difference = mEnd - mStart;
 		double retVal = (difference / (1000 * 60 * 60 * 24));
-		System.out.println(retVal);
-		return (int) (difference / (1000 * 60 * 60 * 24));
+		return (int) (retVal);
 	}
 
 	/**
@@ -397,7 +379,6 @@ public class MonsterDAO {
 	 * @param monster2 The second monster to fight
 	 * @return The monster that wins
 	 */
-	// TODO: refactor
 	public Monster fight(Monster monster1, Monster monster2) {
 		int monsterOne;
 		int monsterTwo;
@@ -414,7 +395,6 @@ public class MonsterDAO {
 
 			monsterOne = (m1Strength + m1hp + m1luck);
 			monsterTwo = (m2Strength + m2hp + m2luck);
-			System.out.println("" + monsterOne + " : " + monsterTwo);
 		}while(monsterOne==monsterTwo);
 
 		if(monsterOne > monsterTwo ) {
@@ -510,7 +490,6 @@ public class MonsterDAO {
 			strChance = Validator.rand(1,4);
 			aggChance = Validator.rand(1,4);
 			fertChance = Validator.rand(1,4);
-			System.out.println(strChance + " " + aggChance + " " + fertChance);
 			switch(strChance) {
 			case 1:
 				child.setStrength(minStr);

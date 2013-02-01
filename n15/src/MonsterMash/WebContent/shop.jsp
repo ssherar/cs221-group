@@ -10,8 +10,9 @@ if(s==null){
 	response.sendRedirect("index.jsp"); 
 	return;
 }
-User user = (User)(s.getAttribute("currentUser"));
-ArrayList<Friend> friends = (ArrayList<Friend>)(s.getAttribute("friends"));
+UserDAO dao = new UserDAO();
+User user = dao.findUser((String)s.getAttribute("currentUser"));
+ArrayList<Friend> friends = dao.getFriends(user);
 if(user == null) {
 	response.sendRedirect("index.jsp"); 
 	return;
@@ -123,9 +124,11 @@ if(friends==null) friends = new ArrayList<Friend>();
 				</div>
 				
 				<div class="monster_actions_menu">
-					
+					<% if(m.getSalePrice() <= user.getMoney()) {%>
 					<a href="RequestDispatcherServlet?action=send&type=9&targetid=<%=m.getId() %>">
-					BUY</a><br/>
+					BUY</a>
+					<% } %>
+					<br/>
 					<br/>
 					PRICE : $<%=m.getSalePrice() %><br/>
 					fight prize: $<%= mdao.calculatePrize(m) %><br />

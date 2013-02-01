@@ -10,13 +10,13 @@ if(s==null){
 	response.sendRedirect("index.jsp"); 
 	return;
 }
-User user = (User)(s.getAttribute("currentUser"));
-ArrayList<Friend> friends = (ArrayList<Friend>)(s.getAttribute("friends"));
+UserDAO dao = new UserDAO();
+User user = dao.findUser((String)s.getAttribute("currentUser"));
+
 if(user == null) {
 	response.sendRedirect("index.jsp"); 
 	return;
 } 
-if(friends==null) friends = new ArrayList<Friend>();
 %>
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -53,8 +53,6 @@ if(friends==null) friends = new ArrayList<Friend>();
 			</tr>
 			</table>
 
-				
-
 			
 			</div>
 			<hr class="horizontal_spacer" />
@@ -79,20 +77,44 @@ if(friends==null) friends = new ArrayList<Friend>();
 				<br/>
 				<hr class="horizontal_spacer" />
 				<p class="title">Rich List</p>
+				
 				<table id="rich_table">
-				<thead id="rich_thead">
-				<tr><td>Position</td><td>Username</td><td>Coins</td><td>Monsters</td></tr>
-				</thead>
-				<% UserDAO udao = new UserDAO();
-				int i = 1;
-				for (User curuser : udao.getHighscores(10)) {
-				List<Monster> curmonsters = udao.loadMonsters(curuser.getId());
-				if (curmonsters == null) curmonsters = new ArrayList<Monster>();
+				
+				<%
+				StringBuilder sb = new StringBuilder();
+				
+				sb.append("<thead id=\"rich_thead\"><tr><td>Position</td><td>Username</td><td>Money</td><td>Monsters</td></tr></thead>");
+				ArrayList<Friend> fs = new ArrayList<Friend>();
+				fs.addAll((ArrayList<Friend>)(dao.getFriends(user)));
+				fs.add(new Friend(user.getId(),user.getMoney(), (Integer)s.getAttribute("numberOfMonsters")));
+				
+				Collections.sort(fs);
+				Collections.reverse(fs);
+	
+				int i = 0;
+				for(Friend f : fs){
+					i++;
+					if(f.getId().equals(user.getId())){
+						sb.append("<tr><td style=\"width:10%\"><b>").append(i)
+						.append("</b></td><td style=\"width:50%\"><b>").append(f.getName()).append("</b></td>")
+						.append("<td style=\"width:20%\"><b>$").append(f.getMoney())
+						.append("</b></td><td style=\"width:20%\"><b>").append(f.getNumberOfMonsters())
+						.append("</b></td></tr>");
+					}else{
+						sb.append("<tr><td style=\"width:10%\">").append(i)
+						.append("</td><td style=\"width:50%\">").append(f.getName()).append("</td>")
+						.append("<td style=\"width:20%\">$").append(f.getMoney())
+						.append("</td><td style=\"width:20%\">").append(f.getNumberOfMonsters())
+						.append("</td></tr>");
+					}
+					
+					
+				}
+				
 				%>
-				<tr><td style="width:10%"><%= i %></td><td style="width:50%"><a href="profile.jsp?id=<%= curuser.getId() %>"><%= curuser.getUsername() %></a></td><td style="width:20%">$<%= curuser.getMoney() %></td><td style="width:20%"><%= curmonsters.size() %></td></tr>
-				<% i++;
-				} %>
+				<%=sb.toString() %>
 				</table>
+				
 				</div>
 		</center>
 	</body>

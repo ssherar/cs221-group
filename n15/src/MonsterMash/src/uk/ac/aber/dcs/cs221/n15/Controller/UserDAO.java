@@ -5,17 +5,12 @@ import java.util.List;
 
 import javax.annotation.ManagedBean;
 import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import javax.transaction.HeuristicMixedException;
-import javax.transaction.HeuristicRollbackException;
-import javax.transaction.RollbackException;
-import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
 import uk.ac.aber.dcs.cs221.n15.Model.Friend;
@@ -128,33 +123,29 @@ public class UserDAO {
 		return null;
 	}
 	
-	public User[] retrieveFriends(User user){
-		EntityManager em = emf.createEntityManager();
-		String[] ids = user.getFriends().split(";");
-		User[] users = new User[ids.length];
-		for(int i = 0; i < ids.length; i++){
-			if(ids[i].length()>1) 
-			users[i] = em.find(User.class, ids[i]);
-		}
-		return users;
-	}
-	
 	public ArrayList<Friend> getFriends(User u){
 		EntityManager em = emf.createEntityManager();
 		ArrayList<Friend> friends = new ArrayList<Friend>();
-		String flist = u.getFriends();
+		
+		String flist ="";
+		
+		try{
+		UserTransaction transaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
+		transaction.begin();
+		Query qFind = em.createNativeQuery("SELECT friends FROM users WHERE id = '"+u.getId()+"'");
+		flist = (String) qFind.getSingleResult();
+		transaction.commit();
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		
 		if(flist.length()==0){
-			System.out.println("NO FRIENDS!");
 			return friends;
 		}
-		String[] ids = u.getFriends().split(";");
+		String[] ids = flist.split(";");
 		for(String id : ids){
 			User f = em.find(User.class, id);
 			friends.add(new Friend(f.getId(), f.getMoney(), countMonsters(f)));
-		}
-		
-		for(Friend f : friends){
-			System.out.println("Name: "+f.getName()+" Money: "+f.getMoney());
 		}
 		return friends;
 	}
@@ -185,7 +176,7 @@ public class UserDAO {
 			transaction.commit();
 
 		} catch(Exception ex) {
-			System.out.print(ex);
+			ex.printStackTrace();
 			return false;
 		}
 		return true;
@@ -203,7 +194,7 @@ public class UserDAO {
 			transaction.commit();
 
 		} catch(Exception ex) {
-			System.out.print(ex);
+			ex.printStackTrace();
 			return false;
 		}
 		return true;
@@ -221,7 +212,7 @@ public class UserDAO {
 			transaction.commit();
 
 		} catch(Exception ex) {
-			System.out.print(ex);
+			ex.printStackTrace();
 			return false;
 		}
 		return true;
@@ -241,6 +232,7 @@ public class UserDAO {
 		EntityManager em = emf.createEntityManager();
 		return em.find(User.class, userId);
 	}
+	
 	public void deleteUser(User u) {
 		String userId = u.getId();
 		try {
@@ -248,9 +240,7 @@ public class UserDAO {
 			EntityManager em = emf.createEntityManager();
 			MonsterDAO mdao = new MonsterDAO();
 			List<Monster> monsters = this.loadMonsters(userId);
-			System.out.println("Amount of monsters " + monsters.size());
 			for(Monster m : monsters) {
-				System.out.println(m.getId());
 				mdao.wipeMonster(m.getId());
 			}
 			
@@ -258,7 +248,7 @@ public class UserDAO {
 			List<Friend> friends = this.getFriends(u);
 			for(Friend f : friends) {
 				transaction.begin();
-				Query qFind = em.createNativeQuery("SELECT friends FROM user WHERE id = '"+f.getId()+"'");
+				Query qFind = em.createNativeQuery("SELECT friends FROM users WHERE id = '"+f.getId()+"'");
 				String friendString = (String) qFind.getSingleResult();
 				friendString = friendString.replace(userId+";", "");
 				Query qUpdate = em.createNativeQuery("UPDATE users SET friends = '"+friendString +"' WHERE id = '" + f.getId() +"'");
@@ -277,5 +267,25 @@ public class UserDAO {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
+	}
+	
+	public boolean removeFriendship(String friendId1, String friendId2) {
+		try {
+			EntityManager em = emf.createEntityManager();
+			UserTransaction transaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
+			transaction.begin();
+			User friend1 = em.find(User.class, friendId1);
+			User friend2 = em.find(User.class, friendId2);
+			String f1Friends = friend1.getFriends().replace(friendId2 + ";", "");
+			String f2Friends = friend2.getFriends().replace(friendId1 + ";", "");
+			friend1.setFriends(f1Friends);
+			friend2.setFriends(f2Friends);
+			em.merge(friend1);
+			em.merge(friend2);
+			transaction.commit();
+		} catch(Exception ex) {
+			return false;
+		}
+		return true;
 	}
 }
