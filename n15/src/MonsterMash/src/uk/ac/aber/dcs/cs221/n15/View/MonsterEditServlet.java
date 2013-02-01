@@ -1,7 +1,6 @@
 package uk.ac.aber.dcs.cs221.n15.View;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -12,9 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import uk.ac.aber.dcs.cs221.n15.Controller.MonsterDAO;
-import uk.ac.aber.dcs.cs221.n15.Controller.UserDAO;
 import uk.ac.aber.dcs.cs221.n15.Model.Monster;
-import uk.ac.aber.dcs.cs221.n15.Model.User;
 
 /**
  * Handles the editing of the monsters attributes,
@@ -74,7 +71,6 @@ public class MonsterEditServlet extends HttpServlet {
 		List<Monster> monsters = (List<Monster>)(s.getAttribute("monsters"));
 		boolean valid = false;
 		for(Monster m : monsters){
-			System.out.println("ID: "+m.getId()+" requested: "+monsterId);
 			if(m.getId().equals(monsterId)){
 				valid = true;
 				break;
@@ -86,9 +82,6 @@ public class MonsterEditServlet extends HttpServlet {
 		
 		//Changing name in the database
 		mdao.renameMonster(monsterId, newName);
-		System.out.println("Should be renamed!");
-		
-		//Reloading list of monsters
 	}
 	
 	

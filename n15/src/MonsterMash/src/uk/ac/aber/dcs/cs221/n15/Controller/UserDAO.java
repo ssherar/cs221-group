@@ -5,17 +5,12 @@ import java.util.List;
 
 import javax.annotation.ManagedBean;
 import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import javax.transaction.HeuristicMixedException;
-import javax.transaction.HeuristicRollbackException;
-import javax.transaction.RollbackException;
-import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
 import uk.ac.aber.dcs.cs221.n15.Model.Friend;
@@ -181,7 +176,7 @@ public class UserDAO {
 			transaction.commit();
 
 		} catch(Exception ex) {
-			System.out.print(ex);
+			ex.printStackTrace();
 			return false;
 		}
 		return true;
@@ -199,7 +194,7 @@ public class UserDAO {
 			transaction.commit();
 
 		} catch(Exception ex) {
-			System.out.print(ex);
+			ex.printStackTrace();
 			return false;
 		}
 		return true;
@@ -217,7 +212,7 @@ public class UserDAO {
 			transaction.commit();
 
 		} catch(Exception ex) {
-			System.out.print(ex);
+			ex.printStackTrace();
 			return false;
 		}
 		return true;
@@ -245,9 +240,7 @@ public class UserDAO {
 			EntityManager em = emf.createEntityManager();
 			MonsterDAO mdao = new MonsterDAO();
 			List<Monster> monsters = this.loadMonsters(userId);
-			System.out.println("Amount of monsters " + monsters.size());
 			for(Monster m : monsters) {
-				System.out.println(m.getId());
 				mdao.wipeMonster(m.getId());
 			}
 			
@@ -275,35 +268,6 @@ public class UserDAO {
 			ex.printStackTrace();
 		}
 	}
-	
-	/*public boolean removeFriendship(String friendId1, String friendId2){
-		try{
-		EntityManager em = emf.createEntityManager();
-		UserTransaction transaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
-		
-		if(!checkFriendship(friendId1, friendId2)) return false;
-		
-		transaction.begin();
-		
-		Query qFind = em.createNativeQuery("SELECT friends FROM users WHERE id = '"+friendId1+"'");
-		String friendString = (String) qFind.getSingleResult();
-		friendString = friendString.replace(friendId2+";", "");
-		Query qUpdate = em.createNativeQuery("UPDATE users SET friends = '"+friendString +"' WHERE id = '" + friendId1 +"'");
-		qUpdate.executeUpdate();
-		
-		qFind = em.createNativeQuery("SELECT friends FROM users WHERE id = '"+friendId2+"'");
-		friendString = (String) qFind.getSingleResult();
-		friendString = friendString.replace(friendId1+";", "");
-		qUpdate = em.createNativeQuery("UPDATE users SET friends = '"+friendString +"' WHERE id = '" + friendId2 +"'");
-		qUpdate.executeUpdate();	
-		
-		transaction.commit();
-		return true;
-		}catch(Exception ex){
-			ex.printStackTrace();
-			return false;
-		}
-	}*/
 	
 	public boolean removeFriendship(String friendId1, String friendId2) {
 		try {

@@ -1,6 +1,5 @@
 package uk.ac.aber.dcs.cs221.n15.Model;
 
-import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
 
@@ -264,14 +263,6 @@ public class Monster{
 		}
 		this.strength = strength;
 	}
-
-	/*public User getUser() {
-		return this.user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}*/
 	
 	/**
 	 * Gets the owners ID

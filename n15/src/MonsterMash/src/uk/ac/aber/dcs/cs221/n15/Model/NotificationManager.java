@@ -5,8 +5,6 @@ package uk.ac.aber.dcs.cs221.n15.Model;
 
 import java.util.List;
 
-import com.sun.jersey.core.impl.provider.entity.XMLJAXBElementProvider.App;
-
 import uk.ac.aber.dcs.cs221.n15.Controller.MonsterDAO;
 import uk.ac.aber.dcs.cs221.n15.Controller.Request;
 import uk.ac.aber.dcs.cs221.n15.Controller.RequestDAO;
@@ -57,7 +55,6 @@ public class NotificationManager {
 		switch(type){
 		case FRIEND_REQUEST:
 			for(Request r : requests){
-				System.out.println("zero!");
 				builder.append(processFriendRequest(r));
 			}
 			break;

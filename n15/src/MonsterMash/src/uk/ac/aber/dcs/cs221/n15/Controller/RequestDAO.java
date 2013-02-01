@@ -11,7 +11,6 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.UserTransaction;
 
-import uk.ac.aber.dcs.cs221.n15.Model.Monster;
 import uk.ac.aber.dcs.cs221.n15.Model.User;
 
 public class RequestDAO {
@@ -57,14 +56,13 @@ public class RequestDAO {
 	 */
 	public void persistRequest(Request r){
 		em = emf.createEntityManager();
-		System.out.print("Trying to persist a Request");
 		try{
 			UserTransaction transaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
 			transaction.begin();
 			em.persist(r);
 			transaction.commit();
 		}catch(Exception ex){ 
-			System.out.println(ex);
+			ex.printStackTrace();
 		}
 	}
 	
@@ -162,7 +160,7 @@ public class RequestDAO {
 			Request r = em.find(Request.class, requestId);
 			return r;
 		}catch(Exception ex){ 
-			System.out.print(ex);
+			ex.printStackTrace();
 			return null;
 		}
 	}
@@ -184,7 +182,7 @@ public class RequestDAO {
 			transaction.commit();
 			return true;
 		}catch(Exception ex){ 
-			System.out.print(ex);
+			ex.printStackTrace();
 			return false;
 		}
 	}

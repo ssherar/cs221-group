@@ -1,6 +1,5 @@
 package uk.ac.aber.dcs.cs221.n15.Tests;
 import static org.junit.Assert.*;
-import java.math.*;
 
 import org.junit.*;
 import uk.ac.aber.dcs.cs221.n15.Controller.*;
@@ -104,9 +103,7 @@ public class TestMonster {
 	@Test
 	public void testBreeding() {
 		List<Monster> children = mdao.breed(weakMonster, strongMonster);
-		for(Monster m : children)
-			System.out.println(m);
-		System.out.println("");
+		assertTrue(children.size() > 0);
 	}
 
 	@Test

@@ -51,10 +51,6 @@ public class User {
 	private String friends;
 	
 
-	//bi-directional many-to-one association to Monster
-	//@OneToMany(mappedBy="user")
-	//private List<Monster> monsters;
-
 	/**
 	 * Instantiates a user
 	 */
@@ -164,14 +160,6 @@ public class User {
 	public void setFriends(String friends) {
 		this.friends = friends;
 	}
-
-	/*public List<Monster> getMonsters() {
-		return this.monsters;
-	}
-
-	public void setMonsters(List<Monster> monsters) {
-		this.monsters = monsters;
-	}*/
 	
 	
 	
